@@ -12,7 +12,7 @@ using namespace sf;
 
 int main()
 {
-    int z;
+   
     RenderWindow window = { VideoMode(1440,900),"sfml works" };
     Event event;
     while (window.isOpen())
