@@ -10,7 +10,7 @@
 using namespace std;
 using namespace sf;
  
-string name = "malak";
+
 int main()
 {
     
