@@ -10,6 +10,8 @@
 using namespace std;
 using namespace sf;
 
+string test = "sec";
+
 int main()
 {
     
