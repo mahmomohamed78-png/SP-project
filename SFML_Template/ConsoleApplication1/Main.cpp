@@ -10,7 +10,6 @@
 using namespace std;
 using namespace sf;
 
-string test = "suc";
 
 int main()
 {
