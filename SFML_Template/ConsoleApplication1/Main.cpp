@@ -69,18 +69,18 @@ int main()
     ground12.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     Platform.texture.loadFromFile("game_textures\\Platform\\sprite_platform2.00.png");
     fire_lake1.texture.loadFromFile("game_textures/sprite_01/sprite_0.png");
-    fire_lake2.texture.loadFromFile("game_textures\\sprite_0 (1)\\sprite_0 (1).png");
-    fire_lake3.texture.loadFromFile("game_textures\\sprite_0 (1)\\sprite_0 (1).png");
+    fire_lake2.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\sprite_0 (1).png");
+    fire_lake3.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\sprite_0 (1).png");
     water_lake1.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\6375e845-48fe-4c20-ad50-a5e0cc2a226d (1).png");
     water_lake2.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\6375e845-48fe-4c20-ad50-a5e0cc2a226d (1).png");
     box.texture.loadFromFile("game_textures\\stone.png");
     triangle.texture.loadFromFile("game_textures\\Triangle\\sprite_tri0.png");
-    fire_point1.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Icons_Fire Spell.png");
-    fire_point2.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Icons_Fire Spell.png");
-    fire_point3.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Icons_Fire Spell.png");
+    fire_point1.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
+    fire_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
+    fire_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
     water_point1.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Water Spell_Frame_03.png");
-    water_point2.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Water Spell_Frame_03.png");
-    water_point3.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Water Spell_Frame_03.png");
+    water_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
+    water_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
   
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
