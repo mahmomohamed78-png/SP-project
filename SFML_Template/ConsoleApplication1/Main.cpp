@@ -10,7 +10,6 @@
 using namespace std;
 using namespace sf;
 
-string s = "mohamedtes";
 
 struct design
 {
