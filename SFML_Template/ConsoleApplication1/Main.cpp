@@ -17,6 +17,160 @@ struct design
 };
 
 
+struct character {
+    const int frameWidth = 160;
+    int frameHeight; //boy 140, girl 128 
+
+    Sprite sprite;
+    void sprite_origin() {
+        sprite.setTextureRect(IntRect(0, 0, frameWidth, frameHeight));
+        sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+    }
+
+    float speed_y;
+    float speed_x;
+    float gravity;
+    float jump_strength;
+    float delay;
+    float timer;
+
+    bool onground;
+    bool ismoving;
+    bool stop;
+
+    int framecounter;
+    int totalFrames;
+
+    Keyboard::Key left;
+    Keyboard::Key right;
+    Keyboard::Key up;
+};
+
+
+void movement(character& player, float deltaTime) {
+    if (Keyboard::isKeyPressed(player.right)) {
+        //right
+        if (!(player.stop && player.sprite.getScale().x == 1)) {
+            player.sprite.move(player.speed_x * deltaTime, 0);
+            player.ismoving = true;
+            player.stop = false;
+            player.sprite.setScale(1, 1);
+        }
+    }
+    else if (Keyboard::isKeyPressed(player.left)) {
+        //left
+        if (!(player.stop && player.sprite.getScale().x == -1)) {
+            player.sprite.move(-player.speed_x * deltaTime, 0);
+            player.ismoving = true;
+            player.stop = false;
+            player.sprite.setScale(-1, 1);
+        }
+    }
+    else {
+        player.ismoving = false;
+    }
+    if (!player.onground) {
+        player.speed_y += player.gravity * deltaTime;
+    }
+    else {
+        player.speed_y = 0;
+    }
+    player.sprite.move(0, player.speed_y * deltaTime);
+}
+
+void jump(character& player) {
+    if (Keyboard::isKeyPressed(player.up) && player.onground) {
+        //jump
+        player.speed_y = player.jump_strength;
+        player.onground = false;
+    }
+}
+
+void update_animation(character& player, float deltaTime) {
+    if (player.ismoving) {
+        if (player.timer > 0) {
+            player.timer -= deltaTime;
+        }
+        else {
+            player.framecounter++;
+            if (player.framecounter >= player.totalFrames) {
+                player.framecounter = 1;
+            }
+            player.timer = player.delay;
+        }
+    }
+    else {
+        player.framecounter = 0;
+    }
+    player.sprite.setTextureRect(IntRect(player.framecounter * player.frameWidth, 0, player.frameWidth, player.frameHeight));
+}
+void ground_collision(character& player, RectangleShape& ground) {
+    if (player.sprite.getGlobalBounds().top + player.sprite.getGlobalBounds().height >= ground.getPosition().y) {
+        player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y - (player.frameHeight / 2.0));
+        player.speed_y = 0;
+        player.onground = true;
+    }
+    else {
+        player.onground = false;
+    }
+}
+void platform_collision(character& player, RectangleShape& ground) {
+    FloatRect hitbox = player.sprite.getGlobalBounds();
+    hitbox.width = 40;
+    hitbox.left += 55;
+    if (hitbox.intersects(ground.getGlobalBounds())) {
+        float playerBottom = hitbox.top + hitbox.height;
+        float platformTop = ground.getPosition().y;
+        if (player.speed_y > 0 && playerBottom <= platformTop + 15.0f) {
+            player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y - (player.frameHeight / 2.0));
+            player.speed_y = 0;
+            player.onground = true;
+        }
+
+    }
+}
+
+void slope_collision(character& player, double x1, double y1, double x2, double y2) {
+    double player_x = player.sprite.getPosition().x;
+    if (player_x >= x1 && player_x <= x2) {
+        double slopeY = y1 + (player_x - x1) * ((y2 - y1) / (x2 - x1));
+        if ((player.sprite.getPosition().y + (player.frameHeight / 2.0f)) >= slopeY) {
+            player.sprite.setPosition(player_x, slopeY - (player.frameHeight / 2.0f));
+            player.speed_y = 0;
+            player.onground = true;
+        }
+    }
+    //character shoudn't touch the triangle from below
+}
+void wall_collision(character& player, RectangleShape& wall) {
+    if (player.sprite.getGlobalBounds().intersects(wall.getGlobalBounds())) {
+        if (player.sprite.getPosition().x < wall.getPosition().x && player.sprite.getScale().x == 1) {
+            player.stop = true;
+        }
+        else if ((player.sprite.getPosition().x + wall.getSize().x) > wall.getPosition().x && player.sprite.getScale().x == -1) {
+            player.stop = true;
+
+        }
+        else {
+            player.stop = false;
+        }
+    }
+    if (player.stop) {
+        player.speed_x = 0;
+    }
+    else {
+        player.speed_x = 450.0f;
+    }
+}
+
+
+void origin(RectangleShape& x)
+{
+    x.setOrigin(x.getLocalBounds().width / 2, x.getLocalBounds().height / 2);
+}
+
+
+
 int main()
 {
 
@@ -256,14 +410,18 @@ int main()
 
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
+    Clock clock;
+    clock.restart();
+
     while (window.isOpen())
     {
+        float deltaTime = clock.restart().asSeconds();
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        
+		//all the functions that should be called in the main loop should be called here
 
 
 
