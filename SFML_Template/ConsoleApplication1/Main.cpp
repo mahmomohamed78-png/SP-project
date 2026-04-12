@@ -10,7 +10,7 @@
 using namespace std;
 using namespace sf;
 
-
+int n = 5;
 
 struct design
 {
