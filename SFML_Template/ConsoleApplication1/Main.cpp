@@ -117,11 +117,11 @@ void origin(RectangleShape& x)
     x.setOrigin(x.getLocalBounds().width / 2, x.getLocalBounds().height / 2);
 }
 
-
+design Frame;
+design background;
 
 int main()
 {
-    RectangleShape Grounds[20];
 
     //definitions level1
     design ground[12];
@@ -139,20 +139,6 @@ int main()
     //load level1
     Frame.texture.loadFromFile("game_textures/sprite_frame_level0/sprite_frame_level2.20.png");
     background.texture.loadFromFile("game_textures/background/Gemini_Generated_Image_pn65sypn65sypn65.png");
-<<<<<<< HEAD
-    ground1.texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
-    ground2.texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
-    ground3.texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
-    ground4.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
-    ground5.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56 (1) (1).png");
-    ground6.texture.loadFromFile("game_textures/Tile_47/sprite_hight_ground0.png");
-    ground7.texture.loadFromFile("C:/Users/dell/Downloads/Tile_21.png");
-    ground8.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56 (1) (1).png");
-    ground9.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
-    ground10.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
-    ground11.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56 (1) (1).png");
-    ground12.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
-=======
     ground[0].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
     ground[1].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
     ground[2].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
@@ -165,7 +151,6 @@ int main()
     ground[9].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground[10].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
     ground[11].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
     Platform.texture.loadFromFile("game_textures\\Platform\\sprite_platform2.00.png");
     fire_lake[0].texture.loadFromFile("game_textures/sprite_01/sprite_0.png");
     fire_lake[1].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\sprite_0_1.png");
@@ -174,15 +159,6 @@ int main()
     water_lake[1].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\6375e845-48fe-4c20-ad50-a5e0cc2a226d_1.png");
     box.texture.loadFromFile("game_textures\\stone.png");
     triangle.texture.loadFromFile("game_textures\\Triangle\\sprite_tri0.png");
-<<<<<<< HEAD
-    fire_point1.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
-    fire_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
-    fire_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
-    water_point1.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
-    water_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
-    water_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
-  
-=======
     fire_point[0].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
     fire_point[1].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
     fire_point[2].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
@@ -190,7 +166,6 @@ int main()
     water_point[1].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
     water_point[2].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
 
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -248,15 +223,9 @@ int main()
 
 
     // ground4
-<<<<<<< HEAD
-   ground4.sprite.setPosition(1920 - 105.6 - 182, 700);
-   
-   
-=======
     ground[3].sprite.setPosition(1920 - 105.6 - 182, 700 + 50);
 
 
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
     // ground5
     ground[4].sprite.setScale(0.5, 1);
     ground[4].sprite.setPosition(296, 650 + 50);
@@ -267,23 +236,8 @@ int main()
     ground[5].sprite.setPosition(744 - 86.4, 650 - 64 + 50);
 
 
-<<<<<<< HEAD
-   //ground7
-   ground7.sprite.setPosition(1448-172.8, 650+50 );
-   ground7.sprite.setScale(2, 2);
-   
-
-   //ground8
-   ground8.sprite.setScale(0.5, 1);
-   ground8.sprite.setPosition(296, 1000 - 691.2 +100);
-   
-
-   //ground9
-   ground9.sprite.setPosition(1920 - 105.6 - 182, 450);
-=======
     //ground7
     ground[6].sprite.setPosition(1448 - 172.8, 650 + 50);
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
 
 
     //ground8
@@ -318,15 +272,9 @@ int main()
 
 
     // Triengle
-<<<<<<< HEAD
-    triangle.sprite.setScale(1.5, 1.5);
-    triangle.sprite.setPosition(1448 - 70, 500+50);
-   
-=======
     triangle.sprite.setScale(2, 2);
     triangle.sprite.setPosition(1448 - 70, 500 + 50);
 
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
 
     // Fire lake 1 
     fire_lake[0].sprite.setPosition(700, 1000);
@@ -378,21 +326,10 @@ int main()
 
 
     //water_point3
-<<<<<<< HEAD
-    water_point3.sprite.setScale(0.1, 0.1);
-    water_point3.sprite.setPosition(932.6 + 80, 300 - 55);
-    Vector2f size[20];
-    for (int i = 1; i < 20; i++) {
-=======
     water_point[2].sprite.setScale(0.1, 0.1);
     water_point[2].sprite.setPosition(932.6 + 80, 300 - 55);
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
 
-	size[i].x = ground4.sprite.getGlobalBounds().width;
-	size[i].y = ground4.sprite.getGlobalBounds().height;
-    Grounds[i].setSize(size[i]);
-	Grounds[i].setPosition(ground4.sprite.getPosition());
-    }
+
 
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
@@ -402,9 +339,7 @@ int main()
     RectangleShape ground1(Vector2f(1950, 80));
     ground1.setFillColor(Color::Cyan);
     ground1.setPosition(0, 1000);
-    RectangleShape ground(Vector2f(1950, 80));
-    ground.setFillColor(Color::Cyan);
-    ground.setPosition(0, 1000);
+    
 
     character fireboy;
     fireboy.frameHeight = 140;
@@ -414,7 +349,7 @@ int main()
     }
     fireboy.sprite.setTexture(boytex);
     fireboy.sprite_origin();
-    fireboy.sprite.setPosition(700, ground.getPosition().y - (fireboy.frameHeight / 2.0f));
+    fireboy.sprite.setPosition(700, ground1.getPosition().y - (fireboy.frameHeight / 2.0f));
     fireboy.framecounter = 0;
     fireboy.totalFrames = 6; //boy 6, girl 9
     fireboy.delay = 0.1f;
@@ -438,7 +373,7 @@ int main()
     }
     watergirl.sprite.setTexture(girltex);
     watergirl.sprite_origin();
-    watergirl.sprite.setPosition(600, ground.getPosition().y - (watergirl.frameHeight / 2.0f));
+    watergirl.sprite.setPosition(600, ground1.getPosition().y - (watergirl.frameHeight / 2.0f));
     watergirl.framecounter = 0;
     watergirl.totalFrames = 9; //boy 6, girl 9
     watergirl.delay = 0.1f;
@@ -465,16 +400,11 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-<<<<<<< HEAD
 
-		//all the functions that should be called in the main loop should be called here
-		
-=======
-       
->>>>>>> b3bd3a48a9986faf377e171195e304eeaac28854
 
 
         window.clear();
+        window.draw(ground1);
         window.draw(background.sprite);
         window.draw(Frame.sprite);
 
@@ -491,15 +421,14 @@ int main()
 
         window.draw(box.sprite);
         window.draw(triangle.sprite);
-        window.draw(fire_point1.sprite);
-        window.draw(fire_point2.sprite);
-        window.draw(fire_point3.sprite);
-        window.draw(water_point1.sprite);
-        window.draw(water_point2.sprite);
-        window.draw(water_point3.sprite);
-		
-       for (int i = 1; i<20; i++)
-       //     window.draw(Grounds[i]);
+		for (int i = 0; i < 3; i++)
+        window.draw(fire_point[i].sprite);
+       
+		for (int i = 0; i < 3; i++)
+        window.draw(water_point[i].sprite);
+        
+        window.draw(fireboy.sprite);
+        window.draw(watergirl.sprite);
         window.display();
     }
     return 0;
