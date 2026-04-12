@@ -48,63 +48,7 @@ struct character {
 };
 
 
-void movement(character& player, float deltaTime) {
-    if (Keyboard::isKeyPressed(player.right)) {
-        //right
-        if (!(player.stop && player.sprite.getScale().x == 1)) {
-            player.sprite.move(player.speed_x * deltaTime, 0);
-            player.ismoving = true;
-            player.stop = false;
-            player.sprite.setScale(1, 1);
-        }
-    }
-    else if (Keyboard::isKeyPressed(player.left)) {
-        //left
-        if (!(player.stop && player.sprite.getScale().x == -1)) {
-            player.sprite.move(-player.speed_x * deltaTime, 0);
-            player.ismoving = true;
-            player.stop = false;
-            player.sprite.setScale(-1, 1);
-        }
-    }
-    else {
-        player.ismoving = false;
-    }
-    if (!player.onground) {
-        player.speed_y += player.gravity * deltaTime;
-    }
-    else {
-        player.speed_y = 0;
-    }
-    player.sprite.move(0, player.speed_y * deltaTime);
-}
 
-void jump(character& player) {
-    if (Keyboard::isKeyPressed(player.up) && player.onground) {
-        //jump
-        player.speed_y = player.jump_strength;
-        player.onground = false;
-    }
-}
-
-void update_animation(character& player, float deltaTime) {
-    if (player.ismoving) {
-        if (player.timer > 0) {
-            player.timer -= deltaTime;
-        }
-        else {
-            player.framecounter++;
-            if (player.framecounter >= player.totalFrames) {
-                player.framecounter = 1;
-            }
-            player.timer = player.delay;
-        }
-    }
-    else {
-        player.framecounter = 0;
-    }
-    player.sprite.setTextureRect(IntRect(player.framecounter * player.frameWidth, 0, player.frameWidth, player.frameHeight));
-}
 void ground_collision(character& player, RectangleShape& ground) {
     if (player.sprite.getGlobalBounds().top + player.sprite.getGlobalBounds().height >= ground.getPosition().y) {
         player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y - (player.frameHeight / 2.0));
@@ -177,6 +121,7 @@ void origin(RectangleShape& x)
 
 int main()
 {
+    RectangleShape Grounds[20];
 
     //definitions
     design Frame;
@@ -216,10 +161,10 @@ int main()
     ground1.texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
     ground2.texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
     ground3.texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
-    ground4.texture.loadFromFile("game_textures\\Tile_47 (1)\\sprite_0.png");
+    ground4.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground5.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56 (1) (1).png");
     ground6.texture.loadFromFile("game_textures/Tile_47/sprite_hight_ground0.png");
-    ground7.texture.loadFromFile("game_textures/Tile_48/sprite_minitri0.png");
+    ground7.texture.loadFromFile("C:/Users/dell/Downloads/Tile_21.png");
     ground8.texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56 (1) (1).png");
     ground9.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground10.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
@@ -236,7 +181,7 @@ int main()
     fire_point1.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
     fire_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
     fire_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Icons_Fire Spell.png");
-    water_point1.texture.loadFromFile("game_textures\\Water Spell_Frame_03\\Water Spell_Frame_03.png");
+    water_point1.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
     water_point2.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
     water_point3.texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
   
@@ -304,7 +249,7 @@ int main()
 
 
     // ground4
-   ground4.sprite.setPosition(1920 - 105.6 - 182 , 700+50);
+   ground4.sprite.setPosition(1920 - 105.6 - 182, 700);
    
    
     // ground5
@@ -318,7 +263,8 @@ int main()
 
 
    //ground7
-   ground7.sprite.setPosition(1448-172.8, 650+50);
+   ground7.sprite.setPosition(1448-172.8, 650+50 );
+   ground7.sprite.setScale(2, 2);
    
 
    //ground8
@@ -353,7 +299,7 @@ int main()
 
 
     // Triengle
-    triangle.sprite.setScale(2, 2);
+    triangle.sprite.setScale(1.5, 1.5);
     triangle.sprite.setPosition(1448 - 70, 500+50);
    
 
@@ -409,8 +355,14 @@ int main()
     //water_point3
     water_point3.sprite.setScale(0.1, 0.1);
     water_point3.sprite.setPosition(932.6 + 80, 300 - 55);
+    Vector2f size[20];
+    for (int i = 1; i < 20; i++) {
 
-
+	size[i].x = ground4.sprite.getGlobalBounds().width;
+	size[i].y = ground4.sprite.getGlobalBounds().height;
+    Grounds[i].setSize(size[i]);
+	Grounds[i].setPosition(ground4.sprite.getPosition());
+    }
 
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
@@ -478,19 +430,12 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
 		//all the functions that should be called in the main loop should be called here
-		jump(fireboy);
-		jump(watergirl);    
-		movement(fireboy, deltaTime);           
-		movement(watergirl, deltaTime);
-		update_animation(fireboy, deltaTime);
-		update_animation(watergirl, deltaTime); 
-		ground_collision(fireboy, ground);
-		ground_collision(watergirl, ground);
+		
 
 
         window.clear();
-        window.draw(ground);
         window.draw(background.sprite);
         window.draw(Frame.sprite);
         window.draw(ground3.sprite);
@@ -519,8 +464,9 @@ int main()
         window.draw(water_point1.sprite);
         window.draw(water_point2.sprite);
         window.draw(water_point3.sprite);
-		window.draw(fireboy.sprite);
-		window.draw(watergirl.sprite);
+		
+       for (int i = 1; i<20; i++)
+       //     window.draw(Grounds[i]);
         window.display();
     }
     return 0;
