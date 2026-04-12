@@ -405,10 +405,9 @@ int main()
 
 
         window.clear();
-<<<<<<< HEAD
-=======
+
         window.draw(ground1);
->>>>>>> e1868186a525b2c302b6da9a1c6507345a3dedf8
+
         window.draw(background.sprite);
         window.draw(Frame.sprite);
 
@@ -425,25 +424,18 @@ int main()
 
         window.draw(box.sprite);
         window.draw(triangle.sprite);
-<<<<<<< HEAD
-        window.draw(fire_point[1].sprite);
-        window.draw(fire_point[2].sprite);
-        window.draw(fire_point[3].sprite);
-        window.draw(water_point[1].sprite);
-        window.draw(water_point[2].sprite);
-        window.draw(water_point[3].sprite);
-		window.draw(fireboy.sprite);
-		window.draw(watergirl.sprite);
-=======
+
+       
+
 		for (int i = 0; i < 3; i++)
         window.draw(fire_point[i].sprite);
        
 		for (int i = 0; i < 3; i++)
         window.draw(water_point[i].sprite);
-        
+
         window.draw(fireboy.sprite);
         window.draw(watergirl.sprite);
->>>>>>> e1868186a525b2c302b6da9a1c6507345a3dedf8
+
         window.display();
     }
     return 0;
