@@ -48,63 +48,7 @@ struct character {
 };
 
 
-void movement(character& player, float deltaTime) {
-    if (Keyboard::isKeyPressed(player.right)) {
-        //right
-        if (!(player.stop && player.sprite.getScale().x == 1)) {
-            player.sprite.move(player.speed_x * deltaTime, 0);
-            player.ismoving = true;
-            player.stop = false;
-            player.sprite.setScale(1, 1);
-        }
-    }
-    else if (Keyboard::isKeyPressed(player.left)) {
-        //left
-        if (!(player.stop && player.sprite.getScale().x == -1)) {
-            player.sprite.move(-player.speed_x * deltaTime, 0);
-            player.ismoving = true;
-            player.stop = false;
-            player.sprite.setScale(-1, 1);
-        }
-    }
-    else {
-        player.ismoving = false;
-    }
-    if (!player.onground) {
-        player.speed_y += player.gravity * deltaTime;
-    }
-    else {
-        player.speed_y = 0;
-    }
-    player.sprite.move(0, player.speed_y * deltaTime);
-}
 
-void jump(character& player) {
-    if (Keyboard::isKeyPressed(player.up) && player.onground) {
-        //jump
-        player.speed_y = player.jump_strength;
-        player.onground = false;
-    }
-}
-
-void update_animation(character& player, float deltaTime) {
-    if (player.ismoving) {
-        if (player.timer > 0) {
-            player.timer -= deltaTime;
-        }
-        else {
-            player.framecounter++;
-            if (player.framecounter >= player.totalFrames) {
-                player.framecounter = 1;
-            }
-            player.timer = player.delay;
-        }
-    }
-    else {
-        player.framecounter = 0;
-    }
-    player.sprite.setTextureRect(IntRect(player.framecounter * player.frameWidth, 0, player.frameWidth, player.frameHeight));
-}
 void ground_collision(character& player, RectangleShape& ground) {
     if (player.sprite.getGlobalBounds().top + player.sprite.getGlobalBounds().height >= ground.getPosition().y) {
         player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y - (player.frameHeight / 2.0));
@@ -173,7 +117,8 @@ void origin(RectangleShape& x)
     x.setOrigin(x.getLocalBounds().width / 2, x.getLocalBounds().height / 2);
 }
 
-
+design Frame;
+design background;
 
 int main()
 {
@@ -394,9 +339,7 @@ int main()
     RectangleShape ground1(Vector2f(1950, 80));
     ground1.setFillColor(Color::Cyan);
     ground1.setPosition(0, 1000);
-    RectangleShape ground(Vector2f(1950, 80));
-    ground.setFillColor(Color::Cyan);
-    ground.setPosition(0, 1000);
+    
 
     character fireboy;
     fireboy.frameHeight = 140;
@@ -406,7 +349,7 @@ int main()
     }
     fireboy.sprite.setTexture(boytex);
     fireboy.sprite_origin();
-    fireboy.sprite.setPosition(700, ground.getPosition().y - (fireboy.frameHeight / 2.0f));
+    fireboy.sprite.setPosition(700, ground1.getPosition().y - (fireboy.frameHeight / 2.0f));
     fireboy.framecounter = 0;
     fireboy.totalFrames = 6; //boy 6, girl 9
     fireboy.delay = 0.1f;
@@ -430,7 +373,7 @@ int main()
     }
     watergirl.sprite.setTexture(girltex);
     watergirl.sprite_origin();
-    watergirl.sprite.setPosition(600, ground.getPosition().y - (watergirl.frameHeight / 2.0f));
+    watergirl.sprite.setPosition(600, ground1.getPosition().y - (watergirl.frameHeight / 2.0f));
     watergirl.framecounter = 0;
     watergirl.totalFrames = 9; //boy 6, girl 9
     watergirl.delay = 0.1f;
@@ -457,11 +400,11 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-       
+
 
 
         window.clear();
-        window.draw(ground);
+        window.draw(ground1);
         window.draw(background.sprite);
         window.draw(Frame.sprite);
 
@@ -478,14 +421,14 @@ int main()
 
         window.draw(box.sprite);
         window.draw(triangle.sprite);
-        window.draw(fire_point1.sprite);
-        window.draw(fire_point2.sprite);
-        window.draw(fire_point3.sprite);
-        window.draw(water_point1.sprite);
-        window.draw(water_point2.sprite);
-        window.draw(water_point3.sprite);
-		window.draw(fireboy.sprite);
-		window.draw(watergirl.sprite);
+		for (int i = 0; i < 3; i++)
+        window.draw(fire_point[i].sprite);
+       
+		for (int i = 0; i < 3; i++)
+        window.draw(water_point[i].sprite);
+        
+        window.draw(fireboy.sprite);
+        window.draw(watergirl.sprite);
         window.display();
     }
     return 0;
