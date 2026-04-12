@@ -10,6 +10,7 @@
 using namespace std;
 using namespace sf;
 
+int n = 5;
 
 struct design
 {
@@ -404,7 +405,9 @@ int main()
 
 
         window.clear();
+
         window.draw(ground1);
+
         window.draw(background.sprite);
         window.draw(Frame.sprite);
 
@@ -421,14 +424,18 @@ int main()
 
         window.draw(box.sprite);
         window.draw(triangle.sprite);
+
+       
+
 		for (int i = 0; i < 3; i++)
         window.draw(fire_point[i].sprite);
        
 		for (int i = 0; i < 3; i++)
         window.draw(water_point[i].sprite);
-        
+
         window.draw(fireboy.sprite);
         window.draw(watergirl.sprite);
+
         window.display();
     }
     return 0;
