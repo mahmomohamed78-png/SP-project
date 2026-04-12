@@ -11,6 +11,7 @@ using namespace std;
 using namespace sf;
 
 
+
 struct design
 {
     Texture texture;
@@ -173,7 +174,8 @@ void origin(RectangleShape& x)
     x.setOrigin(x.getLocalBounds().width / 2, x.getLocalBounds().height / 2);
 }
 
-
+design Frame;
+design background;
 
 int main()
 {
@@ -461,7 +463,6 @@ int main()
 
 
         window.clear();
-        window.draw(ground);
         window.draw(background.sprite);
         window.draw(Frame.sprite);
 
@@ -478,12 +479,12 @@ int main()
 
         window.draw(box.sprite);
         window.draw(triangle.sprite);
-        window.draw(fire_point1.sprite);
-        window.draw(fire_point2.sprite);
-        window.draw(fire_point3.sprite);
-        window.draw(water_point1.sprite);
-        window.draw(water_point2.sprite);
-        window.draw(water_point3.sprite);
+        window.draw(fire_point[1].sprite);
+        window.draw(fire_point[2].sprite);
+        window.draw(fire_point[3].sprite);
+        window.draw(water_point[1].sprite);
+        window.draw(water_point[2].sprite);
+        window.draw(water_point[3].sprite);
 		window.draw(fireboy.sprite);
 		window.draw(watergirl.sprite);
         window.display();
