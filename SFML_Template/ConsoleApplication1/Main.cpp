@@ -127,7 +127,10 @@ void platform_collision(character& player, RectangleShape& ground) {
             player.speed_y = 0;
             player.onground = true;
         }
-
+        if (player.speed_y < 0 && hitbox.top >= platformTop - 15.0f) {
+            player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y + (ground.getSize().y) + (player.frameHeight / 2.0));
+            player.speed_y = 0;
+        }
     }
 }
 
@@ -141,8 +144,8 @@ void slope_collision(character& player, double x1, double y1, double x2, double 
             player.onground = true;
         }
     }
-    //character shoudn't touch the triangle from below
 }
+
 void wall_collision(character& player, RectangleShape& wall) {
     if (player.sprite.getGlobalBounds().intersects(wall.getGlobalBounds())) {
         if (player.sprite.getPosition().x < wall.getPosition().x && player.sprite.getScale().x == 1) {
@@ -414,6 +417,59 @@ int main()
     Clock clock;
     clock.restart();
 
+    RectangleShape ground(Vector2f(1950, 80));
+    ground.setFillColor(Color::Cyan);
+    ground.setPosition(0, 1000);
+
+    character fireboy;
+    fireboy.frameHeight = 140;
+    Texture boytex;
+    if (!boytex.loadFromFile("game_textures\\fireboy_run.png")) {
+        cout << "Error: Could not load fireboy image! Check the path";
+    }
+    fireboy.sprite.setTexture(boytex);
+    fireboy.sprite_origin();
+    fireboy.sprite.setPosition(700, ground.getPosition().y - (fireboy.frameHeight / 2.0f));
+    fireboy.framecounter = 0;
+    fireboy.totalFrames = 6; //boy 6, girl 9
+    fireboy.delay = 0.1f;
+    fireboy.speed_x = 450.0f;
+    fireboy.speed_y = 450.0f;
+    fireboy.jump_strength = -900.0f;
+    fireboy.gravity = 2500.0f;
+    fireboy.timer = fireboy.delay;
+    fireboy.onground = true;
+    fireboy.ismoving = false;
+    fireboy.stop = false;
+    fireboy.right = Keyboard::Right;
+    fireboy.left = Keyboard::Left;
+    fireboy.up = Keyboard::Up;
+
+    character watergirl;
+    watergirl.frameHeight = 128;
+    Texture girltex;
+    if (!girltex.loadFromFile("game_textures\\watergirl_run.png")) {
+        cout << "Error: Could not load watergirl image! Check the path";
+    }
+    watergirl.sprite.setTexture(girltex);
+    watergirl.sprite_origin();
+    watergirl.sprite.setPosition(600, ground.getPosition().y - (watergirl.frameHeight / 2.0f));
+    watergirl.framecounter = 0;
+    watergirl.totalFrames = 9; //boy 6, girl 9
+    watergirl.delay = 0.1f;
+    watergirl.speed_x = 450.0f;
+    watergirl.speed_y = 450.0f;
+    watergirl.jump_strength = -900.0f;
+    watergirl.gravity = 2500.0f;
+    watergirl.timer = watergirl.delay;
+    watergirl.onground = true;
+    watergirl.ismoving = false;
+    watergirl.stop = false;
+    watergirl.right = Keyboard::D;
+    watergirl.left = Keyboard::A;
+    watergirl.up = Keyboard::W;
+
+
     while (window.isOpen())
     {
         float deltaTime = clock.restart().asSeconds();
@@ -423,10 +479,18 @@ int main()
                 window.close();
         }
 		//all the functions that should be called in the main loop should be called here
-
+		jump(fireboy);
+		jump(watergirl);    
+		movement(fireboy, deltaTime);           
+		movement(watergirl, deltaTime);
+		update_animation(fireboy, deltaTime);
+		update_animation(watergirl, deltaTime); 
+		ground_collision(fireboy, ground);
+		ground_collision(watergirl, ground);
 
 
         window.clear();
+        window.draw(ground);
         window.draw(background.sprite);
         window.draw(Frame.sprite);
         window.draw(ground3.sprite);
@@ -455,6 +519,8 @@ int main()
         window.draw(water_point1.sprite);
         window.draw(water_point2.sprite);
         window.draw(water_point3.sprite);
+		window.draw(fireboy.sprite);
+		window.draw(watergirl.sprite);
         window.display();
     }
     return 0;
