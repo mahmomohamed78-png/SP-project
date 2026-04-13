@@ -190,7 +190,7 @@ int main()
     ground[2].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground[3].texture.loadFromFile("game_textures\\Tile_47_1\\sprite_0.png");
     ground[4].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
-    ground[5].texture.loadFromFile("game_textures\\New Piskel (14)\\New Piskel (14).png");
+    ground[5].texture.loadFromFile("game_textures\\New_Piskel_14\\New_Piskel_14.png");
     ground[6].texture.loadFromFile("game_textures\\Tile_03.png");
     ground[7].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
     ground[8].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
