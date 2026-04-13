@@ -168,7 +168,7 @@ design background;
 
 int main()
 {
-
+    int x = 5;
     //definitions level1
     design ground[12];
     design Platform;
