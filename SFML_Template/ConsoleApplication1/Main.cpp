@@ -178,7 +178,9 @@ int main()
     design triangle;
     design fire_point[3];
     design water_point[3];
-
+    RectangleShape collision_boxs[12];
+    RectangleShape walls[4];
+    RectangleShape lakes[5];
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -187,8 +189,8 @@ int main()
     background.texture.loadFromFile("game_textures/background/Gemini_Generated_Image_pn65sypn65sypn65.png");
     ground[0].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
     ground[1].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
-    ground[2].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
-    ground[3].texture.loadFromFile("game_textures\\Tile_47_1\\sprite_0.png");
+    ground[2].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
+    ground[3].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground[4].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
     ground[5].texture.loadFromFile("game_textures\\New_Piskel_14\\New_Piskel_14.png");
     ground[6].texture.loadFromFile("game_textures\\Tile_03.png");
@@ -237,7 +239,6 @@ int main()
 
     for (int i = 0; i < 3; i++)
         water_point[i].sprite.setTexture(water_point[i].texture);
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,6 +377,37 @@ int main()
     water_point[2].sprite.setPosition(932.6 + 80, 300 - 55);
 
 
+    for (int i = 0; i < 12; i++) {
+		Vector2f vector(ground[i].sprite.getGlobalBounds().width, ground[i].sprite.getGlobalBounds().height);
+		collision_boxs[i].setSize(vector);
+		collision_boxs[i].setPosition(ground[i].sprite.getPosition());
+    }
+	collision_boxs[11].setPosition(ground[11].sprite.getPosition().x-ground[11].sprite.getGlobalBounds().width, ground[11].sprite.getPosition().y);
+	
+    
+    
+    walls[0].setSize(Vector2f(20, 1080));
+	walls[0].setPosition(15, 0);
+	walls[0].setOrigin(walls[0].getLocalBounds().width , 0);
+	walls[1].setSize(Vector2f(20, 1080));
+	walls[1].setPosition(1890 + 15, 0);
+	walls[2].setSize(Vector2f(1920, 40));
+	walls[2].setPosition(0, 0);
+	walls[3].setSize(Vector2f(Platform.sprite.getGlobalBounds().width,Platform.sprite.getGlobalBounds().height));
+	walls[3].setPosition(Platform.sprite.getPosition());
+
+    for (int i = 0; i < 2; i++) {
+        Vector2f vect(water_lake[i].sprite.getGlobalBounds().width, water_lake[i].sprite.getGlobalBounds().height/3);
+        lakes[i].setSize(vect);
+        lakes[i].setPosition(water_lake[i].sprite.getPosition().x, water_lake[i].sprite.getPosition().y + (water_lake[i].sprite.getGlobalBounds().height * 2 / 3));
+    }
+    for (int i = 0; i < 3; i++) {
+        Vector2f vect(fire_lake[i].sprite.getGlobalBounds().width, fire_lake[i].sprite.getGlobalBounds().height/3);
+        lakes[i+2].setSize(vect);
+        lakes[i + 2].setPosition(fire_lake[i].sprite.getPosition().x, fire_lake[i].sprite.getPosition().y + (fire_lake[i].sprite.getGlobalBounds().height * 2 / 3));
+    }
+
+    lakes[2].setPosition(fire_lake[0].sprite.getPosition().x, fire_lake[0].sprite.getPosition().y + (fire_lake[0].sprite.getGlobalBounds().height / 3));
 
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
@@ -483,7 +515,12 @@ int main()
 
         for (int i = 0; i < 3; i++)
             window.draw(water_point[i].sprite);
-
+        for(int i=0;i<12;i++)
+			window.draw(collision_boxs[i]);
+		for (int i = 0; i < 4; i++)
+			window.draw(walls[i]);
+        for(int i=0;i<5;i++)
+			window.draw(lakes[i]);
         window.draw(fireboy.sprite);
         window.draw(watergirl.sprite);
 
