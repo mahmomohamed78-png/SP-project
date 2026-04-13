@@ -46,7 +46,54 @@ struct character {
     Keyboard::Key up;
 };
 
+void moveCharacter(character& player, float deltaTime)
+{
+    player.ismoving = false;
+    if (Keyboard::isKeyPressed(player.left)) {
+       
+        player.ismoving = true;
+        player.sprite.move(-player.speed_x*deltaTime, 0);
+        player.sprite.setScale(-1, 1);
 
+    }
+    else if (Keyboard::isKeyPressed(player.right)) {
+       
+        player.ismoving = true;
+        player.sprite.move(player.speed_x*deltaTime, 0);
+        player.sprite.setScale(1, 1);
+    }
+}
+void jumpCharacter(character& c, float deltaTime)
+{
+    if (Keyboard::isKeyPressed(c.up)&&c.onground) {
+        c.speed_y = c.jump_strength;
+        c.onground = false;
+    }
+    if (!c.onground) {
+        c.speed_y += c.gravity * deltaTime;
+        c.sprite.move(0, c.speed_y * deltaTime);
+    }
+}
+void animation(character& c, float deltaTime) 
+{
+    if (!c.ismoving) {
+        c.framecounter = 0;
+        c.sprite.setTextureRect(IntRect(0, 0, c.frameWidth, c.frameHeight));
+        return;
+    }
+    c.timer += deltaTime;
+    if (c.timer >= c.delay) {
+       c.timer = 0;
+       c.framecounter++;
+    }
+    if (c.framecounter >= c.totalFrames) {
+        c.framecounter = 0;
+    }
+    c.sprite.setTextureRect(
+        IntRect(c.framecounter * c.frameWidth, 0, c.frameWidth, c.frameHeight)
+    );
+
+}
 
 void ground_collision(character& player, RectangleShape& ground) {
     if (player.sprite.getGlobalBounds().top + player.sprite.getGlobalBounds().height >= ground.getPosition().y) {
@@ -353,7 +400,7 @@ int main()
     fireboy.totalFrames = 6; //boy 6, girl 9
     fireboy.delay = 0.1f;
     fireboy.speed_x = 450.0f;
-    fireboy.speed_y = 450.0f;
+    fireboy.speed_y = 0.0f;
     fireboy.jump_strength = -900.0f;
     fireboy.gravity = 2500.0f;
     fireboy.timer = fireboy.delay;
@@ -377,7 +424,7 @@ int main()
     watergirl.totalFrames = 9; //boy 6, girl 9
     watergirl.delay = 0.1f;
     watergirl.speed_x = 450.0f;
-    watergirl.speed_y = 450.0f;
+    watergirl.speed_y = 0.0f;
     watergirl.jump_strength = -900.0f;
     watergirl.gravity = 2500.0f;
     watergirl.timer = watergirl.delay;
@@ -399,9 +446,15 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-
-
+        moveCharacter(fireboy, deltaTime);
+        moveCharacter(watergirl, deltaTime);
+        jumpCharacter(fireboy, deltaTime);
+        jumpCharacter(watergirl, deltaTime);
+        ground_collision(fireboy, ground1);
+        ground_collision(watergirl, ground1);
+        animation(fireboy, deltaTime);
+        animation(watergirl, deltaTime);
+        
         window.clear();
 
         window.draw(ground1);

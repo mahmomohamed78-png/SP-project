@@ -1,3 +1,40 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(538,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (ConsoleApplication1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (ConsoleApplication1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
-  ConsoleApplication1.vcxproj -> C:\Users\Future\OneDrive\سطح المكتب\New folder\SFML Template\x64\Debug\SFML Template.exe
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(100,89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(116,93): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(121,116): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(132,56): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(132,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(248,27): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(267,34): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(268,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(272,47): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(281,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(282,38): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(286,39): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(291,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(295,47): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(304,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(309,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(327,34): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(331,34): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(332,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(336,34): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(337,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(341,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(346,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(351,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(351,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(356,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(356,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(361,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(361,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(365,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(365,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(370,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(370,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(371,39): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(375,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(375,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\ConsoleApplication1\Main.cpp(376,45): warning C4305: 'argument': truncation from 'double' to 'float'
+  ConsoleApplication1.vcxproj -> C:\Users\Musta\OneDrive\Desktop\SP-project\SFML_Template\x64\Debug\SFML Template.exe
