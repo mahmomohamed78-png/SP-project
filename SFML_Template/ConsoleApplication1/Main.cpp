@@ -185,13 +185,13 @@ int main()
     //load level1
     Frame.texture.loadFromFile("game_textures/sprite_frame_level0/sprite_frame_level2.20.png");
     background.texture.loadFromFile("game_textures/background/Gemini_Generated_Image_pn65sypn65sypn65.png");
-    ground[0].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
+    ground[0].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
     ground[1].texture.loadFromFile("game_textures/Tile_02/sprite_ground2.20.png");
-    ground[2].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
+    ground[2].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground[3].texture.loadFromFile("game_textures\\Tile_47_1\\sprite_0.png");
     ground[4].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
-    ground[5].texture.loadFromFile("game_textures/Tile_47/sprite_hight_ground0.png");
-    ground[6].texture.loadFromFile("game_textures/Tile_48/sprite_minitri0.png");
+    ground[5].texture.loadFromFile("game_textures\\New Piskel (14)\\New Piskel (14).png");
+    ground[6].texture.loadFromFile("game_textures\\Tile_03.png");
     ground[7].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\Tile_56_1_1.png");
     ground[8].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     ground[9].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
@@ -254,8 +254,8 @@ int main()
 
 
     //ground1
-    ground[0].sprite.setScale(0.875, 1.5);
-    ground[0].sprite.setPosition(0, 1000);
+    ground[0].sprite.setScale(3, 1.2);
+    ground[0].sprite.setPosition(200, 1000 - 691.2 + 100);
 
 
     //// ground2
@@ -264,12 +264,12 @@ int main()
 
 
     // ground3
-    ground[2].sprite.setScale(3, 1.2);
-    ground[2].sprite.setPosition(200, 1000 - 691.2 + 100);
+    ground[2].sprite.setPosition(0, 1000);
+    ground[2].sprite.setScale(0.875, 1.5);
 
 
     // ground4
-    ground[3].sprite.setPosition(1920 - 105.6 - 182, 700 + 50);
+    ground[3].sprite.setPosition(1920 - 105.6 - 182, 700 );
 
 
     // ground5
@@ -278,11 +278,11 @@ int main()
 
 
     // ground6
-    ground[5].sprite.setScale(0.8, 1);
     ground[5].sprite.setPosition(744 - 86.4, 650 - 64 + 50);
 
 
     //ground7
+    ground[6].sprite.setScale(2, 2);
     ground[6].sprite.setPosition(1448 - 172.8, 650 + 50);
 
 
@@ -318,7 +318,7 @@ int main()
 
 
     // Triengle
-    triangle.sprite.setScale(2, 2);
+    triangle.sprite.setScale(1.5, 1.5);
     triangle.sprite.setPosition(1448 - 70, 500 + 50);
 
 
