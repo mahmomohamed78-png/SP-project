@@ -283,6 +283,17 @@ void fire_door_collision(character& player, design& door, float dt) {
 
 
 }
+int points_counter = 0;
+void point_collision(character& player1, character& player2, design& point) {
+    if (player1.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {
+        point.sprite.setColor(Color(255, 255, 255, 0));
+		points_counter++;
+    }
+    else if(player2.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {
+		point.sprite.setColor(Color(255, 255, 255, 0));
+    }
+}
+
 
 void origin(RectangleShape& x)
 {
@@ -797,6 +808,7 @@ int main()
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
     Clock clock;
+
     clock.restart();
 
     RectangleShape mm(Vector2f(150.0f, 30.0f));
@@ -925,6 +937,10 @@ int main()
         slope_collision(watergirl, 456, 618, 475, 656); //water lake 0
         slope_collision(watergirl, 1502, 227, 1575, 289); //ground 11
 
+        for(int i=0;i<3;i++)
+		    point_collision(fireboy,watergirl ,fire_point[i]);
+        for (int i = 0; i < 3; i++)
+			point_collision(watergirl,fireboy ,water_point[i]);
 
 		collision_boxs[5].setFillColor(Color::Green);
 
