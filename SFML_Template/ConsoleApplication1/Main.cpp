@@ -293,6 +293,26 @@ int main()
     design door[2];
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+// Level 2 definitions
+    design background2;
+
+    design ground2[6];
+    design platform2[2];
+
+    design fire_lake2[2];
+    design water_lake2[2];
+    design green_lake2[2];
+
+    design fire_point2[8];
+    design water_point2[8];
+
+    design slope_left2;
+    design slope_right2;
+    design right_corner2;
+    design step_corner2[2];
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //load level1
     Frame.texture.loadFromFile("game_textures/sprite_frame_level0/sprite_frame_level2.20.png");
@@ -326,8 +346,40 @@ int main()
     water_point[1].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
     water_point[2].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+    // 
+// Load level 2 textures
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    background2.texture.loadFromFile("game_textures/background/Gemini_Generated_Image_pn65sypn65sypn65.png");
+
+    for (int i = 0; i < 6; i++)
+        ground2[i].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/Tile_56_1_1.png");
+
+    for (int i = 0; i < 2; i++)
+        platform2[i].texture.loadFromFile("game_textures/Platform/sprite_platform2.00.png");
+
+    for (int i = 0; i < 2; i++)
+        fire_lake2[i].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite_0_1.png");
+
+    for (int i = 0; i < 2; i++)
+        water_lake2[i].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/6375e845-48fe-4c20-ad50-a5e0cc2a226d_1.png");
+
+    for (int i = 0; i < 2; i++)
+        green_lake2[i].texture.loadFromFile("game_textures/208910c6-0852-4eec-bdad-457062911bb6.png");
+
+    for (int i = 0; i < 8; i++)
+        fire_point2[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Icons_Fire Spell.png");
+
+    for (int i = 0; i < 8; i++)
+        water_point2[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Water_Spell_Frame_03.png");
+
+    slope_left2.texture.loadFromFile("leveel2/Tile_48_1.png");   
+    slope_right2.texture.loadFromFile("leveel2/Tile_48_2.png");  
+    right_corner2.texture.loadFromFile("leveel2/Tile_48_3.png");
+    for (int i = 0; i < 2; i++)
+        step_corner2[i].texture.loadFromFile("leveel2/Tile_48_4.png"); 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Sprite level1
     Frame.sprite.setTexture(Frame.texture);
@@ -358,6 +410,41 @@ int main()
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+// sprites for level 2
+
+    background2.sprite.setTexture(background2.texture);
+
+    for (int i = 0; i < 6; i++)
+        ground2[i].sprite.setTexture(ground2[i].texture);
+
+    for (int i = 0; i < 2; i++)
+        platform2[i].sprite.setTexture(platform2[i].texture);
+
+    for (int i = 0; i < 2; i++)
+        fire_lake2[i].sprite.setTexture(fire_lake2[i].texture);
+
+    for (int i = 0; i < 2; i++)
+        water_lake2[i].sprite.setTexture(water_lake2[i].texture);
+
+    for (int i = 0; i < 2; i++)
+        green_lake2[i].sprite.setTexture(green_lake2[i].texture);
+
+    for (int i = 0; i < 8; i++)
+        fire_point2[i].sprite.setTexture(fire_point2[i].texture);
+
+    for (int i = 0; i < 8; i++)
+        water_point2[i].sprite.setTexture(water_point2[i].texture);
+
+    slope_right2.sprite.setTexture(slope_right2.texture);
+    right_corner2.sprite.setTexture(right_corner2.texture);
+
+    for (int i = 0; i < 2; i++)
+        step_corner2[i].sprite.setTexture(step_corner2[i].texture);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     //Level 1 Design
 
@@ -502,6 +589,145 @@ int main()
     //water_point3
     water_point[2].sprite.setScale(0.1, 0.1);
     water_point[2].sprite.setPosition(932.6 + 80, 300 - 55-90);
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Level 2 Design
+// ==========================
+    background2.sprite.setScale(1.875f, 1.5f);
+
+    // frame
+    Frame.sprite.setScale(1.1f, 1.5f);
+    Frame.sprite.setPosition(-96, -128);
+
+    // --------------------------
+    // Ground
+    // --------------------------
+
+    // top left ground
+    ground2[0].sprite.setScale(3.15f, 1.0f);
+    ground2[0].sprite.setPosition(17, 185);
+
+    // top right ground
+    ground2[1].sprite.setScale(1.65f, 1.0f);
+    ground2[1].sprite.setPosition(1116, 185);
+
+    // left vertical block
+    ground2[2].sprite.setScale(0.65f, 1.95f);
+    ground2[2].sprite.setPosition(17, 600);
+
+    // middle ground carrying green lakes
+    ground2[3].sprite.setScale(5.15f, 1.0f);
+    ground2[3].sprite.setPosition(260, 480);
+
+    // long lower-middle ground
+    ground2[4].sprite.setScale(5.3f, 0.90f);
+    ground2[4].sprite.setPosition(15, 700);
+
+    // bottom ground
+    ground2[5].sprite.setScale(6.75f, 1.0f);
+    ground2[5].sprite.setPosition(18, 1015);
+
+    // --------------------------
+    // platforms
+    // --------------------------
+    platform2[0].sprite.setPosition(550, 365);
+    platform2[0].sprite.setScale(1.08f, 1.0f);
+
+    platform2[1].sprite.setPosition(1325, 365);
+    platform2[1].sprite.setScale(1.08f, 1.0f);
+
+    // --------------------------
+    // Corners
+    // --------------------------
+
+    // top-right sloped piece
+    slope_right2.sprite.setPosition(1830, 355);
+    slope_right2.sprite.setScale(0.50f, 0.70f);
+
+    // upper-right step
+    step_corner2[0].sprite.setPosition(1630, 183);
+    step_corner2[0].sprite.setScale(1.08f, 1.50f);
+
+    // middle-right vertical corner
+    right_corner2.sprite.setPosition(1770, 850);
+    right_corner2.sprite.setScale(5.9f, 10.9f);
+    
+
+    // --------------------------
+    // Lakes
+    // --------------------------
+
+    // green lakes in the middle
+    green_lake2[0].sprite.setScale(1.42f, 1.0f);
+    green_lake2[0].sprite.setPosition(450, 470);
+
+    green_lake2[1].sprite.setScale(1.42f, 1.0f);
+    green_lake2[1].sprite.setPosition(1260, 470);
+
+    // left lower water lake
+    water_lake2[0].sprite.setScale(1.26f, 1.0f);
+    water_lake2[0].sprite.setPosition(320, 878);
+
+    // right lower fire lake
+    fire_lake2[0].sprite.setScale(1.26f, 1.0f);
+    fire_lake2[0].sprite.setPosition(1110, 878);
+
+    // bottom left fire lake
+    fire_lake2[1].sprite.setScale(1.03f, 1.0f);
+    fire_lake2[1].sprite.setPosition(370, 1010);
+
+    // bottom right water lake
+    water_lake2[1].sprite.setScale(1.03f, 1.0f);
+    water_lake2[1].sprite.setPosition(1170, 1010);
+
+    // --------------------------
+    // Points scale
+    // --------------------------
+    for (int i = 0; i < 8; i++)
+    {
+        fire_point2[i].sprite.setScale(0.1f, 0.1f);
+        water_point2[i].sprite.setScale(0.1f, 0.1f);
+    }
+
+    // --------------------------
+    // Top pair
+    // --------------------------
+    fire_point2[0].sprite.setPosition(1000, 150);
+    water_point2[0].sprite.setPosition(1070, 150);
+
+    // --------------------------
+    // Middle pair above green lakes
+    // --------------------------
+    fire_point2[1].sprite.setPosition(1010, 430);
+    water_point2[1].sprite.setPosition(1100, 430);
+
+    // --------------------------
+    // Lower-middle row
+    // --------------------------
+    water_point2[2].sprite.setPosition(490, 640);
+    fire_point2[2].sprite.setPosition(560, 640);
+
+    water_point2[3].sprite.setPosition(1180, 640);
+    fire_point2[3].sprite.setPosition(1250, 640);
+
+    // --------------------------
+    // Above lower lakes
+    // --------------------------
+    water_point2[4].sprite.setPosition(430, 840);
+    water_point2[5].sprite.setPosition(520, 840);
+
+    fire_point2[4].sprite.setPosition(1210, 840);
+    fire_point2[5].sprite.setPosition(1320, 840);
+
+    // --------------------------
+    // Near bottom lakes
+    // --------------------------
+    fire_point2[6].sprite.setPosition(470, 985);
+    fire_point2[7].sprite.setPosition(520, 985);
+
+    water_point2[6].sprite.setPosition(1270, 985);
+    water_point2[7].sprite.setPosition(1320, 985);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     for (int i = 0; i < 12; i++) {
@@ -719,6 +945,45 @@ int main()
        // window.draw(mm);
         window.draw(door[0].sprite);
         window.draw(door[1].sprite);
+
+        //level(2)draw 
+
+        window.draw(background2.sprite);
+
+        ///////////////////////////
+
+        for (int i = 0; i < 6; i++)
+            window.draw(ground2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(platform2[i].sprite);
+
+
+        window.draw(slope_right2.sprite);
+        window.draw(right_corner2.sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(step_corner2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(fire_lake2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(water_lake2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(green_lake2[i].sprite);
+
+        for (int i = 0; i < 8; i++)
+            window.draw(fire_point2[i].sprite);
+
+        for (int i = 0; i < 8; i++)
+            window.draw(water_point2[i].sprite);
+
+        window.draw(Frame.sprite);
+
+
+
         window.display();
     }
     return 0;
