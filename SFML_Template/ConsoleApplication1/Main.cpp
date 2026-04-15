@@ -126,21 +126,38 @@ void platform_collision(character& player, RectangleShape& ground) {
 }
 
 bool girl_is_dead = 0;
-int framecounter = 0;
-void died(character& player, design& smoke) {
+int water_framecounter = 0;
+void water_died(character& player, design& smoke, float& dt) {
     girl_is_dead = 1;
-    smoke.sprite.setPosition(player.sprite.getPosition().x, player.sprite.getPosition().y - 50);
-    if (girl_is_dead) {
-        smoke.sprite.setTextureRect(IntRect(framecounter * 168, 0, 168, 186));
-        if (framecounter >= 5)
-            framecounter = 0;
-
-        else
-            framecounter++;
+    player.timer += dt;
+    smoke.sprite.setPosition(player.sprite.getPosition().x, player.sprite.getPosition().y - 150);
+    if (girl_is_dead && player.timer >= 0.05f) {
+        smoke.sprite.setTextureRect(IntRect(water_framecounter * 168, 0, 168, 186));
+        player.timer = 0;
+        water_framecounter++;
     }
+    if (water_framecounter >= 5)
+        smoke.sprite.setTextureRect(IntRect(5 * 168, 0, 168, 186));
+
 }
 
-void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fire, design& smoke) {
+bool boy_is_dead = 0;
+int fire_framecounter = 0;
+void fire_died(character& player, design& smoke, float& dt) {
+    boy_is_dead = 1;
+    player.timer += dt;
+    smoke.sprite.setPosition(player.sprite.getPosition().x, player.sprite.getPosition().y - 150);
+    if (boy_is_dead && player.timer >= 0.05f) {
+        smoke.sprite.setTextureRect(IntRect(fire_framecounter * 168, 0, 168, 186));
+        player.timer = 0;
+        fire_framecounter++;
+    }
+    if (fire_framecounter >= 5)
+        smoke.sprite.setTextureRect(IntRect(5 * 168, 0, 168, 186));
+
+}
+
+void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fire, design& smoke, float& dt) {
     FloatRect hitbox = fireBoy.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -167,7 +184,7 @@ void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fi
             waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, fire.getPosition().y - (waterGirl.frameHeight / 2.0));
             waterGirl.speed_y = 0;
             waterGirl.onground = true;
-            died(waterGirl, smoke);
+            water_died(waterGirl, smoke, dt);
         }
         if (waterGirl.speed_y < 0 && hitbox2.top >= platformTop2 - 15.0f) {
             waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, fire.getPosition().y + (fire.getSize().y) + (waterGirl.frameHeight / 2.0));
@@ -176,7 +193,7 @@ void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fi
     }
 }
 
-void water_collision(character& fireBoy, character& waterGirl, RectangleShape& water, design& smoke) {
+void water_collision(character& fireBoy, character& waterGirl, RectangleShape& water, design& smoke, float& dt) {
     FloatRect hitbox = waterGirl.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -200,7 +217,7 @@ void water_collision(character& fireBoy, character& waterGirl, RectangleShape& w
         float playerBottom2 = hitbox2.top + hitbox2.height;
         float platformTop2 = water.getPosition().y;
         if (fireBoy.speed_y > 0 && playerBottom2 <= platformTop2 + 15.0f) {
-            died(fireBoy, smoke);
+            fire_died(fireBoy, smoke, dt);
         }
         if (fireBoy.speed_y < 0 && hitbox2.top >= platformTop2 - 15.0f) {
             fireBoy.sprite.setPosition(fireBoy.sprite.getPosition().x, water.getPosition().y + (water.getSize().y) + (fireBoy.frameHeight / 2.0));
@@ -209,10 +226,11 @@ void water_collision(character& fireBoy, character& waterGirl, RectangleShape& w
     }
 }
 
+
 void slope_collision(character& player, double x1, double y1, double x2, double y2) {
     double player_x = player.sprite.getPosition().x;
     if (player_x >= x1 && player_x <= x2) {
-        double slopeY = y1 + (player_x - x1)* ((y2 - y1) / (x2 - x1));
+        double slopeY = y1 + (player_x - x1) * ((y2 - y1) / (x2 - x1));
         double player_y = player.sprite.getPosition().y + (player.frameHeight / 2.0);
         if ((player_y >= slopeY - 5.0) && (player_y <= slopeY + 15.0)) {
             if (player.speed_y >= 0) {
@@ -262,6 +280,19 @@ void fire_door_collision(character& player, design& door, float dt) {
         else
             framecounter++;
     }
+
+
+}
+int points_counter = 0;
+void point_collision(character& player1, character& player2, design& point) {
+    if (player1.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {
+        point.sprite.setColor(Color(255, 255, 255, 0));
+		points_counter++;
+    }
+    else if(player2.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {
+		point.sprite.setColor(Color(255, 255, 255, 0));
+    }
+}
 
 
 }
@@ -779,6 +810,7 @@ int main()
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
     Clock clock;
+
     clock.restart();
 
     RectangleShape mm(Vector2f(150.0f, 30.0f));
@@ -862,10 +894,10 @@ int main()
             ground_collision(watergirl, collision_boxs[i]);
         }
         for (int i = 0; i < 2; i++) {
-            water_collision(fireboy, watergirl, lakes[i],smoke);
-            fire_collision(fireboy, watergirl, lakes[i+2], smoke);
+            water_collision(fireboy, watergirl, lakes[i],smoke,deltaTime);
+            fire_collision(fireboy, watergirl, lakes[i+2], smoke,deltaTime);
         }
-        fire_collision(fireboy, watergirl, lakes[4], smoke);
+        fire_collision(fireboy, watergirl, lakes[4], smoke,deltaTime);
         for (int i = 0; i < 2; i++) {
             wall_collision(fireboy, walls[i]);
 			wall_collision(watergirl, walls[i]);
@@ -878,13 +910,13 @@ int main()
         ground_collision(fireboy, collision_boxs[1]);
         ground_collision(watergirl, collision_boxs[1]);
 
-		slope_collision(fireboy,collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
+        slope_collision(fireboy, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
         slope_collision(fireboy, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
         slope_collision(fireboy, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
         //slope_collision(fireboy, collision_boxs[5].getPosition().x - 76, collision_boxs[5].getPosition().y + 128, collision_boxs[5].getPosition().x, collision_boxs[5].getPosition().y);
         slope_collision(fireboy, 627, 655, 692, 559);
         slope_collision(fireboy, 1510, 470, 1645, 580); //triangle
-        slope_collision(fireboy, 1365,580,1506,470); //tringle
+        slope_collision(fireboy, 1365, 580, 1506, 470); //tringle
         slope_collision(fireboy, 700, 987, 764, 1045); // fire lake 2
         slope_collision(fireboy, 1165, 1045, 1218, 987); //fire lake 2
         slope_collision(fireboy, 1258, 655, 1274, 617); //fire lake 3
@@ -892,6 +924,25 @@ int main()
         slope_collision(fireboy, 456, 618, 475, 656); //water lake 0
         slope_collision(fireboy, 1502, 227, 1575, 289); //ground 11
 
+
+        slope_collision(watergirl, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
+        slope_collision(watergirl, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
+        slope_collision(watergirl, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
+        //slope_collision(watergirl, collision_boxs[5].getPosition().x - 76, collision_boxs[5].getPosition().y + 128, collision_boxs[5].getPosition().x, collision_boxs[5].getPosition().y);
+        slope_collision(watergirl, 627, 655, 692, 559);
+        slope_collision(watergirl, 1510, 470, 1645, 580); //triangle
+        slope_collision(watergirl, 1365, 580, 1506, 470); //tringle
+        slope_collision(watergirl, 700, 987, 764, 1045); // fire lake 2
+        slope_collision(watergirl, 1165, 1045, 1218, 987); //fire lake 2
+        slope_collision(watergirl, 1258, 655, 1274, 617); //fire lake 3
+        slope_collision(watergirl, 1038, 559, 1104, 657); //fire lake 3
+        slope_collision(watergirl, 456, 618, 475, 656); //water lake 0
+        slope_collision(watergirl, 1502, 227, 1575, 289); //ground 11
+
+        for(int i=0;i<3;i++)
+		    point_collision(fireboy,watergirl ,fire_point[i]);
+        for (int i = 0; i < 3; i++)
+			point_collision(watergirl,fireboy ,water_point[i]);
 
 		collision_boxs[5].setFillColor(Color::Green);
 
@@ -904,6 +955,12 @@ int main()
 
 
         window.clear();
+        for (int i = 0; i < 12; i++)
+			window.draw(collision_boxs[i]);
+		for (int i = 0; i < 4; i++)
+			window.draw(walls[i]);
+        for (int i = 0; i < 5; i++)
+			window.draw(lakes[i]);
 
         window.draw(background.sprite);
         window.draw(Frame.sprite);
@@ -920,7 +977,7 @@ int main()
         for (int i = 0; i < 2; i++)
             window.draw(water_lake[i].sprite);
         window.draw(ground[5].sprite);
-      //  window.draw(box.sprite);
+      
         window.draw(triangle.sprite);
 
 
@@ -929,58 +986,56 @@ int main()
             window.draw(fire_point[i].sprite);
 
         for (int i = 0; i < 3; i++)
-            window.draw(water_point[i].sprite);
-        for (int i = 0; i < 12; i++)
-			window.draw(collision_boxs[i]);
-		for (int i = 0; i < 4; i++)
-			window.draw(walls[i]);
-        for (int i = 0; i < 5; i++)
-			window.draw(lakes[i]);
-        window.draw(fireboy.sprite);
+            window.draw(water_point[i].sprite);        
+        if (!boy_is_dead)
+            window.draw(fireboy.sprite);
+        else {
+            window.draw(smoke.sprite);
+        }
         if (!girl_is_dead)
             window.draw(watergirl.sprite);
         else {
             window.draw(smoke.sprite);
         }
-       // window.draw(mm);
+       
         window.draw(door[0].sprite);
         window.draw(door[1].sprite);
 
         //level(2)draw 
 
-        window.draw(background2.sprite);
+        //window.draw(background2.sprite);
 
         ///////////////////////////
 
-        for (int i = 0; i < 6; i++)
-            window.draw(ground2[i].sprite);
+//        for (int i = 0; i < 6; i++)
+//            window.draw(ground2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(platform2[i].sprite);
+//        for (int i = 0; i < 2; i++)
+         //   window.draw(platform2[i].sprite);
 
 
-        window.draw(slope_right2.sprite);
-        window.draw(right_corner2.sprite);
+//        window.draw(slope_right2.sprite);
+  //      window.draw(right_corner2.sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(step_corner2[i].sprite);
+    //    for (int i = 0; i < 2; i++)
+    //        window.draw(step_corner2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(fire_lake2[i].sprite);
+     //   for (int i = 0; i < 2; i++)
+     //       window.draw(fire_lake2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(water_lake2[i].sprite);
+        //for (int i = 0; i < 2; i++)
+            //window.draw(water_lake2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(green_lake2[i].sprite);
+        //for (int i = 0; i < 2; i++)
+//            window.draw(green_lake2[i].sprite);
 
-        for (int i = 0; i < 8; i++)
-            window.draw(fire_point2[i].sprite);
+//        for (int i = 0; i < 8; i++)
+//            window.draw(fire_point2[i].sprite);
 
-        for (int i = 0; i < 8; i++)
-            window.draw(water_point2[i].sprite);
+        //for (int i = 0; i < 8; i++)
+          //  window.draw(water_point2[i].sprite);
 
-        window.draw(Frame.sprite);
+        //window.draw(Frame.sprite);
 
 
 
