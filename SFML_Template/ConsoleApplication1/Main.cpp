@@ -295,6 +295,8 @@ void point_collision(character& player1, character& player2, design& point) {
 }
 
 
+}
+
 void origin(RectangleShape& x)
 {
     x.setOrigin(x.getLocalBounds().width / 2, x.getLocalBounds().height / 2);
