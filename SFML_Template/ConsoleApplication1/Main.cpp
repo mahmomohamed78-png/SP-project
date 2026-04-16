@@ -14,6 +14,10 @@ struct design
 {
     Texture texture;
     Sprite sprite;
+
+    int framecounter = 0;
+	float timer = 0;
+	bool opened = false;
 };
 
 
@@ -128,6 +132,7 @@ void platform_collision(character& player, RectangleShape& ground) {
 bool girl_is_dead = 0;
 int water_framecounter = 0;
 void water_died(character& player, design& smoke, float& dt) {
+    player.stop = 1;
     girl_is_dead = 1;
     player.timer += dt;
     smoke.sprite.setPosition(player.sprite.getPosition().x - 84, player.sprite.getPosition().y - 150);
@@ -136,14 +141,21 @@ void water_died(character& player, design& smoke, float& dt) {
         player.timer = 0;
         water_framecounter++;
     }
-    if (water_framecounter >= 5)
+    if (water_framecounter >= 5) {
         smoke.sprite.setTextureRect(IntRect(5 * 168, 0, 168, 186));
-
+    }
+    if (player.stop) {
+        player.speed_x = 0;
+    }
+    else {
+        player.speed_x = 450.0f;
+    }
 }
 
 bool boy_is_dead = 0;
 int fire_framecounter = 0;
 void fire_died(character& player, design& smoke, float& dt) {
+	player.stop = 1;
     boy_is_dead = 1;
     player.timer += dt;
     smoke.sprite.setPosition(player.sprite.getPosition().x - 84, player.sprite.getPosition().y - 150);
@@ -152,9 +164,15 @@ void fire_died(character& player, design& smoke, float& dt) {
         player.timer = 0;
         fire_framecounter++;
     }
-   if (fire_framecounter >= 5)
+    if (fire_framecounter >= 5) {
         smoke.sprite.setTextureRect(IntRect(5 * 168, 0, 168, 186));
-
+    }
+    if (player.stop) {
+        player.speed_x = 0;
+    }
+    else {
+        player.speed_x = 450.0f;
+    }
 }
 
 void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fire, design& smoke, float& dt) {
@@ -185,7 +203,7 @@ void fire_collision(character& fireBoy, character& waterGirl, RectangleShape& fi
             waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, platformTop2 - (waterGirl.frameHeight / 2.0));
             waterGirl.speed_y = 0;
             waterGirl.onground = true;
-            
+
         }
         if (waterGirl.speed_y < 0 && hitbox2.top >= platformTop2 - 15.0f) {
             waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, platformTop2 + (fire.getSize().y) + (waterGirl.frameHeight / 2.0));
@@ -222,7 +240,7 @@ void water_collision(character& fireBoy, character& waterGirl, RectangleShape& w
             fireBoy.sprite.setPosition(fireBoy.sprite.getPosition().x, platformTop2 - (fireBoy.frameHeight / 2.0));
             fireBoy.speed_y = 0;
             fireBoy.onground = true;
-               
+		
         }
         if (fireBoy.speed_y < 0 && hitbox2.top >= platformTop2 - 15.0f) {
             fireBoy.sprite.setPosition(fireBoy.sprite.getPosition().x, platformTop2 + (water.getSize().y) + (fireBoy.frameHeight / 2.0));
@@ -268,59 +286,70 @@ void wall_collision(character& player, RectangleShape& wall) {
     }
 }
 
-float boy_timer = 0;
-bool boy_in_door = 0;
+
+
 void fire_door_collision(character& player, design& door, float dt) {
-    static int framecounter = 0;
-    if (player.sprite.getPosition().x >= 50 && player.sprite.getPosition().x <= 166 && player.sprite.getPosition().y == 930) { //don't use static number in a function :)!!
-        boy_in_door = 1;
-    }
-    if (!boy_in_door) {
-        door.sprite.setTextureRect(IntRect(0, 0, 121, 144));
-    }
-    else {
-        boy_timer += dt;
-        if (boy_timer >= 0.13f) {
-            if (framecounter < 17) {
-                framecounter++;
+    FloatRect hitbox = player.sprite.getGlobalBounds();
+    hitbox.width = 40;
+    hitbox.left += 55;
+	door.opened = hitbox.intersects(door.sprite.getGlobalBounds());
+    door.timer += dt;
+    if (door.timer >= 0.16f) {
+        door.timer = 0;
+        if (door.opened) {
+            if (door.framecounter < 6) {
+                door.framecounter++;
+                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
             }
-            boy_timer = 0;
         }
-        door.sprite.setTextureRect(IntRect(framecounter * 121, 0, 121, 144));
+        else {
+            if (door.framecounter > 0) {
+                door.framecounter--;
+                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
+            }
+        }
     }
-
 }
 
-float girl_timer = 0;
-bool girl_in_door = 0;
+
+
 void water_door_collision(character& player, design& door, float dt) {
-    static int framecounter = 0;
-    if (player.sprite.getPosition().x >= 296 && player.sprite.getPosition().x <= 412 && player.sprite.getPosition().y == 258.8) { //don't use static number in a function :)!!
-        girl_in_door = 1;                                                                                                         // I couldn't set door girl Position
-    }
-    if (!girl_in_door) {
-        door.sprite.setTextureRect(IntRect(0, 0, 121, 144));
-    }
-    else {
-        girl_timer += dt;
-        if (girl_timer >= 0.13f) {
-            if (framecounter < 17) {
-                framecounter++;
+    FloatRect hitbox = player.sprite.getGlobalBounds();
+    hitbox.width = 40;
+    hitbox.left += 55;
+	door.opened = hitbox.intersects(door.sprite.getGlobalBounds());
+    door.timer += dt;
+    if (door.timer >= 0.16f) {
+        door.timer = 0;
+        if (door.opened) {
+            if (door.framecounter < 6) {
+                door.framecounter++;
+                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
             }
-            girl_timer = 0;
         }
-        door.sprite.setTextureRect(IntRect(framecounter * 121, 0, 121, 144));
+        else {
+            if (door.framecounter > 0) {
+                door.framecounter--;
+                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
+            }
+        }
     }
-
 }
+
 
 int points_counter = 0;
 void point_collision(character& player1, character& player2, design& point) {
-    if (player1.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {/////////////////////////////////////////////////////////////////////////////////
+    FloatRect hitbox = player1.sprite.getGlobalBounds();
+    hitbox.width = 40;
+    hitbox.left += 55;
+    FloatRect hitbox2 = player2.sprite.getGlobalBounds();
+    hitbox2.width = 40;
+    hitbox2.left += 55;
+    if (hitbox.intersects(point.sprite.getGlobalBounds())) {
         point.sprite.setColor(Color(255, 255, 255, 0));
 		points_counter++;
     }
-    else if(player2.sprite.getGlobalBounds().intersects(point.sprite.getGlobalBounds())) {
+    else if(hitbox2.intersects(point.sprite.getGlobalBounds())) {
 		point.sprite.setColor(Color(255, 255, 255, 0));
     }
 }
@@ -987,6 +1016,41 @@ int main()
 
         fire_door_collision(fireboy, door[0], deltaTime);
         water_door_collision(watergirl, door[1], deltaTime);
+
+        if (door[0].opened && door[1].opened) {  //door[0].framecounter >= 6 && door[1].framecounter >= 6
+			static float timer = 0;
+			timer += deltaTime;
+            if (timer >= 0.16f) {
+                timer = 0.0f;
+                if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
+                    door[0].framecounter++;
+                    door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                    door[1].framecounter++;
+                    door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                    watergirl.sprite.setColor(Color::Transparent);
+                    watergirl.speed_x = 0;
+                    watergirl.speed_y = 0;
+                    fireboy.sprite.setColor(Color::Transparent);
+                    fireboy.speed_x = 0;
+                    fireboy.speed_y = 0;
+                    if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
+                        door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                        door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                    }
+                }
+            }
+        }
+        else {
+            if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
+                door[0].framecounter = 6;
+                door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+            }
+            if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
+                door[1].framecounter = 6;
+                door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+            }
+        }
+        
 
         for(int i=0;i<3;i++)
 		    point_collision(fireboy,watergirl ,fire_point[i]);
