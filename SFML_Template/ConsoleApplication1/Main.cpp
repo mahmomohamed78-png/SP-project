@@ -382,6 +382,7 @@ int main()
     RectangleShape lakes[5];
     design smoke;
     design door[2];
+    RectangleShape rec[135];
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -542,6 +543,10 @@ int main()
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    for (int i = 0; i < 135; i++) {
+		rec[i].setSize(Vector2f(4+2*i, 1));
+        rec[i].setPosition(1504 - i, 470 + i);
+    }
 
 
     //Level 1 Design
@@ -1063,6 +1068,11 @@ int main()
         jumpCharacter(watergirl, deltaTime);
         animation(fireboy, deltaTime);
         animation(watergirl, deltaTime);
+
+        for (int i = 0; i < 135; i++) {
+			platform_collision(fireboy, rec[i]);
+			platform_collision(watergirl, rec[i]);
+        }
 
 
         window.clear();
