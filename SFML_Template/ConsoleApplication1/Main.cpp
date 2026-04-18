@@ -548,7 +548,33 @@ int main()
         rec[i].setPosition(1504 - i, 470 + i);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Texture cr_background;
+    cr_background.loadFromFile("game_textures\\choice_game_backgtound2.png");
+    Sprite crdeit_BG;
+    crdeit_BG.setTexture(cr_background);
+    Font font;
+    if (!font.loadFromFile("game_textures\\Copy of font.TTF")) {
+     
+        return -1;
+    }
+    Text namesarr[7];
+    string names_arr[] = { "Nourhan Ashraf","Malak Ahmed","Nour Gad","Aya Mohamed","Mohamed Mahmoud","Ziad Ekramy","Ziad Tarek" };
+    for (int i = 0; i < 7; i++) {
+        namesarr[i].setString(names_arr[i]);
+        namesarr[i].setCharacterSize(28);
+        namesarr[i].setFillColor(Color::Red);
+        namesarr[i].setOutlineThickness(5);
+        namesarr[i].setOutlineColor(Color::Yellow);
+        namesarr[i].setPosition(800, 350 + i * 100);
+        namesarr[i].setScale(2.0f, 2.0f);
+        namesarr[i].setPosition(850, 300 + (i * 100));
+        namesarr[i].setFont(font);
+        }
 
+    
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Level 1 Design
 
     //Frame
@@ -1090,94 +1116,98 @@ int main()
 
 
         window.clear();
-        for (int i = 0; i < 12; i++)
-			window.draw(collision_boxs[i]);
-		for (int i = 0; i < 4; i++)
-			window.draw(walls[i]);
-        for (int i = 0; i < 5; i++)
-			window.draw(lakes[i]);
+  //      for (int i = 0; i < 12; i++)
+		//	window.draw(collision_boxs[i]);
+		//for (int i = 0; i < 4; i++)
+		//	window.draw(walls[i]);
+  //      for (int i = 0; i < 5; i++)
+		//	window.draw(lakes[i]);
 
-        window.draw(background.sprite);
-        window.draw(Frame.sprite);
+  //      window.draw(background.sprite);
+  //      window.draw(Frame.sprite);
 
-        window.draw(door[0].sprite);
-        window.draw(door[1].sprite);
+  //      window.draw(door[0].sprite);
+  //      window.draw(door[1].sprite);
 
 
-        if (!boy_is_dead)
-            window.draw(fireboy.sprite);
-        else {
-            window.draw(smoke.sprite);
+  //      if (!boy_is_dead)
+  //          window.draw(fireboy.sprite);
+  //      else {
+  //          window.draw(smoke.sprite);
+  //      }
+
+  //      if (!girl_is_dead)
+  //          window.draw(watergirl.sprite);
+  //      else {
+  //          window.draw(smoke.sprite);
+  //      }
+
+
+  //      for (int i = 0; i < 12; i++)
+  //          window.draw(ground[i].sprite);
+
+  //      window.draw(Platform[0].sprite);
+  //      window.draw(Platform[1].sprite);
+
+  //      for (int i = 0; i < 3; i++)
+  //          window.draw(fire_lake[i].sprite);
+
+  //      for (int i = 0; i < 2; i++)
+  //          window.draw(water_lake[i].sprite);
+
+  //      window.draw(ground[5].sprite);
+  //      window.draw(triangle.sprite);
+
+
+
+  //      for (int i = 0; i < 3; i++)
+  //          window.draw(fire_point[i].sprite);
+
+  //      for (int i = 0; i < 3; i++)
+  //          window.draw(water_point[i].sprite);        
+  //      
+  //     
+
+  //      //level(2)draw 
+
+  //      window.draw(background2.sprite);
+
+  //      /////////////////////////
+
+  //      for (int i = 0; i < 10; i++)
+  //          window.draw(ground2[i].sprite);
+
+  //      for (int i = 0; i < 2; i++)
+  //          window.draw(platform2[i].sprite);
+
+
+  //      window.draw(slope_right2.sprite);
+  //      window.draw(right_corner2.sprite);
+
+  //      
+  //          window.draw(step_corner2.sprite);
+
+  //      for (int i = 0; i < 2; i++)
+  //          window.draw(fire_lake2[i].sprite);
+
+  //      for (int i = 0; i < 2; i++)
+  //          window.draw(water_lake2[i].sprite);
+
+  //      for (int i = 0; i < 2; i++)
+  //          window.draw(green_lake2[i].sprite);
+
+  //      for (int i = 0; i < 8; i++)
+  //          window.draw(fire_point2[i].sprite);
+
+  //      for (int i = 0; i < 8; i++)
+  //          window.draw(water_point2[i].sprite);
+
+  //      window.draw(Frame.sprite);
+        window.draw(crdeit_BG);
+        for (int i = 0; i < 7; i++) {
+
+            window.draw(namesarr[i]);
         }
-
-        if (!girl_is_dead)
-            window.draw(watergirl.sprite);
-        else {
-            window.draw(smoke.sprite);
-        }
-
-
-        for (int i = 0; i < 12; i++)
-            window.draw(ground[i].sprite);
-
-        window.draw(Platform[0].sprite);
-        window.draw(Platform[1].sprite);
-
-        for (int i = 0; i < 3; i++)
-            window.draw(fire_lake[i].sprite);
-
-        for (int i = 0; i < 2; i++)
-            window.draw(water_lake[i].sprite);
-
-        window.draw(ground[5].sprite);
-        window.draw(triangle.sprite);
-
-
-
-        for (int i = 0; i < 3; i++)
-            window.draw(fire_point[i].sprite);
-
-        for (int i = 0; i < 3; i++)
-            window.draw(water_point[i].sprite);        
-        
-       
-
-        //level(2)draw 
-
-        window.draw(background2.sprite);
-
-        /////////////////////////
-
-        for (int i = 0; i < 10; i++)
-            window.draw(ground2[i].sprite);
-
-        for (int i = 0; i < 2; i++)
-            window.draw(platform2[i].sprite);
-
-
-        window.draw(slope_right2.sprite);
-        window.draw(right_corner2.sprite);
-
-        
-            window.draw(step_corner2.sprite);
-
-        for (int i = 0; i < 2; i++)
-            window.draw(fire_lake2[i].sprite);
-
-        for (int i = 0; i < 2; i++)
-            window.draw(water_lake2[i].sprite);
-
-        for (int i = 0; i < 2; i++)
-            window.draw(green_lake2[i].sprite);
-
-        for (int i = 0; i < 8; i++)
-            window.draw(fire_point2[i].sprite);
-
-        for (int i = 0; i < 8; i++)
-            window.draw(water_point2[i].sprite);
-
-        window.draw(Frame.sprite);
-
 
 
         window.display();
