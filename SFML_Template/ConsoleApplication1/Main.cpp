@@ -568,9 +568,8 @@ int main()
         namesarr[i].setFillColor(Color::White);
         namesarr[i].setOutlineThickness(4);
         namesarr[i].setOutlineColor(Color::Green);
-        namesarr[i].setPosition(800, 350 + i * 100);
+        namesarr[i].setPosition(800, 150 + i * 100);
         namesarr[i].setScale(2.0f, 2.0f);
-       // namesarr[i].setPosition(790, 300 + (i * 100));
         namesarr[i].setFont(font);
         }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -588,11 +587,39 @@ int main()
         pause_txt[i].setFillColor(Color::White);
         pause_txt[i].setOutlineThickness(4);
         pause_txt[i].setOutlineColor(Color::Red);
-       if(i>0) pause_txt[i].setPosition(790, 300 + i * 200);
+       if(i>0) pause_txt[i].setPosition(740, 300 + i * 200);
        else  pause_txt[i].setPosition(890, 300 + i * 200);
-        pause_txt[i].setScale(2.0f, 2.0f);
-      //  pause_txt[i].setPosition(790, 150 + (i * 200));
+        pause_txt[i].setScale(2.5f, 2.5f);
         pause_txt[i].setFont(font);
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //control menu
+    Texture control_BG,F_boy_BG,W_Girl_BG;
+    control_BG.loadFromFile("game_textures\\resized_1920x1080.jpg");
+    F_boy_BG.loadFromFile("game_textures\\ChatGPT_f_controlsImage.png");
+    W_Girl_BG.loadFromFile("game_textures\\ChatGPT_W_controlsImage.png");
+    Sprite c_BG, F_BG, W_BG;
+    c_BG.setTexture(control_BG);
+    F_BG.setTexture(F_boy_BG);
+    W_BG.setTexture(W_Girl_BG);
+
+    W_BG.setScale(0.4f, 0.4f);
+    F_BG.setScale(0.4f, 0.4f);
+
+    W_BG.setPosition(205, 440);
+    F_BG.setPosition(1135, 440);
+
+    Text control_txt[2];
+    String controltxt[] = { "Fire Boy Controls","Water Girl Controls" };
+    for (int i = 0; i < 2; i++) {
+        control_txt[i].setString(controltxt[i]);
+        control_txt[i].setCharacterSize(27);
+        control_txt[i].setFillColor(Color::Black);
+        control_txt[i].setOutlineThickness(4);
+        control_txt[i].setOutlineColor(Color::White);
+        control_txt[i].setPosition(280 + i * 920, 350);
+        control_txt[i].setScale(2.5f, 2.5f);
+        control_txt[i].setFont(font);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1233,12 +1260,23 @@ int main()
         }*/
 
         //Drawing pause menu
-       /* window.draw(menu_BG);
+        /*window.draw(menu_BG);
         for (int i = 0; i < 3; i++) {
             window.draw(pause_txt[i]);
         }*/
 
+        //Drawing control menu
+        /*window.draw(c_BG);
+        window.draw(F_BG);
+        window.draw(W_BG);
+        
+        for (int  i = 0; i < 2; i++) {
+            window.draw(control_txt[i]);
+        }*/
+    
 
+
+ 
         window.display();
     }
     return 0;
