@@ -549,30 +549,51 @@ int main()
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Credit Window
     Texture cr_background;
-    cr_background.loadFromFile("game_textures\\choice_game_backgtound2.png");
-    Sprite crdeit_BG;
-    crdeit_BG.setTexture(cr_background);
+    cr_background.loadFromFile("game_textures\\resized_1920x1080.png");
+    Sprite credit_BG;
+    credit_BG.setTexture(cr_background);
+    
     Font font;
-    if (!font.loadFromFile("game_textures\\Copy of font.TTF")) {
+    if (!font.loadFromFile("game_textures\\Copy_of_font.TTF")) {
      
         return -1;
     }
-    Text namesarr[7];
-    string names_arr[] = { "Nourhan Ashraf","Malak Ahmed","Nour Gad","Aya Mohamed","Mohamed Mahmoud","Ziad Ekramy","Ziad Tarek" };
-    for (int i = 0; i < 7; i++) {
+    Text namesarr[8];
+    string names_arr[] = { "Nourhan Ashraf","Malak Ahmed","Nour Gad","Aya Mohamed","Mohamed Mahmoud","Ziad Ekramy","Ziad Tarek" ,"To return Press ( X )"};
+    for (int i = 0; i < 8; i++) {
         namesarr[i].setString(names_arr[i]);
-        namesarr[i].setCharacterSize(28);
-        namesarr[i].setFillColor(Color::Red);
-        namesarr[i].setOutlineThickness(5);
-        namesarr[i].setOutlineColor(Color::Yellow);
+        namesarr[i].setCharacterSize(27);
+        namesarr[i].setFillColor(Color::White);
+        namesarr[i].setOutlineThickness(4);
+        namesarr[i].setOutlineColor(Color::Green);
         namesarr[i].setPosition(800, 350 + i * 100);
         namesarr[i].setScale(2.0f, 2.0f);
-        namesarr[i].setPosition(850, 300 + (i * 100));
+       // namesarr[i].setPosition(790, 300 + (i * 100));
         namesarr[i].setFont(font);
         }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //pause menu
+    Texture mn_menu;
+    mn_menu.loadFromFile("game_textures\\main_menu_resized_1920x1080.png");
+    Sprite menu_BG;
+    menu_BG.setTexture(mn_menu);
 
-    
+    Text pause_txt[3];
+    String pausetxt[] = { "Resume","Back to main menu","Back to levels menu"};
+    for (int i = 0; i < 3; i++) {
+        pause_txt[i].setString(pausetxt[i]);
+        pause_txt[i].setCharacterSize(27);
+        pause_txt[i].setFillColor(Color::White);
+        pause_txt[i].setOutlineThickness(4);
+        pause_txt[i].setOutlineColor(Color::Red);
+       if(i>0) pause_txt[i].setPosition(790, 300 + i * 200);
+       else  pause_txt[i].setPosition(890, 300 + i * 200);
+        pause_txt[i].setScale(2.0f, 2.0f);
+      //  pause_txt[i].setPosition(790, 150 + (i * 200));
+        pause_txt[i].setFont(font);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Level 1 Design
@@ -1203,11 +1224,19 @@ int main()
   //          window.draw(water_point2[i].sprite);
 
   //      window.draw(Frame.sprite);
-        window.draw(crdeit_BG);
-        for (int i = 0; i < 7; i++) {
+
+        //DRAWING CREDIT MENU
+        /*window.draw(credit_BG);
+        for (int i = 0; i < 8; i++) {
 
             window.draw(namesarr[i]);
-        }
+        }*/
+
+        //Drawing pause menu
+       /* window.draw(menu_BG);
+        for (int i = 0; i < 3; i++) {
+            window.draw(pause_txt[i]);
+        }*/
 
 
         window.display();
