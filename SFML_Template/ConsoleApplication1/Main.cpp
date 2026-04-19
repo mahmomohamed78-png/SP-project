@@ -1017,12 +1017,11 @@ int main()
 	collision_boxs2[13].setPosition(right_corner2.sprite.getPosition());
 	collision_boxs2[14].setSize(Vector2f(step_corner2.sprite.getGlobalBounds().width, step_corner2.sprite.getGlobalBounds().height-96));
 	collision_boxs2[14].setPosition(step_corner2.sprite.getPosition().x, step_corner2.sprite.getPosition().y + 100-2);
-    collision_boxs2[19].setFillColor(Color::Blue);
     collision_boxs2[1].setSize(Vector2f(ground2[1].sprite.getGlobalBounds().width+55, ground2[1].sprite.getGlobalBounds().height));
     collision_boxs2[15].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width-64+32, slope_right2.sprite.getGlobalBounds().height));
     collision_boxs2[15].setPosition(slope_right2.sprite.getPosition().x+64-32, slope_right2.sprite.getPosition().y);
     collision_boxs2[16].setSize(Vector2f(right_corner2.sprite.getGlobalBounds().width, right_corner2.sprite.getGlobalBounds().height));
-    collision_boxs2[16].setPosition(right_corner2.sprite.getPosition());
+    collision_boxs2[16].setPosition(right_corner2.sprite.getPosition().x+15, right_corner2.sprite.getPosition().y);
     collision_boxs2[17].setSize(Vector2f(ground2[2].sprite.getGlobalBounds().width, ground2[2].sprite.getGlobalBounds().height));
     collision_boxs2[17].setPosition(ground2[2].sprite.getPosition());
     collision_boxs2[18].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width, slope_right2.sprite.getGlobalBounds().height - 64));
@@ -1062,7 +1061,6 @@ int main()
     }
     fireboy.sprite.setTexture(boytex);
     fireboy.sprite_origin(); //500                                                                //-300 xx
-    fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
     fireboy.framecounter = 0;
     fireboy.totalFrames = 6; //boy 6, girl 9
     fireboy.delay = 0.1f;
@@ -1086,7 +1084,6 @@ int main()
     }
     watergirl.sprite.setTexture(girltex);
     watergirl.sprite_origin();
-    watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
     watergirl.framecounter = 0;
     watergirl.totalFrames = 9; //boy 6, girl 9
     watergirl.delay = 0.1f;
@@ -1102,55 +1099,18 @@ int main()
     watergirl.left = Keyboard::A;
     watergirl.up = Keyboard::W;
 
-    //level2 
-    character fireboy2;
-    fireboy2.frameHeight = 140;
-    Texture boytex2;
-    if (!boytex2.loadFromFile("game_textures\\fireboy_run.png")) {
-        cout << "Error: Could not load fireboy image! Check the path";
-    }
-    fireboy2.sprite.setTexture(boytex2);
-    fireboy2.sprite_origin(); //500                                                                //-300 xx
-    fireboy2.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy2.frameHeight / 2.0f));
-    fireboy2.framecounter = 0;
-    fireboy2.totalFrames = 6; //boy 6, girl 9
-    fireboy2.delay = 0.1f;
-    fireboy2.speed_x = 450.0f; //450
-    fireboy2.speed_y = 0.0f;
-    fireboy2.jump_strength = -900.0f;
-    fireboy2.gravity = 2500.0f;
-    fireboy2.timer = fireboy2.delay;
-    fireboy2.onground = false;
-    fireboy2.ismoving = false;
-    fireboy2.stop = false;
-    fireboy2.right = Keyboard::Right;
-    fireboy2.left = Keyboard::Left;
-    fireboy2.up = Keyboard::Up;
+    switch (selected_window)
+    {
+    case 2:
+        watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+        fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+        break;
+    case 3:
 
-    character watergirl2;
-    watergirl2.frameHeight = 128;
-    Texture girltex2;
-    if (!girltex2.loadFromFile("game_textures\\watergirl_run.png")) {
-        cout << "Error: Could not load watergirl image! Check the path";
+        fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+        watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+		break;
     }
-    watergirl2.sprite.setTexture(girltex2);
-    watergirl2.sprite_origin();
-    watergirl2.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl2.frameHeight / 2.0f));
-    watergirl2.framecounter = 0;
-    watergirl2.totalFrames = 9; //boy 6, girl 9
-    watergirl2.delay = 0.1f;
-    watergirl2.speed_x = 450.0f;
-    watergirl2.speed_y = 0.0f;
-    watergirl2.jump_strength = -900.0f;
-    watergirl2.gravity = 2500.0f;
-    watergirl2.timer = watergirl2.delay;
-    watergirl2.onground = false;
-    watergirl2.ismoving = false;
-    watergirl2.stop = false;
-    watergirl2.right = Keyboard::D;
-    watergirl2.left = Keyboard::A;
-    watergirl2.up = Keyboard::W;
-
 
     while (window.isOpen())
     {
@@ -1293,44 +1253,33 @@ int main()
 
                 break;
         case 3:
-                /*for (int i = 5; i < 8; i++) {
-                    ground_collision(fireboy2, collision_boxs2[i]);
-                    ground_collision(watergirl2, collision_boxs2[i]);
-                }*/
-                ground_collision(fireboy2, collision_boxs2[5]);
-                ground_collision(watergirl2, collision_boxs2[5]);
-                ground_collision(fireboy2, collision_boxs2[6]);
-                ground_collision(watergirl2, collision_boxs2[6]);
-                ground_collision(fireboy2, collision_boxs2[7]);
-                ground_collision(watergirl2, collision_boxs2[7]);
-
-                for (int i = 0; i < 5; i++) {
-                    platform_collision(fireboy2, collision_boxs2[i]);
-                    platform_collision(watergirl2, collision_boxs2[i]);
+                for(int i=5;i<8;i++){
+                    ground_collision(fireboy, collision_boxs2[i]);
+                    ground_collision(watergirl, collision_boxs2[i]);
+				}
+                for(int i=0;i<5;i++){
+                    platform_collision(fireboy, collision_boxs2[i]);
+                    platform_collision(watergirl, collision_boxs2[i]);
+				}
+                for (int i = 8; i < 12; i++) {
+                    platform_collision(fireboy, collision_boxs2[i]);
+                    platform_collision(watergirl, collision_boxs2[i]);
                 }
-                for (int i = 8; i < 16; i++) {
-                    platform_collision(fireboy2, collision_boxs2[i]);
-                    platform_collision(watergirl2, collision_boxs2[i]);
-                }
-                for (int i = 16; i < 20; i++) {
-                    wall_collision(fireboy2, collision_boxs2[i]);
-                    wall_collision(watergirl2, collision_boxs2[i]);
-                }
-                for (int i = 0; i < 2; i++) {
-                    platform_collision( watergirl2, lakes2[i]);
-                    platform_collision( watergirl2, lakes2[i + 2]);
-                    platform_collision( watergirl2, lakes2[i + 4]);
-                    platform_collision(fireboy2, lakes2[i]);
-                    platform_collision(fireboy2, lakes2[i + 2]);
-                    platform_collision(fireboy2, lakes2[i + 4]);
-                }
-
-                moveCharacter(fireboy2, deltaTime);
-                moveCharacter(watergirl2, deltaTime);
-                jumpCharacter(fireboy2, deltaTime);
-                jumpCharacter(watergirl2, deltaTime);
-                animation(fireboy2, deltaTime);
-                animation(watergirl2, deltaTime);
+                for(int i=0;i<2;i++){
+                    water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime);
+                    fire_collision(fireboy, watergirl, lakes2[i+2], smoke, deltaTime);
+                    fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime);
+				}
+                for(int i=16;i<20;i++){
+                    wall_collision(fireboy, collision_boxs2[i]);
+					wall_collision(watergirl, collision_boxs2[i]);
+				}
+                moveCharacter(fireboy, deltaTime);
+                moveCharacter(watergirl, deltaTime);
+                jumpCharacter(fireboy, deltaTime);
+                jumpCharacter(watergirl, deltaTime);
+                animation(fireboy, deltaTime);
+                animation(watergirl, deltaTime);
 
                 break;
             }
@@ -1429,8 +1378,8 @@ int main()
             window.draw(collision_boxs2[19]);
             for (int i = 0; i < 6; i++)
                 window.draw(lakes2[i]);
-            window.draw(watergirl2.sprite);
-            window.draw(fireboy2.sprite);
+            window.draw(watergirl.sprite);
+            window.draw(fireboy.sprite);
             window.draw(Frame.sprite);
 
             //DRAWING CREDIT MENU
