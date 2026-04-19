@@ -1261,19 +1261,23 @@ int main()
                     platform_collision(fireboy, collision_boxs2[i]);
                     platform_collision(watergirl, collision_boxs2[i]);
 				}
-                for (int i = 8; i < 12; i++) {
+                for (int i = 8; i < 16; i++) {
                     platform_collision(fireboy, collision_boxs2[i]);
                     platform_collision(watergirl, collision_boxs2[i]);
                 }
                 for(int i=0;i<2;i++){
                     water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime);
-                    fire_collision(fireboy, watergirl, lakes2[i+2], smoke, deltaTime);
+                    acid_collision(fireboy, watergirl, lakes2[i+2], smoke, deltaTime);
                     fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime);
-				}
+				}/*
                 for(int i=16;i<20;i++){
                     wall_collision(fireboy, collision_boxs2[i]);
 					wall_collision(watergirl, collision_boxs2[i]);
-				}
+				}*/
+                for (int i = 0; i < 2; i++) {
+                    wall_collision(fireboy, walls[i]);
+                    wall_collision(watergirl, walls[i]);
+                }
                 moveCharacter(fireboy, deltaTime);
                 moveCharacter(watergirl, deltaTime);
                 jumpCharacter(fireboy, deltaTime);
@@ -1378,8 +1382,17 @@ int main()
             window.draw(collision_boxs2[19]);
             for (int i = 0; i < 6; i++)
                 window.draw(lakes2[i]);
-            window.draw(watergirl.sprite);
-            window.draw(fireboy.sprite);
+            if (!boy_is_dead)
+                window.draw(fireboy.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
+
+            if (!girl_is_dead)
+                window.draw(watergirl.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
             window.draw(Frame.sprite);
 
             //DRAWING CREDIT MENU
