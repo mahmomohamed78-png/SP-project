@@ -383,6 +383,10 @@ int main()
     design smoke;
     design door[2];
     RectangleShape rec[135];
+	RectangleShape collision_boxs2[16];    
+	RectangleShape lakes2[6];
+
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -967,6 +971,39 @@ int main()
 
     lakes[2].setPosition(fire_lake[0].sprite.getPosition().x, fire_lake[0].sprite.getPosition().y + (fire_lake[0].sprite.getGlobalBounds().height  / 3.5));
 
+    for (int i = 0; i < 10; i++) {
+        Vector2f vect(ground2[i].sprite.getGlobalBounds().width, ground2[i].sprite.getGlobalBounds().height);
+		collision_boxs2[i].setSize(vect);
+		collision_boxs2[i].setPosition(ground2[i].sprite.getPosition());
+    }
+    collision_boxs2[10].setSize(Vector2f(platform2[0].sprite.getGlobalBounds().width, platform2[0].sprite.getGlobalBounds().height));
+    collision_boxs2[10].setPosition(platform2[0].sprite.getPosition());
+    collision_boxs2[11].setSize(Vector2f(platform2[1].sprite.getGlobalBounds().width, platform2[1].sprite.getGlobalBounds().height));
+    collision_boxs2[11].setPosition(platform2[1].sprite.getPosition());
+	collision_boxs2[12].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width, slope_right2.sprite.getGlobalBounds().height-64));
+	collision_boxs2[12].setPosition(slope_right2.sprite.getPosition().x,slope_right2.sprite.getPosition().y+64);
+	collision_boxs2[13].setSize(Vector2f(right_corner2.sprite.getGlobalBounds().width, right_corner2.sprite.getGlobalBounds().height));
+	collision_boxs2[13].setPosition(right_corner2.sprite.getPosition());
+	collision_boxs2[14].setSize(Vector2f(step_corner2.sprite.getGlobalBounds().width, step_corner2.sprite.getGlobalBounds().height-96));
+	collision_boxs2[14].setPosition(step_corner2.sprite.getPosition().x, step_corner2.sprite.getPosition().y + 100-2);
+    collision_boxs2[12].setFillColor(Color::Blue);
+    collision_boxs2[1].setSize(Vector2f(ground2[1].sprite.getGlobalBounds().width+55, ground2[1].sprite.getGlobalBounds().height));
+    collision_boxs2[15].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width-64+32, slope_right2.sprite.getGlobalBounds().height));
+    collision_boxs2[15].setPosition(slope_right2.sprite.getPosition().x+64-32, slope_right2.sprite.getPosition().y);
+
+    for (int i = 0; i < 2; i++) {
+        Vector2f vect(water_lake2[i].sprite.getGlobalBounds().width, water_lake2[i].sprite.getGlobalBounds().height / 3);
+        lakes2[i].setSize(vect);
+        lakes2[i].setPosition(water_lake2[i].sprite.getPosition().x, water_lake2[i].sprite.getPosition().y + (water_lake2[i].sprite.getGlobalBounds().height * 2 / 3));
+        Vector2f vect2(green_lake2[i].sprite.getGlobalBounds().width, green_lake2[i].sprite.getGlobalBounds().height / 3);
+        lakes2[i+2].setSize(vect2);
+        lakes2[i+2].setPosition(green_lake2[i].sprite.getPosition().x, green_lake2[i].sprite.getPosition().y + (green_lake2[i].sprite.getGlobalBounds().height * 2 / 3));
+        Vector2f vect3(fire_lake2[i].sprite.getGlobalBounds().width, fire_lake2[i].sprite.getGlobalBounds().height / 3);
+        lakes2[i+4].setSize(vect3);
+        lakes2[i+4].setPosition(fire_lake2[i].sprite.getPosition().x, fire_lake2[i].sprite.getPosition().y + (fire_lake2[i].sprite.getGlobalBounds().height * 2 / 3));
+    }
+
+
     RenderWindow window = { VideoMode(1920,1080),"sfml works" };
     Event event;
     Clock clock;
@@ -1164,93 +1201,100 @@ int main()
 
 
         window.clear();
-  //      for (int i = 0; i < 12; i++)
-		//	window.draw(collision_boxs[i]);
-		//for (int i = 0; i < 4; i++)
-		//	window.draw(walls[i]);
-  //      for (int i = 0; i < 5; i++)
-		//	window.draw(lakes[i]);
 
-  //      window.draw(background.sprite);
-  //      window.draw(Frame.sprite);
+		//level(1) draw 
+/*        for (int i = 0; i < 12; i++)
+			window.draw(collision_boxs[i]);
+		for (int i = 0; i < 4; i++)
+			window.draw(walls[i]);
+        for (int i = 0; i < 5; i++)
+			window.draw(lakes[i]);
 
-  //      window.draw(door[0].sprite);
-  //      window.draw(door[1].sprite);
+        window.draw(background.sprite);
+        window.draw(Frame.sprite);
 
-
-  //      if (!boy_is_dead)
-  //          window.draw(fireboy.sprite);
-  //      else {
-  //          window.draw(smoke.sprite);
-  //      }
-
-  //      if (!girl_is_dead)
-  //          window.draw(watergirl.sprite);
-  //      else {
-  //          window.draw(smoke.sprite);
-  //      }
+        window.draw(door[0].sprite);
+        window.draw(door[1].sprite);
 
 
-  //      for (int i = 0; i < 12; i++)
-  //          window.draw(ground[i].sprite);
+        if (!boy_is_dead)
+            window.draw(fireboy.sprite);
+        else {
+            window.draw(smoke.sprite);
+        }
 
-  //      window.draw(Platform[0].sprite);
-  //      window.draw(Platform[1].sprite);
-
-  //      for (int i = 0; i < 3; i++)
-  //          window.draw(fire_lake[i].sprite);
-
-  //      for (int i = 0; i < 2; i++)
-  //          window.draw(water_lake[i].sprite);
-
-  //      window.draw(ground[5].sprite);
-  //      window.draw(triangle.sprite);
+        if (!girl_is_dead)
+            window.draw(watergirl.sprite);
+        else {
+            window.draw(smoke.sprite);
+        }
 
 
+        for (int i = 0; i < 12; i++)
+            window.draw(ground[i].sprite);
 
-  //      for (int i = 0; i < 3; i++)
-  //          window.draw(fire_point[i].sprite);
+        window.draw(Platform[0].sprite);
+        window.draw(Platform[1].sprite);
 
-  //      for (int i = 0; i < 3; i++)
-  //          window.draw(water_point[i].sprite);        
-  //      
-  //     
+        for (int i = 0; i < 3; i++)
+            window.draw(fire_lake[i].sprite);
 
-  //      //level(2)draw 
+        for (int i = 0; i < 2; i++)
+            window.draw(water_lake[i].sprite);
 
-  //      window.draw(background2.sprite);
-
-  //      /////////////////////////
-
-  //      for (int i = 0; i < 10; i++)
-  //          window.draw(ground2[i].sprite);
-
-  //      for (int i = 0; i < 2; i++)
-  //          window.draw(platform2[i].sprite);
+        window.draw(ground[5].sprite);
+        window.draw(triangle.sprite);
 
 
-  //      window.draw(slope_right2.sprite);
-  //      window.draw(right_corner2.sprite);
 
-  //      
-  //          window.draw(step_corner2.sprite);
+        for (int i = 0; i < 3; i++)
+            window.draw(fire_point[i].sprite);
 
-  //      for (int i = 0; i < 2; i++)
-  //          window.draw(fire_lake2[i].sprite);
+        for (int i = 0; i < 3; i++)
+            window.draw(water_point[i].sprite);        
+         */    
 
-  //      for (int i = 0; i < 2; i++)
-  //          window.draw(water_lake2[i].sprite);
+        //level(2)draw 
 
-  //      for (int i = 0; i < 2; i++)
-  //          window.draw(green_lake2[i].sprite);
+        window.draw(background2.sprite);
 
-  //      for (int i = 0; i < 8; i++)
-  //          window.draw(fire_point2[i].sprite);
+        /////////////////////////
 
-  //      for (int i = 0; i < 8; i++)
-  //          window.draw(water_point2[i].sprite);
+        for (int i = 0; i < 10; i++)
+            window.draw(ground2[i].sprite);
 
-  //      window.draw(Frame.sprite);
+        for (int i = 0; i < 2; i++)
+            window.draw(platform2[i].sprite);
+
+
+        window.draw(slope_right2.sprite);
+        window.draw(right_corner2.sprite);
+
+        
+            window.draw(step_corner2.sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(fire_lake2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(water_lake2[i].sprite);
+
+        for (int i = 0; i < 2; i++)
+            window.draw(green_lake2[i].sprite);
+
+        for (int i = 0; i < 8; i++)
+            window.draw(fire_point2[i].sprite);
+
+        for (int i = 0; i < 8; i++)
+            window.draw(water_point2[i].sprite);
+
+        for(int i=0;i<16;i++)
+			window.draw(collision_boxs2[i]);
+        for (int i = 0; i < 6; i++) {
+			window.draw(lakes2[i]);
+        }
+
+        window.draw(Frame.sprite);
 
         //DRAWING CREDIT MENU
         /*window.draw(credit_BG);
