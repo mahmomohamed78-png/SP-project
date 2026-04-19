@@ -248,6 +248,44 @@ void water_collision(character& fireBoy, character& waterGirl, RectangleShape& w
         }
     }
 }
+void acid_collision(character& fireBoy, character& waterGirl, RectangleShape& acid, design& smoke, float& dt) {
+    FloatRect hitbox = waterGirl.sprite.getGlobalBounds();
+    hitbox.width = 40;
+    hitbox.left += 55;
+    FloatRect hitbox2 = fireBoy.sprite.getGlobalBounds();
+    hitbox2.width = 40;
+    hitbox2.left += 55;
+    if (hitbox.intersects(acid.getGlobalBounds())) {
+        float playerBottom = hitbox.top + hitbox.height;
+        float platformTop = acid.getPosition().y;
+        if (waterGirl.speed_y > 0 && playerBottom <= platformTop + 15.0f) {
+            water_died(waterGirl, smoke, dt);
+            waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, platformTop - (waterGirl.frameHeight / 2.0));
+            waterGirl.speed_y = 0;
+            waterGirl.onground = true;
+        }
+        if (waterGirl.speed_y < 0 && hitbox.top >= platformTop - 15.0f) {
+            waterGirl.sprite.setPosition(waterGirl.sprite.getPosition().x, platformTop + (acid.getSize().y) + (waterGirl.frameHeight / 2.0));
+            waterGirl.speed_y = 0;
+        }
+    }
+    if (hitbox2.intersects(acid.getGlobalBounds())) {
+        float playerBottom2 = hitbox2.top + hitbox2.height;
+        float platformTop2 = acid.getPosition().y;
+        if (fireBoy.speed_y > 0 && playerBottom2 <= platformTop2 + 15.0f) {
+            fire_died(fireBoy, smoke, dt);
+            fireBoy.sprite.setPosition(fireBoy.sprite.getPosition().x, platformTop2 - (fireBoy.frameHeight / 2.0));
+            fireBoy.speed_y = 0;
+            fireBoy.onground = true;
+
+        }
+        if (fireBoy.speed_y < 0 && hitbox2.top >= platformTop2 - 15.0f) {
+            fireBoy.sprite.setPosition(fireBoy.sprite.getPosition().x, platformTop2 + (acid.getSize().y) + (fireBoy.frameHeight / 2.0));
+            fireBoy.speed_y = 0;
+        }
+    }
+}
+
 
 
 void slope_collision(character& player, double x1, double y1, double x2, double y2) {
@@ -1290,9 +1328,9 @@ int main()
 
         for(int i=0;i<16;i++)
 			window.draw(collision_boxs2[i]);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) 
 			window.draw(lakes2[i]);
-        }
+        
 
         window.draw(Frame.sprite);
 
