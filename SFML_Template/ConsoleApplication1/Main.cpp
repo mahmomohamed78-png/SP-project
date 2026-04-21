@@ -1368,20 +1368,20 @@ int main()
             for (int i = 0; i < 8; i++)
                 point_collision(watergirl, fireboy, water_point2[i]);
 
-            /*for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; i++) {
                 water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime);
                 acid_collision(fireboy, watergirl, lakes2[i + 2], smoke, deltaTime);
                 fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime);
-            }*/
+            }
 
-            for (int i = 0; i < 2; i++) {
+           /* for (int i = 0; i < 2; i++) {
                 platform_collision( watergirl, lakes2[i]);
                 platform_collision( watergirl, lakes2[i + 2]);
                 platform_collision( watergirl, lakes2[i + 4]);
                 platform_collision( fireboy, lakes2[i]);
                 platform_collision( fireboy, lakes2[i + 2]);
                 platform_collision( fireboy, lakes2[i + 4]);
-            }
+            }*/
 
             platform_collision(watergirl, platform4);
             platform_collision(fireboy, platform4);
