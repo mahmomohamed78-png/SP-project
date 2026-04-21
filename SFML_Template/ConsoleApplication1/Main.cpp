@@ -426,6 +426,30 @@ void point_collision(character& player1, character& player2, design& point) {
     }
 }
 
+struct animation_lakes
+{
+    Texture texture;
+    Sprite sprite;
+    const int frameWidth = 128;
+    const int frameHeight = 32;
+    int framecounter=0;
+    const int totalFrames=4;
+    float delay=0.25f;
+    float timer=0.0f;
+
+};
+
+void lake_animation(animation_lakes& lake, float deltaTime) {
+    lake.timer += deltaTime;
+    if (lake.timer >= lake.delay) {
+        lake.timer = 0;
+        lake.framecounter++;
+    }
+    if (lake.framecounter >= lake.totalFrames) {
+        lake.framecounter = 0;
+    }
+    lake.sprite.setTextureRect(IntRect(lake.framecounter * lake.frameWidth, 0, lake.frameWidth, lake.frameHeight));
+}
 
 void origin(RectangleShape& x)
 {
@@ -442,6 +466,8 @@ int main()
     design Platform[2];
     design fire_lake[3];
     design water_lake[2];
+    animation_lakes fire[3];
+    animation_lakes water[2];
     design triangle;
     design fire_point[3];
     design water_point[3];
@@ -465,6 +491,10 @@ int main()
     design fire_lake2[2];
     design water_lake2[2];
     design green_lake2[2];
+
+    animation_lakes water2[2];
+    animation_lakes fire2[2];
+    animation_lakes acid2[2];
 
     design fire_point2[8];
     design water_point2[8];
@@ -496,7 +526,6 @@ int main()
     ground[11].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite.png");
     Platform[0].texture.loadFromFile("game_textures\\Platform\\sprite_platform2.00.png");
     Platform[1].texture.loadFromFile("game_textures\\Platform\\sprite_platform2.00.png");
-    Platform[2].texture.loadFromFile("game_textures\\Platform\\sprite_platform2.00.png");
     fire_lake[0].texture.loadFromFile("game_textures/sprite_01/sprite_0.png");
     fire_lake[1].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\sprite_0_1.png");
     fire_lake[2].texture.loadFromFile("game_textures\\hight_grounds\\hight_grounds\\sprite_0_1.png");
@@ -511,6 +540,11 @@ int main()
     water_point[2].texture.loadFromFile("game_textures\\Water_Spell_Frame_03\\Water_Spell_Frame_03.png");
     door[0].texture.loadFromFile("game_textures\\fireboyenddoor.png");
     door[1].texture.loadFromFile("game_textures\\watergirlenddoor.png");
+    fire[0].texture.loadFromFile("game_textures\\big_lava_Animation.png");
+    for(int i=1;i<3;i++)
+        fire[i].texture.loadFromFile("game_textures\\lava_Animation.png");
+    for (int i = 0; i < 2; i++)
+        water[i].texture.loadFromFile("game_textures\\water_Animation.png");
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
     // 
@@ -538,6 +572,12 @@ int main()
 
     for (int i = 0; i < 8; i++)
         water_point2[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Water_Spell_Frame_03.png");
+
+    for (int i = 0; i < 2; i++) {
+        water2[i].texture.loadFromFile("game_textures\\water_Animation.png");
+        fire2[i].texture.loadFromFile("game_textures\\lava_Animation.png");
+        acid2[i].texture.loadFromFile("game_textures\\Acid_Animation.png");
+    }
 
     slope_left2.texture.loadFromFile("leveel2/Tile_48_1.png");
     slope_right2.texture.loadFromFile("leveel2/Tile_48_2.png");
@@ -578,6 +618,10 @@ int main()
         door[i].sprite.setTextureRect(IntRect(0, 0, 121, 144));
     }
 
+    for(int i=0;i<3;i++)
+		fire[i].sprite.setTexture(fire[i].texture);
+    for(int i=0;i<2;i++)
+		water[i].sprite.setTexture(water[i].texture);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -611,6 +655,12 @@ int main()
 
     for (int i = 0; i < 8; i++)
         water_point2[i].sprite.setTexture(water_point2[i].texture);
+
+    for(int i=0;i<2;i++){
+        water2[i].sprite.setTexture(water2[i].texture);
+        fire2[i].sprite.setTexture(fire2[i].texture);
+        acid2[i].sprite.setTexture(acid2[i].texture);
+	}
 
     slope_right2.sprite.setTexture(slope_right2.texture);
     right_corner2.sprite.setTexture(right_corner2.texture);
@@ -786,26 +836,36 @@ int main()
     // Fire lake 1 
     fire_lake[0].sprite.setPosition(700, 1000);
     fire_lake[0].sprite.setScale(1.82, 2);
+	fire[0].sprite.setPosition(700, 1000);
+	fire[0].sprite.setScale(4.095f, 3.0f);
 
 
     // Fire lake 2 
     fire_lake[1].sprite.setScale(0.7, 2);
-    fire_lake[1].sprite.setPosition(1160 - 86.4, 650 + 50 - 80);
+    fire_lake[1].sprite.setPosition(1073.6, 620);
+	fire[1].sprite.setScale(1.575, 2);
+	fire[1].sprite.setPosition(1073.6, 620);
 
 
     // Fire lake 3
     fire_lake[2].sprite.setScale(0.7, 2);
-    fire_lake[2].sprite.setPosition(1092.6, 300 - 80);
+    fire_lake[2].sprite.setPosition(1092.6, 220);
+    fire[2].sprite.setScale(1.575, 2);
+    fire[2].sprite.setPosition(1092.6, 220);
 
 
     // Water lake 1
     water_lake[0].sprite.setScale(0.7, 2);
-    water_lake[0].sprite.setPosition(456, 650 + 50 - 80);
+    water_lake[0].sprite.setPosition(456, 620);
+	water[0].sprite.setScale(1.575, 2);
+	water[0].sprite.setPosition(456, 620);
 
 
     // Water lake 2
     water_lake[1].sprite.setScale(0.7, 2);
-    water_lake[1].sprite.setPosition(731, 300 - 80);
+    water_lake[1].sprite.setPosition(731, 220);
+	water[1].sprite.setScale(1.575, 2);
+	water[1].sprite.setPosition(731, 220);
 
 
     //fire_point1
@@ -924,26 +984,39 @@ int main()
 
     // green lakes in the middle
     green_lake2[0].sprite.setScale(1.42f, 2.0f);
-    green_lake2[0].sprite.setPosition(450 - 87 + 30 - 128, 600);
+    green_lake2[0].sprite.setPosition(265, 600);
 
     green_lake2[1].sprite.setScale(1.42f, 2.0f);
     green_lake2[1].sprite.setPosition(1260 - 87 - 231, 600);
 
+	acid2[0].sprite.setScale(3.195f, 2.0f);
+	acid2[0].sprite.setPosition(265, 600);
+	acid2[1].sprite.setScale(3.195f, 2.0f);
+	acid2[1].sprite.setPosition(1260 - 87 - 231, 600);
+
     // left lower water lake
     water_lake2[0].sprite.setScale(1.26f, 1.0f);
     water_lake2[0].sprite.setPosition(320 + 18, 840);
+	water2[0].sprite.setScale(2.835f, 1.2f);
+	water2[0].sprite.setPosition(320 + 18, 840);
 
     // right lower fire lake
     fire_lake2[0].sprite.setScale(1.26f, 1.0f);
     fire_lake2[0].sprite.setPosition(1110 + 36, 840);
+	fire2[0].sprite.setScale(2.835f, 1.2f);
+	fire2[0].sprite.setPosition(1110 + 36, 840);
 
     // bottom left fire lake
     fire_lake2[1].sprite.setScale(1.03f, 2.0f);
     fire_lake2[1].sprite.setPosition(370, 1016);
+	fire2[1].sprite.setScale(2.3175f, 2.0f);
+	fire2[1].sprite.setPosition(370, 1016);
 
     // bottom right water lake
     water_lake2[1].sprite.setScale(1.03f, 2.0f);
     water_lake2[1].sprite.setPosition(1176, 1016);
+	water2[1].sprite.setScale(2.3175f, 2.0f);
+	water2[1].sprite.setPosition(1176, 1016);
 
     // --------------------------
     // Points scale
@@ -1314,6 +1387,10 @@ int main()
                 platform_collision(fireboy, rec[i]);
                 platform_collision(watergirl, rec[i]);
             }
+			for (int i = 0; i < 3; i++)
+                lake_animation(fire[i], deltaTime);
+			for (int i = 0; i < 2; i++)
+                lake_animation(water[i], deltaTime);
 
             moveCharacter(fireboy, deltaTime);
             moveCharacter(watergirl, deltaTime);
@@ -1471,7 +1548,11 @@ int main()
                     door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
                 }
             }
-
+            for (int i = 0; i < 2; i++) {
+                lake_animation(acid2[i], deltaTime);
+				lake_animation(fire2[i], deltaTime);
+				lake_animation(water2[i], deltaTime);
+            }
             moveCharacter(fireboy, deltaTime);
             moveCharacter(watergirl, deltaTime);
             jumpCharacter(fireboy, deltaTime);
@@ -1485,8 +1566,8 @@ int main()
 
         window.clear();
 
-       /* //level(1) draw 
-        for (int i = 0; i < 12; i++)
+        ////level(1) draw 
+        /*for (int i = 0; i < 12; i++)
             window.draw(collision_boxs[i]);
         for (int i = 0; i < 4; i++)
             window.draw(walls[i]);
@@ -1519,11 +1600,15 @@ int main()
         window.draw(Platform[0].sprite);
         window.draw(Platform[1].sprite);
 
-        for (int i = 0; i < 3; i++)
-            window.draw(fire_lake[i].sprite);
+        for (int i = 0; i < 3; i++) {
+            //window.draw(fire_lake[i].sprite);
+			window.draw(fire[i].sprite);
+        }
 
-        for (int i = 0; i < 2; i++)
-            window.draw(water_lake[i].sprite);
+        for (int i = 0; i < 2; i++) {
+            //window.draw(water_lake[i].sprite);
+            window.draw(water[i].sprite);
+        }
 
         window.draw(ground[5].sprite);
         window.draw(triangle.sprite);
@@ -1534,41 +1619,42 @@ int main()
 
         for (int i = 0; i < 3; i++)
             window.draw(water_point[i].sprite);
-         
          */
+        
          //level(2)draw 
 
         window.draw(background2.sprite);
-
-        /////////////////////////
-        
-
         for (int i = 0; i < 10; i++) {
-            if (i == 2) {
-            }
-            else {
+            if (!(i == 2)) {            
                 window.draw(ground2[i].sprite);
             }
         }
-
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
             window.draw(platform2[i].sprite);
 
-        //window.draw(collision_boxs2[12]);
-        
+        //window.draw(collision_boxs2[12]);        
+
         window.draw(right_corner2.sprite);
         window.draw(step_corner2.sprite);
         //window.draw(ground2[2].sprite);
         window.draw(slope_right2.sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(fire_lake2[i].sprite);
+       // for (int i = 0; i < 2; i++)
+            //window.draw(fire_lake2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(water_lake2[i].sprite);
+        //for (int i = 0; i < 2; i++)
+           // window.draw(water_lake2[i].sprite);
 
-        for (int i = 0; i < 2; i++)
-            window.draw(green_lake2[i].sprite);
+        //for (int i = 0; i < 2; i++)
+            //window.draw(green_lake2[i].sprite);
+
+		window.draw(acid2[0].sprite);
+        window.draw(acid2[1].sprite);
+		window.draw(fire2[0].sprite);
+		window.draw(fire2[1].sprite);
+		window.draw(water2[0].sprite);
+		window.draw(water2[1].sprite);
+
 
         for (int i = 1; i < 8; i++)
             window.draw(fire_point2[i].sprite);
@@ -1576,39 +1662,38 @@ int main()
         for (int i = 1; i < 8; i++)
             window.draw(water_point2[i].sprite);
 
+               // for (int i = 0; i < 6; i++)
+         //         window.draw(lakes2[i]);
 
-       // for (int i = 0; i < 6; i++)
-         //   window.draw(lakes2[i]);
-
-		window.draw(platform2[2].sprite);
+        //window.draw(platform2[2].sprite);
         window.draw(Frame.sprite);
-      /*  for (int i = 0; i < 20; i++)
-            window.draw(collision_boxs2[i]);
 
-        window.draw(collision_boxs2[16]);
-        window.draw(collision_boxs2[17]);
-        window.draw(Frame.sprite);
-        window.draw(collision_boxs2[4]);
-        window.draw(collision_boxs2[2]);
-        window.draw(collision_boxs2[13]);
-        window.draw(collision_boxs2[7]);
-        */
-        
+       // for (int i = 0; i < 20; i++)
+            //window.draw(collision_boxs2[i]);
+
+        //window.draw(collision_boxs2[16]);
+        //window.draw(collision_boxs2[17]);
+        //window.draw(Frame.sprite);
+        //window.draw(collision_boxs2[4]);
+        //window.draw(collision_boxs2[2]);
+        //window.draw(collision_boxs2[13]);
+        //window.draw(collision_boxs2[7]);
+
         window.draw(door[0].sprite);
         window.draw(door[1].sprite);
-        
-        if (!boy_is_dead)
+
+            if (!boy_is_dead)
             window.draw(fireboy.sprite);
         else {
             window.draw(smoke.sprite);
         }
 
-        if (!girl_is_dead)
+            if (!girl_is_dead)
             window.draw(watergirl.sprite);
         else {
             window.draw(smoke.sprite);
         }
-        
+
         //DRAWING CREDIT MENU
         /*window.draw(credit_BG);
         for (int i = 0; i < 8; i++) {
