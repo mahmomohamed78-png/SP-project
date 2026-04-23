@@ -508,6 +508,17 @@ int main()
     RectangleShape lakes2[6];
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Level  definitions
+
+    design ground_3[15];
+
+    design coloumn_3[5];
+
+    design fire_lake3;
+
+    design corner_3;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //load level1
     Frame.texture.loadFromFile("game_textures/sprite_frame_level0/sprite_frame_level2.20.png");
     background.texture.loadFromFile("game_textures/background/Gemini_Generated_Image_pn65sypn65sypn65.png");
@@ -585,6 +596,20 @@ int main()
 
     step_corner2.texture.loadFromFile("leveel2/Tile_48_4.png");
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    // Load level 3 textures
+    for (int i = 0; i < 15; i++) {
+        ground_3[i].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/Tile_56_1_1.png");
+    }
+
+    for (int i = 0; i < 5; i++) {
+        coloumn_3[i].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
+    }
+
+    fire_lake3.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite_0_1.png");
+
+    corner_3.texture.loadFromFile("leveel2/Tile_48_4.png");
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Sprite level1
@@ -668,6 +693,21 @@ int main()
 
     step_corner2.sprite.setTexture(step_corner2.texture);
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // sprites for level 3
+
+    for (int i = 0; i < 15; i++) {
+        ground_3[i].sprite.setTexture(ground_3[i].texture);
+     }
+
+    for (int i = 0; i < 5; i++) {
+        coloumn_3[i].sprite.setTexture(coloumn_3[i].texture);
+    }
+
+    fire_lake3.sprite.setTexture(fire_lake3.texture);
+
+    corner_3.sprite.setTexture(corner_3.texture);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     for (int i = 0; i < 135; i++) {
@@ -1158,6 +1198,100 @@ int main()
     water_point2[6].sprite.setPosition(1270, 950);
     water_point2[7].sprite.setPosition(1320, 950);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+// Level 3 Design
+// ==========================
+
+    // --------------------------
+    // Ground
+    // --------------------------
+
+    //Level 3 Design
+
+      // top right ground
+       ground_3[0].sprite.setScale(0.95f, 0.80f);
+       ground_3[0].sprite.setPosition(1800, 700);
+
+       ground_3[1].sprite.setScale(1.10f, 0.70f);       
+       ground_3[1].sprite.setPosition(1480, 550);
+       
+       ground_3[2].sprite.setScale(2.25f, 0.60f);
+       ground_3[2].sprite.setPosition(1500, 235);
+
+       ground_3[3].sprite.setScale(1.10f, 0.70f);
+       ground_3[3].sprite.setPosition(1350, 800);
+
+       // bottom ground 
+
+       ground_3[4].sprite.setScale(0.50f, 0.70f);
+       ground_3[4].sprite.setPosition(1200, 940);
+
+       ///////////////////////////////////////////////////
+
+       ground_3[5].sprite.setScale(0.50f, 0.70f);
+       ground_3[5].sprite.setPosition(900, 1000);
+
+       //////////////////////////////////////////////////
+
+       ground_3[6].sprite.setScale(0.50f, 0.70f);
+       ground_3[6].sprite.setPosition(650, 940);
+
+    
+    // Bottom left ground
+    // --------------------------
+    ground_3[13].sprite.setPosition(0, 1080 - 64);
+    ground_3[13].sprite.setScale(1.25, 1);
+
+    // ground under gates
+    // --------------------------
+    ground_3[12].sprite.setScale(0.625, 1);
+    ground_3[12].sprite.setPosition(200, 1080 - 64 - 200);
+
+    // upper left ground
+    // --------------------------
+    ground_3[11].sprite.setPosition(0, 150);
+
+    // ground with lava
+    // --------------------------
+    ground_3[10].sprite.setScale(0.5, 1);
+    ground_3[10].sprite.setPosition(200, 306);
+
+    ground_3[9].sprite.setScale(0.5, 1);
+    ground_3[9].sprite.setPosition(360 + 288, 306);
+
+    // coloumn //
+ ////////////////////////////////////////////////////
+
+ /// right coloumn 
+
+    coloumn_3[0].sprite.setScale(1.10f, 0.55f);
+    coloumn_3[0].sprite.setPosition(1480, 240);
+
+
+    coloumn_3[1].sprite.setScale(1.10f, 1.40f);
+    coloumn_3[1].sprite.setPosition(1350, 40);
+
+    // left coloumn
+    // -------------
+    coloumn_3[3].sprite.setPosition(200, 1080 - 64 - 200 - 510);
+   
+    // coloumn under gates
+    // --------------------------
+    coloumn_3[4].sprite.setScale(2, 1);
+    coloumn_3[4].sprite.setPosition(350, 1080 - 64 - 200);
+
+    //lakes
+    // --------------------------
+   // fire lake
+    fire_lake3.sprite.setScale(1, 2);
+    fire_lake3.sprite.setPosition(360, 306);
+
+    //corner
+    corner_3.sprite.setScale(-1.5, 2);
+    corner_3.sprite.setPosition(1045, 177);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 
 	// Collision boxes and walls for level 1
 
     for (int i = 0; i < 12; i++) {
@@ -1792,6 +1926,25 @@ int main()
   ////      else {
   ////          window.draw(smoke.sprite);
   ////      }
+
+
+       //level(3)draw 
+
+      window.draw(background.sprite);
+
+      for (int i = 0; i < 15; i++) {
+          window.draw(ground_3[i].sprite);
+      }
+
+      for (int i = 0; i < 5; i++) {
+      window.draw(coloumn_3[i].sprite);
+      }
+
+      window.draw(fire_lake3.sprite);
+
+      window.draw(corner_3.sprite);
+
+      window.draw(Frame.sprite);
 
   //      //DRAWING CREDIT MENU
   //      window.draw(credit_BG);
