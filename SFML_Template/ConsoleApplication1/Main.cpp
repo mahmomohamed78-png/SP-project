@@ -900,6 +900,7 @@ int main()
     levelsBackText.setOutlineColor(Color::Black);
     levelsBackText.setPosition(50, 950);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // YOU WIN MENU DESIGN 
     Texture winBgTexture;
     winBgTexture.loadFromFile("game_textures\\win_BG.png");
     Sprite winMenuBG;
@@ -907,25 +908,25 @@ int main()
     
     Font winfont;
     winfont.loadFromFile("game_textures\\AversaVectors.otf");
-    // YOU WIN MENU DESIGN 
+    
     
     Text winTitleShadow;
     winTitleShadow.setFont(winfont);
     winTitleShadow.setString("YOU WON  ( ; ");
-    winTitleShadow.setCharacterSize(270); // صغرناها عشان تحتويها الشاشة براحتها
+    winTitleShadow.setCharacterSize(270);
     winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal 
     winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
-    winTitleShadow.setPosition((1920 / 2.0f) + 8, 310 + 8); // رفعناها فوق في التلت الأول من الشاشة (220)
+    winTitleShadow.setPosition((1920 / 2.0f) + 8, 310 + 8); 
 
     Text winTitle;
     winTitle.setFont(winfont);
     winTitle.setString("YOU WON  ( ; ");
-    winTitle.setCharacterSize(270); // نفس الحجم
+    winTitle.setCharacterSize(270);
     winTitle.setFillColor(Color(80, 255, 100));
     winTitle.setOutlineThickness(5);
     winTitle.setOutlineColor(Color::White);
     winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
-    winTitle.setPosition(1920 / 2.0f, 310); // متسَنترة فوق
+    winTitle.setPosition(1920 / 2.0f, 310); 
 
     RectangleShape btnBoxes[2];
     Text winOptions[2];
@@ -933,14 +934,14 @@ int main()
     Color btnColors[] = { Color(255, 70, 110, 240), Color(0, 180, 240, 240) };
     for (int i = 0; i < 2; i++) {
 
-        btnBoxes[i].setSize(Vector2f(650, 100)); // عرض 650 هيدخل بالظبط بين البابين وميغطيش عليهم
+        btnBoxes[i].setSize(Vector2f(650, 100)); 
         btnBoxes[i].setFillColor(btnColors[i]);
         btnBoxes[i].setOutlineThickness(4);
         btnBoxes[i].setOutlineColor(Color::White);
         btnBoxes[i].setOrigin(btnBoxes[i].getSize().x / 2.0f, btnBoxes[i].getSize().y / 2.0f);
-        btnBoxes[i].setPosition(1920 / 2.0f, 610 + i * 150); // الزرار الأول هيبقى فوق الأبواب حاجة بسيطة والتاني وسطهم
+        btnBoxes[i].setPosition(1920 / 2.0f, 610 + i * 150);
 
-        winOptions[i].setFont(font); // تأكد إن الخط هنا اسمه font زي ما انت كاتب
+        winOptions[i].setFont(font); 
         winOptions[i].setString(winOptionsText[i]);
         winOptions[i].setCharacterSize(45);
         winOptions[i].setFillColor(Color::White);
@@ -2075,16 +2076,16 @@ int main()
   ////          }
   ////          window.draw(levelsBackText);*/
        
-          // بمجرد ما يوصل للباب وتتحقق شروط الفوز
-    
-     window.draw(winMenuBG);
-     window.draw(winTitleShadow); 
-     window.draw(winTitle);       
-     
-     for (int i = 0; i < 2; i++) {
-         window.draw(btnBoxes[i]); 
-         window.draw(winOptions[i]); 
-     }
+
+     //     // بمجرد ما يوصل للباب وتتحقق شروط الفوز
+     //window.draw(winMenuBG);
+     //window.draw(winTitleShadow); 
+     //window.draw(winTitle);       
+     //
+     //for (int i = 0; i < 2; i++) {
+     //    window.draw(btnBoxes[i]); 
+     //    window.draw(winOptions[i]); 
+     //}
 
 
         window.display();
