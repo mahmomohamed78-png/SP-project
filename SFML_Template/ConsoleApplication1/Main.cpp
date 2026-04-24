@@ -900,6 +900,61 @@ int main()
     levelsBackText.setOutlineColor(Color::Black);
     levelsBackText.setPosition(50, 950);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Font winfont;
+    winfont.loadFromFile("game_textures\\AversaVectors.otf");
+    // YOU WIN MENU DESIGN (MODERN & JOYFUL VERSION)
+
+    // 1- خلفية كحلية راقية (Modern Dark Navy) بتبرز اللمعة بتاعة الألوان وتدي فخامة
+    RectangleShape winMenuBG;
+    winMenuBG.setSize(Vector2f(1920, 1080));
+    winMenuBG.setFillColor(Color(15, 20, 40, 220));
+    // 2- الشادو (لون بحري Teal/Cyan غامق مفرح ولايق جداً مع الأخضر)
+    Text winTitleShadow;
+    winTitleShadow.setFont(winfont);
+    winTitleShadow.setString("YOU WIN!");
+    winTitleShadow.setCharacterSize(270);
+    winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal منعش
+    winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
+    winTitleShadow.setPosition((1920 / 2.0f) + 10, 250 + 10);
+    // الكلمة الأساسية (أخضر ساطع ومبهج)
+    Text winTitle;
+    winTitle.setFont(winfont);
+    winTitle.setString("YOU WIN!");
+    winTitle.setCharacterSize(270);
+    winTitle.setFillColor(Color(80, 255, 100)); // (Minty/Lime Green) لون أخضر فريش
+    winTitle.setOutlineThickness(5);
+    winTitle.setOutlineColor(Color::White); // إطار أبيض بينورها بقوة
+    winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
+    winTitle.setPosition(1920 / 2.0f, 250);
+    // 3- تصميم الزراير (عشان تبان ألعاب فخمة زي النينتندو وألعاب الموبايل الحديثة)
+    RectangleShape btnBoxes[2];
+    Text winOptions[2];
+    String winOptionsText[] = { "Next Level (Press N)", "Back to Level Menu (Press L)" };
+
+    // ألوان الزراير Modern: روز ساطع (Berry) وسماوي مبهج (Sky Blue)
+    Color btnColors[] = { Color(255, 70, 110, 240), Color(0, 180, 240, 240) };
+
+    for (int i = 0; i < 2; i++) {
+        // المربعات (الزراير)
+        btnBoxes[i].setSize(Vector2f(700, 110));
+        btnBoxes[i].setFillColor(btnColors[i]);
+        btnBoxes[i].setOutlineThickness(4);
+        btnBoxes[i].setOutlineColor(Color::White); // الأبيض بيدي نظافة وأناقة للزرار
+        btnBoxes[i].setOrigin(btnBoxes[i].getSize().x / 2.0f, btnBoxes[i].getSize().y / 2.0f);
+        btnBoxes[i].setPosition(1920 / 2.0f, 550 + i * 160);
+        // الكلام جوه الزراير
+        winOptions[i].setFont(font);
+        winOptions[i].setString(winOptionsText[i]);
+        winOptions[i].setCharacterSize(45);
+        winOptions[i].setFillColor(Color::White);
+        // السمك الخفيف هنا بيدي شياكة للزرار وميبقاش شكله مزعج
+        winOptions[i].setOutlineThickness(2);
+        winOptions[i].setOutlineColor(Color(40, 40, 50)); // رمادي غامق راقي بدل الأسود الكاتم
+        winOptions[i].setOrigin(winOptions[i].getLocalBounds().width / 2.0f, winOptions[i].getLocalBounds().height / 2.0f);
+        winOptions[i].setPosition(1920 / 2.0f, (550 + i * 160) - 10);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     //Level 1 Design
 
@@ -1827,202 +1882,212 @@ int main()
 
         window.clear();
 
-  ////      ////level(1) draw 
-  ////      /*for (int i = 0; i < 12; i++)
-  ////          window.draw(collision_boxs[i]);
-  ////      for (int i = 0; i < 4; i++)
-  ////          window.draw(walls[i]);
-  ////      for (int i = 0; i < 5; i++)
-  ////          window.draw(lakes[i]);
+  //////      ////level(1) draw 
+  //////      /*for (int i = 0; i < 12; i++)
+  //////          window.draw(collision_boxs[i]);
+  //////      for (int i = 0; i < 4; i++)
+  //////          window.draw(walls[i]);
+  //////      for (int i = 0; i < 5; i++)
+  //////          window.draw(lakes[i]);
 
-  ////      window.draw(background.sprite);
-  ////      window.draw(Frame.sprite);
+  //////      window.draw(background.sprite);
+  //////      window.draw(Frame.sprite);
 
-  ////      window.draw(door[0].sprite);
-  ////      window.draw(door[1].sprite);
+  //////      window.draw(door[0].sprite);
+  //////      window.draw(door[1].sprite);
 
 
-  ////      if (!boy_is_dead)
-  ////          window.draw(fireboy.sprite);
-  ////      else {
-  ////          window.draw(smoke.sprite);
+  //////      if (!boy_is_dead)
+  //////          window.draw(fireboy.sprite);
+  //////      else {
+  //////          window.draw(smoke.sprite);
+  //////      }
+
+  //////      if (!girl_is_dead)
+  //////          window.draw(watergirl.sprite);
+  //////      else {
+  //////          window.draw(smoke.sprite);
+  //////      }
+
+
+  //////      for (int i = 0; i < 12; i++)
+  //////          window.draw(ground[i].sprite);
+
+  //////      window.draw(Platform[0].sprite);
+  //////      window.draw(Platform[1].sprite);
+
+  //////      for (int i = 0; i < 3; i++) {
+  //////          //window.draw(fire_lake[i].sprite);
+		//////	window.draw(fire[i].sprite);
+  //////      }
+
+  //////      for (int i = 0; i < 2; i++) {
+  //////          //window.draw(water_lake[i].sprite);
+  //////          window.draw(water[i].sprite);
+  //////      }
+
+  //////      window.draw(ground[5].sprite);
+  //////      window.draw(triangle.sprite);
+  //////      
+
+  //////      for (int i = 0; i < 3; i++)
+  //////          window.draw(fire_point[i].sprite);
+
+  //////      for (int i = 0; i < 3; i++)
+  //////          window.draw(water_point[i].sprite);
+  //////       */
+  //////      
+  //////       //level(2)draw 
+
+  //////      window.draw(background2.sprite);
+  //////      for (int i = 0; i < 10; i++) {
+  //////          if (!(i == 2)) {            
+  //////              window.draw(ground2[i].sprite);
+  //////          }
+  //////      }
+  //////      for (int i = 0; i < 3; i++)
+  //////          window.draw(platform2[i].sprite);
+
+  //////      //window.draw(collision_boxs2[12]);        
+
+  //////      window.draw(right_corner2.sprite);
+  //////      window.draw(step_corner2.sprite);
+  //////      //window.draw(ground2[2].sprite);
+  //////      window.draw(slope_right2.sprite);
+
+  //////     // for (int i = 0; i < 2; i++)
+  //////          //window.draw(fire_lake2[i].sprite);
+
+  //////      //for (int i = 0; i < 2; i++)
+  //////         // window.draw(water_lake2[i].sprite);
+
+  //////      //for (int i = 0; i < 2; i++)
+  //////          //window.draw(green_lake2[i].sprite);
+
+		//////window.draw(acid2[0].sprite);
+  //////      window.draw(acid2[1].sprite);
+		//////window.draw(fire2[0].sprite);
+		//////window.draw(fire2[1].sprite);
+		//////window.draw(water2[0].sprite);
+		//////window.draw(water2[1].sprite);
+
+
+  //////      for (int i = 1; i < 8; i++)
+  //////          window.draw(fire_point2[i].sprite);
+
+  //////      for (int i = 1; i < 8; i++)
+  //////          window.draw(water_point2[i].sprite);
+
+  //////             // for (int i = 0; i < 6; i++)
+  //////       //         window.draw(lakes2[i]);
+
+  //////      //window.draw(platform2[2].sprite);
+  //////      window.draw(Frame.sprite);
+
+  //////     // for (int i = 0; i < 20; i++)
+  //////          //window.draw(collision_boxs2[i]);
+
+  //////      //window.draw(collision_boxs2[16]);
+  //////      //window.draw(collision_boxs2[17]);
+  //////      //window.draw(Frame.sprite);
+  //////      //window.draw(collision_boxs2[4]);
+  //////      //window.draw(collision_boxs2[2]);
+  //////      //window.draw(collision_boxs2[13]);
+  //////      //window.draw(collision_boxs2[7]);
+
+  //////      window.draw(door[0].sprite);
+  //////      window.draw(door[1].sprite);
+
+  //////          if (!boy_is_dead)
+  //////          window.draw(fireboy.sprite);
+  //////      else {
+  //////          window.draw(smoke.sprite);
+  //////      }
+
+  //////          if (!girl_is_dead)
+  //////          window.draw(watergirl.sprite);
+  //////      else {
+  //////          window.draw(smoke.sprite);
+  //////      }
+
+
+  //     //level(3)draw 
+
+  //    window.draw(background.sprite);
+
+  //    for (int i = 0; i < 15; i++) {
+  //        window.draw(ground_3[i].sprite);
+  //    }
+
+  //    for (int i = 0; i < 5; i++) {
+  //    window.draw(coloumn_3[i].sprite);
+  //    }
+
+  //    window.draw(fire_lake3.sprite);
+
+  //    window.draw(corner_3.sprite);
+
+  //    window.draw(SNOW_3.sprite);
+
+  //    window.draw(Frame.sprite);
+
+  //    window.draw(green_lake_3.sprite);
+
+  ////      //DRAWING CREDIT MENU
+  ////      window.draw(credit_BG);
+  ////      for (int i = 0; i < 8; i++) {
+
+  ////          window.draw(namesarr[i]);
   ////      }
 
-  ////      if (!girl_is_dead)
-  ////          window.draw(watergirl.sprite);
-  ////      else {
-  ////          window.draw(smoke.sprite);
-  ////      }
-
-
-  ////      for (int i = 0; i < 12; i++)
-  ////          window.draw(ground[i].sprite);
-
-  ////      window.draw(Platform[0].sprite);
-  ////      window.draw(Platform[1].sprite);
-
+  ////      //Drawing pause menu
+  ////      /*window.draw(menu_BG);
   ////      for (int i = 0; i < 3; i++) {
-  ////          //window.draw(fire_lake[i].sprite);
-		////	window.draw(fire[i].sprite);
-  ////      }
+  ////          window.draw(pause_txt[i]);
+  ////      }*/
 
-  ////      for (int i = 0; i < 2; i++) {
-  ////          //window.draw(water_lake[i].sprite);
-  ////          window.draw(water[i].sprite);
-  ////      }
+  ////      //Drawing control menu
+  ////      /*window.draw(c_BG);
+  ////      window.draw(F_BG);
+  ////      window.draw(W_BG);
 
-  ////      window.draw(ground[5].sprite);
-  ////      window.draw(triangle.sprite);
-  ////      
+  ////      for (int  i = 0; i < 2; i++) {
+  ////          window.draw(control_txt[i]);
+  ////      }*/
+  ////          //Drawing the main menu
+  ////          /*window.draw(menu_BackGground);
+  ////          for (int i = 0; i < 5; i++)
+  ////          {
+  ////              window.draw(main_txt[i]);
+  ////          }*/
 
-  ////      for (int i = 0; i < 3; i++)
-  ////          window.draw(fire_point[i].sprite);
+  ////          //drawing game over :(
+  ////          /*window.draw(gameOverText);
+  ////          for (int i = 0; i < 2; i++)
+  ////          {
+  ////              window.draw(back_from_GameOver[i]);
+  ////          }*/
 
-  ////      for (int i = 0; i < 3; i++)
-  ////          window.draw(water_point[i].sprite);
-  ////       */
-  ////      
-  ////       //level(2)draw 
+  ////          //Drawing level menu 
+  ////          /*window.draw(levelsMenuBG);
+  ////          window.draw(levelsTitle);
 
-  ////      window.draw(background2.sprite);
-  ////      for (int i = 0; i < 10; i++) {
-  ////          if (!(i == 2)) {            
-  ////              window.draw(ground2[i].sprite);
+  ////          for (int i = 0; i < 3; i++) {
+  ////              window.draw(levelCards[i]);
+  ////              window.draw(levelTexts[i]);
   ////          }
-  ////      }
-  ////      for (int i = 0; i < 3; i++)
-  ////          window.draw(platform2[i].sprite);
-
-  ////      //window.draw(collision_boxs2[12]);        
-
-  ////      window.draw(right_corner2.sprite);
-  ////      window.draw(step_corner2.sprite);
-  ////      //window.draw(ground2[2].sprite);
-  ////      window.draw(slope_right2.sprite);
-
-  ////     // for (int i = 0; i < 2; i++)
-  ////          //window.draw(fire_lake2[i].sprite);
-
-  ////      //for (int i = 0; i < 2; i++)
-  ////         // window.draw(water_lake2[i].sprite);
-
-  ////      //for (int i = 0; i < 2; i++)
-  ////          //window.draw(green_lake2[i].sprite);
-
-		////window.draw(acid2[0].sprite);
-  ////      window.draw(acid2[1].sprite);
-		////window.draw(fire2[0].sprite);
-		////window.draw(fire2[1].sprite);
-		////window.draw(water2[0].sprite);
-		////window.draw(water2[1].sprite);
-
-
-  ////      for (int i = 1; i < 8; i++)
-  ////          window.draw(fire_point2[i].sprite);
-
-  ////      for (int i = 1; i < 8; i++)
-  ////          window.draw(water_point2[i].sprite);
-
-  ////             // for (int i = 0; i < 6; i++)
-  ////       //         window.draw(lakes2[i]);
-
-  ////      //window.draw(platform2[2].sprite);
-  ////      window.draw(Frame.sprite);
-
-  ////     // for (int i = 0; i < 20; i++)
-  ////          //window.draw(collision_boxs2[i]);
-
-  ////      //window.draw(collision_boxs2[16]);
-  ////      //window.draw(collision_boxs2[17]);
-  ////      //window.draw(Frame.sprite);
-  ////      //window.draw(collision_boxs2[4]);
-  ////      //window.draw(collision_boxs2[2]);
-  ////      //window.draw(collision_boxs2[13]);
-  ////      //window.draw(collision_boxs2[7]);
-
-  ////      window.draw(door[0].sprite);
-  ////      window.draw(door[1].sprite);
-
-  ////          if (!boy_is_dead)
-  ////          window.draw(fireboy.sprite);
-  ////      else {
-  ////          window.draw(smoke.sprite);
-  ////      }
-
-  ////          if (!girl_is_dead)
-  ////          window.draw(watergirl.sprite);
-  ////      else {
-  ////          window.draw(smoke.sprite);
-  ////      }
-
-
-       //level(3)draw 
-
-      window.draw(background.sprite);
-
-      for (int i = 0; i < 15; i++) {
-          window.draw(ground_3[i].sprite);
-      }
-
-      for (int i = 0; i < 5; i++) {
-      window.draw(coloumn_3[i].sprite);
-      }
-
-      window.draw(fire_lake3.sprite);
-
-      window.draw(corner_3.sprite);
-
-      window.draw(SNOW_3.sprite);
-
-      window.draw(Frame.sprite);
-
-      window.draw(green_lake_3.sprite);
-
-  //      //DRAWING CREDIT MENU
-  //      window.draw(credit_BG);
-  //      for (int i = 0; i < 8; i++) {
-
-  //          window.draw(namesarr[i]);
-  //      }
-
-  //      //Drawing pause menu
-  //      /*window.draw(menu_BG);
-  //      for (int i = 0; i < 3; i++) {
-  //          window.draw(pause_txt[i]);
-  //      }*/
-
-  //      //Drawing control menu
-  //      /*window.draw(c_BG);
-  //      window.draw(F_BG);
-  //      window.draw(W_BG);
-
-  //      for (int  i = 0; i < 2; i++) {
-  //          window.draw(control_txt[i]);
-  //      }*/
-  //          //Drawing the main menu
-  //          /*window.draw(menu_BackGground);
-  //          for (int i = 0; i < 5; i++)
-  //          {
-  //              window.draw(main_txt[i]);
-  //          }*/
-
-  //          //drawing game over :(
-  //          /*window.draw(gameOverText);
-  //          for (int i = 0; i < 2; i++)
-  //          {
-  //              window.draw(back_from_GameOver[i]);
-  //          }*/
-
-  //          //Drawing level menu 
-  //          /*window.draw(levelsMenuBG);
-  //          window.draw(levelsTitle);
-
-  //          for (int i = 0; i < 3; i++) {
-  //              window.draw(levelCards[i]);
-  //              window.draw(levelTexts[i]);
-  //          }
-  //          window.draw(levelsBackText);*/
-  //      
+  ////          window.draw(levelsBackText);*/
+       
+          // بمجرد ما يوصل للباب وتتحقق شروط الفوز
+    
+     window.draw(winMenuBG);
+     window.draw(winTitleShadow); // نرسم الخيال الأول
+     window.draw(winTitle);       // الكلمة الأساسية فوقه
+     
+     for (int i = 0; i < 2; i++) {
+         window.draw(btnBoxes[i]); // نرسم الزرار
+         window.draw(winOptions[i]); // نرسم الكلام فوقه
+     }
 
 
         window.display();
