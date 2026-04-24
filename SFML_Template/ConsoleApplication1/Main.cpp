@@ -798,7 +798,7 @@ int main()
     menu_BackGground.setScale(1.15f, 1.15f);
 
     Text main_txt[5];
-    String maintxt[] = { "to level menu","credit","controls","souds","exit"};
+    String maintxt[] = { "to level menu","credit","controls","sounds","exit"};
     for (int i = 0; i < 5; i++) {
         main_txt[i].setString(maintxt[i]);
         main_txt[i].setCharacterSize(25.0f);
