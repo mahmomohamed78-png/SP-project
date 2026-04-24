@@ -902,54 +902,54 @@ int main()
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Font winfont;
     winfont.loadFromFile("game_textures\\AversaVectors.otf");
-    // YOU WIN MENU DESIGN (MODERN & JOYFUL VERSION)
+    // YOU WIN MENU DESIGN 
 
-    // 1- خلفية كحلية راقية (Modern Dark Navy) بتبرز اللمعة بتاعة الألوان وتدي فخامة
+   
     RectangleShape winMenuBG;
     winMenuBG.setSize(Vector2f(1920, 1080));
     winMenuBG.setFillColor(Color(15, 20, 40, 220));
-    // 2- الشادو (لون بحري Teal/Cyan غامق مفرح ولايق جداً مع الأخضر)
+    
     Text winTitleShadow;
     winTitleShadow.setFont(winfont);
     winTitleShadow.setString("YOU WIN!");
     winTitleShadow.setCharacterSize(270);
-    winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal منعش
+    winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal 
     winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
     winTitleShadow.setPosition((1920 / 2.0f) + 10, 250 + 10);
-    // الكلمة الأساسية (أخضر ساطع ومبهج)
+    
     Text winTitle;
     winTitle.setFont(winfont);
     winTitle.setString("YOU WIN!");
     winTitle.setCharacterSize(270);
-    winTitle.setFillColor(Color(80, 255, 100)); // (Minty/Lime Green) لون أخضر فريش
+    winTitle.setFillColor(Color(80, 255, 100)); 
     winTitle.setOutlineThickness(5);
-    winTitle.setOutlineColor(Color::White); // إطار أبيض بينورها بقوة
+    winTitle.setOutlineColor(Color::White); 
     winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
     winTitle.setPosition(1920 / 2.0f, 250);
-    // 3- تصميم الزراير (عشان تبان ألعاب فخمة زي النينتندو وألعاب الموبايل الحديثة)
+    
     RectangleShape btnBoxes[2];
     Text winOptions[2];
     String winOptionsText[] = { "Next Level (Press N)", "Back to Level Menu (Press L)" };
 
-    // ألوان الزراير Modern: روز ساطع (Berry) وسماوي مبهج (Sky Blue)
+    
     Color btnColors[] = { Color(255, 70, 110, 240), Color(0, 180, 240, 240) };
 
     for (int i = 0; i < 2; i++) {
-        // المربعات (الزراير)
+        
         btnBoxes[i].setSize(Vector2f(700, 110));
         btnBoxes[i].setFillColor(btnColors[i]);
         btnBoxes[i].setOutlineThickness(4);
-        btnBoxes[i].setOutlineColor(Color::White); // الأبيض بيدي نظافة وأناقة للزرار
+        btnBoxes[i].setOutlineColor(Color::White); 
         btnBoxes[i].setOrigin(btnBoxes[i].getSize().x / 2.0f, btnBoxes[i].getSize().y / 2.0f);
         btnBoxes[i].setPosition(1920 / 2.0f, 550 + i * 160);
-        // الكلام جوه الزراير
+        
         winOptions[i].setFont(font);
         winOptions[i].setString(winOptionsText[i]);
         winOptions[i].setCharacterSize(45);
         winOptions[i].setFillColor(Color::White);
-        // السمك الخفيف هنا بيدي شياكة للزرار وميبقاش شكله مزعج
+        
         winOptions[i].setOutlineThickness(2);
-        winOptions[i].setOutlineColor(Color(40, 40, 50)); // رمادي غامق راقي بدل الأسود الكاتم
+        winOptions[i].setOutlineColor(Color(40, 40, 50)); 
         winOptions[i].setOrigin(winOptions[i].getLocalBounds().width / 2.0f, winOptions[i].getLocalBounds().height / 2.0f);
         winOptions[i].setPosition(1920 / 2.0f, (550 + i * 160) - 10);
     }
@@ -2080,14 +2080,14 @@ int main()
        
           // بمجرد ما يوصل للباب وتتحقق شروط الفوز
     
-     window.draw(winMenuBG);
-     window.draw(winTitleShadow); // نرسم الخيال الأول
-     window.draw(winTitle);       // الكلمة الأساسية فوقه
+     /*window.draw(winMenuBG);
+     window.draw(winTitleShadow); 
+     window.draw(winTitle);       
      
      for (int i = 0; i < 2; i++) {
-         window.draw(btnBoxes[i]); // نرسم الزرار
-         window.draw(winOptions[i]); // نرسم الكلام فوقه
-     }
+         window.draw(btnBoxes[i]); 
+         window.draw(winOptions[i]); 
+     }*/
 
 
         window.display();
