@@ -900,58 +900,56 @@ int main()
     levelsBackText.setOutlineColor(Color::Black);
     levelsBackText.setPosition(50, 950);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // YOU WIN MENU DESIGN 
+    Texture winBgTexture;
+    winBgTexture.loadFromFile("game_textures\\win_BG.png");
+    Sprite winMenuBG;
+    winMenuBG.setTexture(winBgTexture);
+    
     Font winfont;
     winfont.loadFromFile("game_textures\\AversaVectors.otf");
-    // YOU WIN MENU DESIGN 
-
-   
-    RectangleShape winMenuBG;
-    winMenuBG.setSize(Vector2f(1920, 1080));
-    winMenuBG.setFillColor(Color(15, 20, 40, 220));
+    
     
     Text winTitleShadow;
     winTitleShadow.setFont(winfont);
-    winTitleShadow.setString("YOU WIN!");
+    winTitleShadow.setString("YOU WON  ( ; ");
     winTitleShadow.setCharacterSize(270);
     winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal 
     winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
-    winTitleShadow.setPosition((1920 / 2.0f) + 10, 250 + 10);
-    
+    winTitleShadow.setPosition((1920 / 2.0f) + 8, 310 + 8); 
+
     Text winTitle;
     winTitle.setFont(winfont);
-    winTitle.setString("YOU WIN!");
+    winTitle.setString("YOU WON  ( ; ");
     winTitle.setCharacterSize(270);
-    winTitle.setFillColor(Color(80, 255, 100)); 
+    winTitle.setFillColor(Color(80, 255, 100));
     winTitle.setOutlineThickness(5);
-    winTitle.setOutlineColor(Color::White); 
+    winTitle.setOutlineColor(Color::White);
     winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
-    winTitle.setPosition(1920 / 2.0f, 250);
-    
+    winTitle.setPosition(1920 / 2.0f, 310); 
+
     RectangleShape btnBoxes[2];
     Text winOptions[2];
     String winOptionsText[] = { "Next Level (Press N)", "Back to Level Menu (Press L)" };
-
-    
     Color btnColors[] = { Color(255, 70, 110, 240), Color(0, 180, 240, 240) };
-
     for (int i = 0; i < 2; i++) {
-        
-        btnBoxes[i].setSize(Vector2f(700, 110));
+
+        btnBoxes[i].setSize(Vector2f(650, 100)); 
         btnBoxes[i].setFillColor(btnColors[i]);
         btnBoxes[i].setOutlineThickness(4);
-        btnBoxes[i].setOutlineColor(Color::White); 
+        btnBoxes[i].setOutlineColor(Color::White);
         btnBoxes[i].setOrigin(btnBoxes[i].getSize().x / 2.0f, btnBoxes[i].getSize().y / 2.0f);
-        btnBoxes[i].setPosition(1920 / 2.0f, 550 + i * 160);
-        
-        winOptions[i].setFont(font);
+        btnBoxes[i].setPosition(1920 / 2.0f, 610 + i * 150);
+
+        winOptions[i].setFont(font); 
         winOptions[i].setString(winOptionsText[i]);
         winOptions[i].setCharacterSize(45);
         winOptions[i].setFillColor(Color::White);
-        
+
         winOptions[i].setOutlineThickness(2);
-        winOptions[i].setOutlineColor(Color(40, 40, 50)); 
+        winOptions[i].setOutlineColor(Color(40, 40, 50));
         winOptions[i].setOrigin(winOptions[i].getLocalBounds().width / 2.0f, winOptions[i].getLocalBounds().height / 2.0f);
-        winOptions[i].setPosition(1920 / 2.0f, (550 + i * 160) - 10);
+        winOptions[i].setPosition(1920 / 2.0f, (610 + i * 150) - 10);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2078,16 +2076,16 @@ int main()
   ////          }
   ////          window.draw(levelsBackText);*/
        
-          // بمجرد ما يوصل للباب وتتحقق شروط الفوز
-    
-     /*window.draw(winMenuBG);
-     window.draw(winTitleShadow); 
-     window.draw(winTitle);       
-     
-     for (int i = 0; i < 2; i++) {
-         window.draw(btnBoxes[i]); 
-         window.draw(winOptions[i]); 
-     }*/
+
+     //     // بمجرد ما يوصل للباب وتتحقق شروط الفوز
+     //window.draw(winMenuBG);
+     //window.draw(winTitleShadow); 
+     //window.draw(winTitle);       
+     //
+     //for (int i = 0; i < 2; i++) {
+     //    window.draw(btnBoxes[i]); 
+     //    window.draw(winOptions[i]); 
+     //}
 
 
         window.display();
