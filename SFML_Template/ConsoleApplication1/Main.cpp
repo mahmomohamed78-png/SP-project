@@ -517,6 +517,10 @@ int main()
     design fire_lake3;
 
     design corner_3;
+
+    design SNOW_3;
+
+    design green_lake_3;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //load level1
@@ -610,6 +614,10 @@ int main()
     fire_lake3.texture.loadFromFile("game_textures/hight_grounds/hight_grounds/sprite_0_1.png");
 
     corner_3.texture.loadFromFile("leveel2/Tile_48_4.png");
+
+    SNOW_3.texture.loadFromFile("game_textures/snow/sprite_snow0.png");
+
+    green_lake_3.texture.loadFromFile("acid_lake/208910c6-0852-4eec-bdad-457062911bb6.png");
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Sprite level1
@@ -708,6 +716,10 @@ int main()
     fire_lake3.sprite.setTexture(fire_lake3.texture);
 
     corner_3.sprite.setTexture(corner_3.texture);
+
+    SNOW_3.sprite.setTexture(SNOW_3.texture);
+
+    green_lake_3.sprite.setTexture(green_lake_3.texture);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     for (int i = 0; i < 135; i++) {
@@ -1229,12 +1241,19 @@ int main()
        ///////////////////////////////////////////////////
 
        ground_3[5].sprite.setScale(0.50f, 0.70f);
-       ground_3[5].sprite.setPosition(900, 1000);
+       ground_3[5].sprite.setPosition(900, 950);
 
        //////////////////////////////////////////////////
 
        ground_3[6].sprite.setScale(0.50f, 0.70f);
-       ground_3[6].sprite.setPosition(650, 940);
+       ground_3[6].sprite.setPosition(560, 900);
+
+       ////////////////////////////////////////////////
+       ground_3[7].sprite.setScale(0.50f, 0.70f);
+       ground_3[7].sprite.setPosition(1100, 500);
+       ////////////////////////////////////////////////
+       ground_3[8].sprite.setScale(0.50f, 0.70f);
+       ground_3[8].sprite.setPosition(820, 720);
 
     
     // Bottom left ground
@@ -1285,11 +1304,20 @@ int main()
    // fire lake
     fire_lake3.sprite.setScale(1, 2);
     fire_lake3.sprite.setPosition(360, 306);
-
+    ////////////////////////////////////////////
+    // acid lake 
+    //-------------------
+    green_lake_3.sprite.setScale(4.44f, 2.05f);
+    green_lake_3.sprite.setPosition(410, 1030);
     //corner
     corner_3.sprite.setScale(-1.5, 2);
     corner_3.sprite.setPosition(1045, 177);
 
+     ///////////////////////////////////////
+     // snow 
+     //-----------------------------
+    SNOW_3.sprite.setScale(1.09f, 0.9f);
+    SNOW_3.sprite.setPosition(1600, 900);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // 
 	// Collision boxes and walls for level 1
@@ -1944,7 +1972,11 @@ int main()
 
       window.draw(corner_3.sprite);
 
+      window.draw(SNOW_3.sprite);
+
       window.draw(Frame.sprite);
+
+      window.draw(green_lake_3.sprite);
 
   //      //DRAWING CREDIT MENU
   //      window.draw(credit_BG);
