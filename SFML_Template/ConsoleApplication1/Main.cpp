@@ -510,9 +510,9 @@ int main()
 
     // Level  definitions
 
-    design ground_3[15];
+    design ground_3[14];
 
-    design coloumn_3[5];
+    design coloumn_3[4];
 
     design fire_lake3;
 
@@ -521,6 +521,11 @@ int main()
     design SNOW_3;
 
     design green_lake_3;
+
+    design fire_point3[5];
+    design water_point3[5];
+
+    design stairs[5];
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //load level1
@@ -603,11 +608,11 @@ int main()
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     // Load level 3 textures
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 14; i++) {
         ground_3[i].texture.loadFromFile("game_textures/hight_grounds/hight_grounds/Tile_56_1_1.png");
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         coloumn_3[i].texture.loadFromFile("game_textures\\Tile_56\\sprite_colom0.png");
     }
 
@@ -618,6 +623,15 @@ int main()
     SNOW_3.texture.loadFromFile("game_textures/snow/sprite_snow0.png");
 
     green_lake_3.texture.loadFromFile("acid_lake/208910c6-0852-4eec-bdad-457062911bb6.png");
+
+    for (int i = 0; i < 5; i++)
+        fire_point3[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Icons_Fire Spell.png");
+
+    for (int i = 0; i < 5; i++)
+        water_point3[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Water_Spell_Frame_03.png");
+
+    for (int i = 0; i < 5; i++)
+        stairs[i].texture.loadFromFile("game_textures/Tile_03.png");
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Sprite level1
@@ -705,11 +719,11 @@ int main()
 
     // sprites for level 3
 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 14; i++) {
         ground_3[i].sprite.setTexture(ground_3[i].texture);
      }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         coloumn_3[i].sprite.setTexture(coloumn_3[i].texture);
     }
 
@@ -720,6 +734,15 @@ int main()
     SNOW_3.sprite.setTexture(SNOW_3.texture);
 
     green_lake_3.sprite.setTexture(green_lake_3.texture);
+
+    for (int i = 0; i < 5; i++)
+        fire_point3[i].sprite.setTexture(fire_point3[i].texture);
+
+    for (int i = 0; i < 5; i++)
+        water_point3[i].sprite.setTexture(water_point3[i].texture);
+
+    for (int i = 0; i < 5; i++)
+        stairs[i].sprite.setTexture(stairs[i].texture);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     for (int i = 0; i < 135; i++) {
@@ -1289,12 +1312,12 @@ int main()
        // bottom ground 
 
        ground_3[4].sprite.setScale(0.50f, 0.70f);
-       ground_3[4].sprite.setPosition(1200, 940);
+       ground_3[4].sprite.setPosition(1270, 980);
 
        ///////////////////////////////////////////////////
 
        ground_3[5].sprite.setScale(0.50f, 0.70f);
-       ground_3[5].sprite.setPosition(900, 950);
+       ground_3[5].sprite.setPosition(1050, 850);
 
        //////////////////////////////////////////////////
 
@@ -1321,6 +1344,7 @@ int main()
 
     // upper left ground
     // --------------------------
+    ground_3[11].sprite.setScale(1, 0.5);
     ground_3[11].sprite.setPosition(0, 150);
 
     // ground with lava
@@ -1345,12 +1369,12 @@ int main()
 
     // left coloumn
     // -------------
-    coloumn_3[3].sprite.setPosition(200, 1080 - 64 - 200 - 510);
+    coloumn_3[2].sprite.setPosition(200, 1080 - 64 - 200 - 510);
    
     // coloumn under gates
     // --------------------------
-    coloumn_3[4].sprite.setScale(2, 1);
-    coloumn_3[4].sprite.setPosition(350, 1080 - 64 - 200);
+    coloumn_3[3].sprite.setScale(2, 1);
+    coloumn_3[3].sprite.setPosition(350, 1080 - 64 - 200);
 
     //lakes
     // --------------------------
@@ -1369,8 +1393,59 @@ int main()
      ///////////////////////////////////////
      // snow 
      //-----------------------------
-    SNOW_3.sprite.setScale(1.09f, 0.9f);
-    SNOW_3.sprite.setPosition(1600, 900);
+    SNOW_3.sprite.setScale(1.3f, 0.7f);
+    SNOW_3.sprite.setPosition(1550, 900);
+
+    // --------------------------
+    // Points scale
+    // --------------------------
+    for (int i = 0; i < 5; i++)
+    {
+        fire_point3[i].sprite.setScale(0.09f, 0.09f);
+        water_point3[i].sprite.setScale(0.1f, 0.1f);
+    }
+    // --------------------------
+
+    // right 2 pairs 
+    // -------------
+    water_point3[0].sprite.setPosition(1600, 480);
+
+    water_point3[1].sprite.setPosition(1850, 630);
+
+    fire_point3[0].sprite.setPosition(1400, 300);
+
+    fire_point3[1].sprite.setPosition(1400, 600);
+
+    // left upper water
+    // -------------
+    water_point3[2].sprite.setPosition(100, 90);
+
+    // bottom right pair
+    // -----------------
+    fire_point3[2].sprite.setPosition(1340, 890);
+    water_point3[3].sprite.setPosition(1270, 880);
+
+    // bottom left fire
+    // -----------------
+    fire_point3[3].sprite.setPosition(600, 850);
+
+    // bottom middle pair
+    // -----------------
+    water_point3[4].sprite.setPosition(900, 650);
+    fire_point3[4].sprite.setPosition(1100, 800);
+
+    // stairs on left
+    // -----------------
+    for (int i = 0; i < 3; i++)
+        stairs[i].sprite.setScale(2, 1);
+    for (int i = 3; i < 5; i++)
+        stairs[i].sprite.setScale(-2, 1);
+
+    stairs[0].sprite.setPosition(15, 1080 - 200);
+    stairs[1].sprite.setPosition(15, 1080 - 500);
+    stairs[2].sprite.setPosition(15, 1080 - 800);
+    stairs[3].sprite.setPosition(200 , 1080 - 350);
+    stairs[4].sprite.setPosition(200 , 1080 - 650);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // 
 	// Collision boxes and walls for level 1
@@ -2009,27 +2084,37 @@ int main()
   //////      }
 
 
-  //     //level(3)draw 
+       //level(3)draw 
+      window.draw(background.sprite);
 
-  //    window.draw(background.sprite);
 
-  //    for (int i = 0; i < 15; i++) {
-  //        window.draw(ground_3[i].sprite);
-  //    }
+      for (int i = 0; i < 14; i++) {
+          window.draw(ground_3[i].sprite);
+      }
 
-  //    for (int i = 0; i < 5; i++) {
-  //    window.draw(coloumn_3[i].sprite);
-  //    }
+      for (int i = 0; i < 4; i++) {
+      window.draw(coloumn_3[i].sprite);
+      }
 
-  //    window.draw(fire_lake3.sprite);
+      window.draw(fire_lake3.sprite);
 
-  //    window.draw(corner_3.sprite);
+      window.draw(corner_3.sprite);
+     
+      window.draw(green_lake_3.sprite);
 
-  //    window.draw(SNOW_3.sprite);
+      window.draw(SNOW_3.sprite);
 
-  //    window.draw(Frame.sprite);
+      for (int i = 0; i < 5; i++)
+          window.draw(fire_point3[i].sprite);
 
-  //    window.draw(green_lake_3.sprite);
+      for (int i = 0; i < 5; i++)
+          window.draw(water_point3[i].sprite);
+
+      for (int i = 0; i < 5; i++)
+          window.draw(stairs[i].sprite);
+
+      window.draw(Frame.sprite);
+
 
   ////      //DRAWING CREDIT MENU
   ////      window.draw(credit_BG);
