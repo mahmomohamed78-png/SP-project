@@ -10,7 +10,9 @@
 using namespace std;
 using namespace sf;
 
-int currentwindow = 4;
+
+
+int currentwindow = 2;
 struct design
 {
     Texture texture;
@@ -51,6 +53,56 @@ struct character {
     bool stop;
     bool is_dead = false;
 };
+
+int selectedmmIndex = 0; 
+int selectedpmIndex = 0;
+
+Text pause_txt[3];
+String pausetxt[] = { "Resume","Back to main menu","Back to levels menu" };
+Text main_txt[5];
+String maintxt[] = { "to level menu","credit","controls","sounds","exit" };
+  
+
+
+void MoveSelection(int direction, Color newColor, Color oldColor)
+
+{
+    //main menu
+    switch (currentwindow)
+    {
+    case 0:
+        
+        main_txt[selectedmmIndex].setFillColor(oldColor);
+        selectedmmIndex += direction;
+        if (selectedmmIndex < 0)selectedmmIndex = 4;
+        else if (selectedmmIndex > 4)selectedmmIndex = 0;
+        main_txt[selectedmmIndex].setFillColor(newColor);
+
+        break;
+
+    case 7:
+
+        pause_txt[selectedpmIndex].setFillColor(oldColor);
+        selectedpmIndex += direction;
+        if (selectedpmIndex < 0)selectedpmIndex = 2;
+        else if (selectedpmIndex > 2)selectedpmIndex = 0;
+        pause_txt[selectedpmIndex].setFillColor(newColor);
+
+        break;
+
+    default:
+        break;
+    }
+    if (currentwindow == 0) {
+        
+    }
+    else if(currentwindow == 8) {
+       
+            
+     
+    }
+}
+
 
 void moveCharacter(character& player, float deltaTime)
 {
@@ -784,8 +836,7 @@ int main()
     Sprite menu_BG;
     menu_BG.setTexture(mn_menu);
 
-    Text pause_txt[3];
-    String pausetxt[] = { "Resume","Back to main menu","Back to levels menu" };
+    
     for (int i = 0; i < 3; i++) {
         pause_txt[i].setString(pausetxt[i]);
         pause_txt[i].setCharacterSize(27);
@@ -797,6 +848,7 @@ int main()
         pause_txt[i].setScale(2.5f, 2.5f);
         pause_txt[i].setFont(font);
     }
+    pause_txt[0].setFillColor(Color::Yellow);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //control menu
     Texture control_BG, F_boy_BG, W_Girl_BG;
@@ -835,8 +887,7 @@ int main()
     menu_BackGground.setTexture(main_menu);
     menu_BackGground.setScale(1.15f, 1.15f);
 
-    Text main_txt[5];
-    String maintxt[] = { "to level menu","credit","controls","sounds","exit"};
+    
     for (int i = 0; i < 5; i++) {
         main_txt[i].setString(maintxt[i]);
         main_txt[i].setCharacterSize(25.0f);
@@ -848,6 +899,7 @@ int main()
         main_txt[i].setScale(3.0f, 2.5f);
         main_txt[i].setFont(font);
     }
+    main_txt[0].setFillColor(Color::Yellow);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //GAME OVER :(
@@ -856,7 +908,7 @@ int main()
     cmfont.loadFromFile("game_textures\\Blood_Hunter_TTF_Demo.ttf");
 
     Text back_from_GameOver[2];
-    String backfromGameOver[]={"Back to Main Menu ( press M )","Back to Level Menu ( press L )"};
+    String backfromGameOver[]={"Back to Main Menu","Back to Level Menu"};
     for (int i = 0; i < 2; i++)
     {
         back_from_GameOver[i].setString(backfromGameOver[i]);
@@ -956,7 +1008,7 @@ int main()
 
     RectangleShape btnBoxes[2];
     Text winOptions[2];
-    String winOptionsText[] = { "Next Level (Press N)", "Back to Level Menu (Press L)" };
+    String winOptionsText[] = { "Next Level", "Back to Level Menu" };
     Color btnColors[] = { Color(255, 70, 110, 240), Color(0, 180, 240, 240) };
     for (int i = 0; i < 2; i++) {
 
@@ -1694,6 +1746,151 @@ int main()
         }
         while (window.pollEvent(event))
         {
+            
+                switch (currentwindow)
+                {
+                case 0: //main menu orders
+
+                    if (Keyboard::isKeyPressed(Keyboard::Up)) MoveSelection(-1, Color::Yellow, Color::Cyan);
+
+                    if (Keyboard::isKeyPressed(Keyboard::Down)) MoveSelection(1, Color::Yellow, Color::Cyan);
+
+                    if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+
+                        if (selectedmmIndex == 0) {//chosing level menu
+                            currentwindow = 1;
+                        }
+                        else if (selectedmmIndex == 1) {//chosing credit menu
+                            currentwindow = 5;
+                        }
+                        else if (selectedmmIndex == 2) {//chosing control menu
+                            currentwindow = 6;
+                        }
+                        else if (selectedmmIndex == 3) {//chosing sound menu
+                            //currentwindow = ;
+                        }
+                        else if (selectedmmIndex == 4) {//chosing Exit
+                            window.close();
+                        }
+                    }
+
+                    
+                      
+
+                    break;
+
+                case 1://level menu orders
+
+                    if (Keyboard::isKeyPressed(Keyboard::B)) currentwindow = 0;
+
+                    break;
+
+                case 5://credit menu orders
+
+                    if (Keyboard::isKeyPressed(Keyboard::X)) currentwindow = 0;
+
+                    break;
+
+                case 6://control menu orders
+
+                    if (Keyboard::isKeyPressed(Keyboard::Escape)) currentwindow = 0;
+
+                    break;
+
+                case 7://pause menu orders
+                    
+                    if (Keyboard::isKeyPressed(Keyboard::Up)) MoveSelection(-1, Color::Yellow, Color::White);
+
+                    if (Keyboard::isKeyPressed(Keyboard::Down)) MoveSelection(1, Color::Yellow, Color::White);
+
+                    
+
+                    if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+
+                        if (selectedpmIndex == 0) {//chosing resume
+                            
+                        }
+                        if (selectedpmIndex == 1) {//chosing main menu
+                            currentwindow = 0;
+                        }
+                        if (selectedpmIndex == 2) {//chosing level menu
+                            currentwindow = 1;
+                        }
+
+                    }
+
+                    break;
+                default:
+                    break;
+
+                }
+            
+
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+
+                        Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+                        switch (currentwindow)
+                        {
+                        case 1: //level menu mouse orders
+                            if (levelCards[0].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 2; // Level 1
+                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
+                                boy_is_dead = false; girl_is_dead = false;
+                                fireboy.is_dead = false; watergirl.is_dead = false;
+                                fire_framecounter = 0; water_framecounter = 0;
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+                                watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                            }
+                            else if (levelCards[1].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 3; // Level 2
+                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
+                                boy_is_dead = false; girl_is_dead = false;
+                                fireboy.is_dead = false; watergirl.is_dead = false;
+                                fire_framecounter = 0; water_framecounter = 0;
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+                                watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                            }
+                            else if (levelCards[2].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 4; // Level 3
+                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
+                                boy_is_dead = false; girl_is_dead = false;
+                                fireboy.is_dead = false; watergirl.is_dead = false;
+                                fire_framecounter = 0; water_framecounter = 0;
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+                                watergirl.sprite.setPosition(150, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                            }
+                            break;
+                        case 8: // Game Over Menu
+                            if (back_from_GameOver[0].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 0; // Back to Main Menu
+                            }
+                            else if (back_from_GameOver[1].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 1; // Back to Level Menu
+                            }
+                            break;
+                        case 9: // Win Menu
+                            if (btnBoxes[0].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 1; // زرار نكست ليفل (حالياً هيرجعك لشاشة اختيار الليفلات عشان تختار براحتك)
+                            }
+                            else if (btnBoxes[1].getGlobalBounds().contains(mousePos)) {
+                                currentwindow = 1; // Back to Level Menu
+                            }
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
+                }
+            
+
             if (event.type == sf::Event::Closed)
                 window.close();
         }
@@ -1776,6 +1973,7 @@ int main()
             water_door_collision(watergirl, door[1], deltaTime);
 
             if (door[0].opened && door[1].opened) {  //door[0].framecounter >= 6 && door[1].framecounter >= 6
+                bool is_win = 0;
                 static float timer = 0;
                 timer += deltaTime;
                 if (timer >= 0.16f) {
@@ -1792,10 +1990,12 @@ int main()
                         fireboy.speed_x = 0;
                         fireboy.speed_y = 0;
                         if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
-                            door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
-                            door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                            door[0].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
+                            door[1].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
+                            is_win = true;
                         }
                     }
+                    if (is_win)currentwindow = 9;
                 }
             }
             else {
@@ -1830,6 +2030,11 @@ int main()
             jumpCharacter(watergirl, deltaTime);
             animation(fireboy, deltaTime);
             animation(watergirl, deltaTime);
+
+            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                currentwindow = 8;
+                cout << "lol";
+            }
 
             break;
         case 3:
@@ -1948,6 +2153,7 @@ int main()
             water_door_collision(watergirl, door[1], deltaTime);
 
             if (door[0].opened && door[1].opened) {  //door[0].framecounter >= 6 && door[1].framecounter >= 6
+                bool is_win = false;
                 static float timer = 0;
                 timer += deltaTime;
                 if (timer >= 0.16f) {
@@ -1966,8 +2172,12 @@ int main()
                         if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
                             door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
                             door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                            is_win = true;
+
                         }
+                        
                     }
+                    if (is_win)currentwindow = 9;
                 }
             }
             else {
@@ -1992,252 +2202,299 @@ int main()
             animation(fireboy, deltaTime);
             animation(watergirl, deltaTime);
 
+            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                currentwindow = 8;
+            }
+
             break;
 
         case 4:
+
+
+
+
+            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                currentwindow = 8;
+            }
             break;
         }
 
 
         window.clear();
 
-  //////      ////level(1) draw 
-  //////      /*for (int i = 0; i < 12; i++)
-  //////          window.draw(collision_boxs[i]);
-  //////      for (int i = 0; i < 4; i++)
-  //////          window.draw(walls[i]);
-  //////      for (int i = 0; i < 5; i++)
-  //////          window.draw(lakes[i]);
 
-  //////      window.draw(background.sprite);
-  //////      window.draw(Frame.sprite);
+        switch (currentwindow)
+        {
+        case 0://Drawing the main menu
 
-  //////      window.draw(door[0].sprite);
-  //////      window.draw(door[1].sprite);
+            
+            window.draw(menu_BackGground);
+            for (int i = 0; i < 5; i++)
+            {
+                window.draw(main_txt[i]);
+            }
 
+            break;
 
-  //////      if (!boy_is_dead)
-  //////          window.draw(fireboy.sprite);
-  //////      else {
-  //////          window.draw(smoke.sprite);
-  //////      }
+        case 1://Drawing level menu 
 
-  //////      if (!girl_is_dead)
-  //////          window.draw(watergirl.sprite);
-  //////      else {
-  //////          window.draw(smoke.sprite);
-  //////      }
+            
+            window.draw(levelsMenuBG);
+            window.draw(levelsTitle);
 
+            for (int i = 0; i < 3; i++) {
+                window.draw(levelCards[i]);
+                window.draw(levelTexts[i]);
+            }
+            window.draw(levelsBackText);
 
-  //////      for (int i = 0; i < 12; i++)
-  //////          window.draw(ground[i].sprite);
+            break;
 
-  //////      window.draw(Platform[0].sprite);
-  //////      window.draw(Platform[1].sprite);
+        case 2://drawin level 1
 
-  //////      for (int i = 0; i < 3; i++) {
-  //////          //window.draw(fire_lake[i].sprite);
-		//////	window.draw(fire[i].sprite);
-  //////      }
+            for (int i = 0; i < 12; i++)
+                window.draw(collision_boxs[i]);
+            for (int i = 0; i < 4; i++)
+                window.draw(walls[i]);
+            for (int i = 0; i < 5; i++)
+                window.draw(lakes[i]);
 
-  //////      for (int i = 0; i < 2; i++) {
-  //////          //window.draw(water_lake[i].sprite);
-  //////          window.draw(water[i].sprite);
-  //////      }
+            window.draw(background.sprite);
+            window.draw(Frame.sprite);
 
-  //////      window.draw(ground[5].sprite);
-  //////      window.draw(triangle.sprite);
-  //////      
-
-  //////      for (int i = 0; i < 3; i++)
-  //////          window.draw(fire_point[i].sprite);
-
-  //////      for (int i = 0; i < 3; i++)
-  //////          window.draw(water_point[i].sprite);
-  //////       */
-  //////      
-  //////       //level(2)draw 
-
-  //////      window.draw(background2.sprite);
-  //////      for (int i = 0; i < 10; i++) {
-  //////          if (!(i == 2)) {            
-  //////              window.draw(ground2[i].sprite);
-  //////          }
-  //////      }
-  //////      for (int i = 0; i < 3; i++)
-  //////          window.draw(platform2[i].sprite);
-
-  //////      //window.draw(collision_boxs2[12]);        
-
-  //////      window.draw(right_corner2.sprite);
-  //////      window.draw(step_corner2.sprite);
-  //////      //window.draw(ground2[2].sprite);
-  //////      window.draw(slope_right2.sprite);
-
-  //////     // for (int i = 0; i < 2; i++)
-  //////          //window.draw(fire_lake2[i].sprite);
-
-  //////      //for (int i = 0; i < 2; i++)
-  //////         // window.draw(water_lake2[i].sprite);
-
-  //////      //for (int i = 0; i < 2; i++)
-  //////          //window.draw(green_lake2[i].sprite);
-
-		//////window.draw(acid2[0].sprite);
-  //////      window.draw(acid2[1].sprite);
-		//////window.draw(fire2[0].sprite);
-		//////window.draw(fire2[1].sprite);
-		//////window.draw(water2[0].sprite);
-		//////window.draw(water2[1].sprite);
+            window.draw(door[0].sprite);
+            window.draw(door[1].sprite);
 
 
-  //////      for (int i = 1; i < 8; i++)
-  //////          window.draw(fire_point2[i].sprite);
+            if (!boy_is_dead)
+                window.draw(fireboy.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
 
-  //////      for (int i = 1; i < 8; i++)
-  //////          window.draw(water_point2[i].sprite);
-
-  //////             // for (int i = 0; i < 6; i++)
-  //////       //         window.draw(lakes2[i]);
-
-  //////      //window.draw(platform2[2].sprite);
-  //////      window.draw(Frame.sprite);
-
-  //////     // for (int i = 0; i < 20; i++)
-  //////          //window.draw(collision_boxs2[i]);
-
-  //////      //window.draw(collision_boxs2[16]);
-  //////      //window.draw(collision_boxs2[17]);
-  //////      //window.draw(Frame.sprite);
-  //////      //window.draw(collision_boxs2[4]);
-  //////      //window.draw(collision_boxs2[2]);
-  //////      //window.draw(collision_boxs2[13]);
-  //////      //window.draw(collision_boxs2[7]);
-
-  //////      window.draw(door[0].sprite);
-  //////      window.draw(door[1].sprite);
-
-  //////          if (!boy_is_dead)
-  //////          window.draw(fireboy.sprite);
-  //////      else {
-  //////          window.draw(smoke.sprite);
-  //////      }
-
-  //////          if (!girl_is_dead)
-  //////          window.draw(watergirl.sprite);
-  //////      else {
-  //////          window.draw(smoke.sprite);
-  //////      }
+            if (!girl_is_dead)
+                window.draw(watergirl.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
 
 
-       //level(3)draw 
-      window.draw(background.sprite);
+            for (int i = 0; i < 12; i++)
+                window.draw(ground[i].sprite);
+
+            window.draw(Platform[0].sprite);
+            window.draw(Platform[1].sprite);
+
+            for (int i = 0; i < 3; i++) {
+                window.draw(fire_lake[i].sprite);
+                window.draw(fire[i].sprite);
+            }
+
+            for (int i = 0; i < 2; i++) {
+                window.draw(water_lake[i].sprite);
+                window.draw(water[i].sprite);
+            }
+
+            window.draw(ground[5].sprite);
+            window.draw(triangle.sprite);
 
 
-      for (int i = 0; i < 14; i++) {
-          window.draw(ground_3[i].sprite);
-      }
+            for (int i = 0; i < 3; i++)
+                window.draw(fire_point[i].sprite);
 
-      for (int i = 0; i < 4; i++) {
-      window.draw(coloumn_3[i].sprite);
-      }
+            for (int i = 0; i < 3; i++)
+                window.draw(water_point[i].sprite);
 
-      window.draw(fire_lake3.sprite);
 
-      window.draw(corner_3.sprite);
-     
-      window.draw(green_lake_3.sprite);
+            break;
 
-      window.draw(SNOW_3.sprite);
+        case 3://drawin level 2
 
-      for (int i = 0; i < 5; i++)
-          window.draw(fire_point3[i].sprite);
+            window.draw(background2.sprite);
+            for (int i = 0; i < 10; i++) {
+                if (!(i == 2)) {
+                    window.draw(ground2[i].sprite);
+                }
+            }
+            for (int i = 0; i < 3; i++)
+                window.draw(platform2[i].sprite);
 
-      for (int i = 0; i < 5; i++)
-          window.draw(water_point3[i].sprite);
+            //window.draw(collision_boxs2[12]);        
 
-      for (int i = 0; i < 5; i++)
-          window.draw(stairs[i].sprite);
+            window.draw(right_corner2.sprite);
+            window.draw(step_corner2.sprite);
+            //window.draw(ground2[2].sprite);
+            window.draw(slope_right2.sprite);
 
-      window.draw(Frame.sprite);
+            // for (int i = 0; i < 2; i++)
+                 //window.draw(fire_lake2[i].sprite);
 
-      for(int i=0;i<24;i++)
-		  window.draw(collision_boxs3[i]);
-      for(int i=0;i<2;i++)
-		  window.draw(lakes3[i]);
-      if (!boy_is_dead)
-              window.draw(fireboy.sprite);
-      else {
-               window.draw(smoke.sprite);
-      }
+             //for (int i = 0; i < 2; i++)
+                // window.draw(water_lake2[i].sprite);
 
-      if (!girl_is_dead)
-        window.draw(watergirl.sprite);
-      else {
-        window.draw(smoke.sprite);
-      }
+             //for (int i = 0; i < 2; i++)
+                 //window.draw(green_lake2[i].sprite);
+
+            window.draw(acid2[0].sprite);
+            window.draw(acid2[1].sprite);
+            window.draw(fire2[0].sprite);
+            window.draw(fire2[1].sprite);
+            window.draw(water2[0].sprite);
+            window.draw(water2[1].sprite);
+
+
+            for (int i = 1; i < 8; i++)
+                window.draw(fire_point2[i].sprite);
+
+            for (int i = 1; i < 8; i++)
+                window.draw(water_point2[i].sprite);
+
+            /*for (int i = 0; i < 6; i++) window.draw(lakes2[i]);
+            window.draw(platform2[2].sprite);*/
+
+            window.draw(Frame.sprite);
+
+             /*for (int i = 0; i < 20; i++) window.draw(collision_boxs2[i]);
+             window.draw(collision_boxs2[16]);
+             window.draw(collision_boxs2[17]);
+             window.draw(Frame.sprite);
+             window.draw(collision_boxs2[4]);
+             window.draw(collision_boxs2[2]);
+             window.draw(collision_boxs2[13]);
+             window.draw(collision_boxs2[7]);*/
+
+            window.draw(door[0].sprite);
+            window.draw(door[1].sprite);
+
+            if (!boy_is_dead)
+                window.draw(fireboy.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
+
+            if (!girl_is_dead)
+                window.draw(watergirl.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
+
+
+            break;
+
+        case 4://drawin lvel 3
+
+            window.draw(background.sprite);
+
+
+            for (int i = 0; i < 14; i++) {
+                window.draw(ground_3[i].sprite);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                window.draw(coloumn_3[i].sprite);
+            }
+
+            window.draw(fire_lake3.sprite);
+
+            window.draw(corner_3.sprite);
+
+            window.draw(green_lake_3.sprite);
+
+            window.draw(SNOW_3.sprite);
+
+            for (int i = 0; i < 5; i++)
+                window.draw(fire_point3[i].sprite);
+
+            for (int i = 0; i < 5; i++)
+                window.draw(water_point3[i].sprite);
+
+            for (int i = 0; i < 5; i++)
+                window.draw(stairs[i].sprite);
+
+            window.draw(Frame.sprite);
+
+            for (int i = 0; i < 24; i++)
+                window.draw(collision_boxs3[i]);
+            for (int i = 0; i < 2; i++)
+                window.draw(lakes3[i]);
+            if (!boy_is_dead)
+                window.draw(fireboy.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
+
+            if (!girl_is_dead)
+                window.draw(watergirl.sprite);
+            else {
+                window.draw(smoke.sprite);
+            }
 
 
             window.draw(door[0].sprite);
             window.draw(door[1].sprite);
 
-  ////      //DRAWING CREDIT MENU
-  ////      window.draw(credit_BG);
-  ////      for (int i = 0; i < 8; i++) {
 
-  ////          window.draw(namesarr[i]);
-  ////      }
+            break;
 
-  ////      //Drawing pause menu
-  ////      /*window.draw(menu_BG);
-  ////      for (int i = 0; i < 3; i++) {
-  ////          window.draw(pause_txt[i]);
-  ////      }*/
+        case 5://drawin credit menu
 
-  ////      //Drawing control menu
-  ////      /*window.draw(c_BG);
-  ////      window.draw(F_BG);
-  ////      window.draw(W_BG);
+            window.draw(credit_BG);
+            for (int i = 0; i < 8; i++) {
 
-  ////      for (int  i = 0; i < 2; i++) {
-  ////          window.draw(control_txt[i]);
-  ////      }*/
-  ////          //Drawing the main menu
-  ////          /*window.draw(menu_BackGground);
-  ////          for (int i = 0; i < 5; i++)
-  ////          {
-  ////              window.draw(main_txt[i]);
-  ////          }*/
-
-  ////          //drawing game over :(
-  ////          /*window.draw(gameOverText);
-  ////          for (int i = 0; i < 2; i++)
-  ////          {
-  ////              window.draw(back_from_GameOver[i]);
-  ////          }*/
-
-  ////          //Drawing level menu 
-  ////          /*window.draw(levelsMenuBG);
-  ////          window.draw(levelsTitle);
-
-  ////          for (int i = 0; i < 3; i++) {
-  ////              window.draw(levelCards[i]);
-  ////              window.draw(levelTexts[i]);
-  ////          }
-  ////          window.draw(levelsBackText);*/
-       
-
-     //     // بمجرد ما يوصل للباب وتتحقق شروط الفوز
-     //window.draw(winMenuBG);
-     //window.draw(winTitleShadow); 
-     //window.draw(winTitle);       
-     //
-     //for (int i = 0; i < 2; i++) {
-     //    window.draw(btnBoxes[i]); 
-     //    window.draw(winOptions[i]); 
-     //}
+                window.draw(namesarr[i]);
+            }
 
 
+            break;
+
+        case 6://drawin control menu
+
+            window.draw(c_BG);
+            window.draw(F_BG);
+            window.draw(W_BG);
+
+            for (int i = 0; i < 2; i++) {
+                window.draw(control_txt[i]);
+            }
+
+            break;
+
+        case 7://drawin pause menu
+
+            window.draw(menu_BG);
+            for (int i = 0; i < 3; i++) {
+                window.draw(pause_txt[i]);
+            }
+
+            break;
+
+        case 8://drawin game over widow
+
+            window.draw(gameOverText);
+            for (int i = 0; i < 2; i++)
+            {
+                window.draw(back_from_GameOver[i]);
+            }
+
+            break;
+
+        case 9://drawin win widnow
+
+            window.draw(winMenuBG);
+            window.draw(winTitleShadow);
+            window.draw(winTitle);
+
+            for (int i = 0; i < 2; i++) {
+                window.draw(btnBoxes[i]);
+                window.draw(winOptions[i]);
+            }
+
+            break;
+        
+        default:
+            break;
+        }
+        
         window.display();
 
 
