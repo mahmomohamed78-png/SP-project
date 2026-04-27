@@ -12,7 +12,7 @@ using namespace sf;
 
 
 
-int currentwindow = 2;
+int currentwindow = 0;
 struct design
 {
     Texture texture;
