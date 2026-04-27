@@ -12,7 +12,7 @@ using namespace sf;
 
 
 
-int currentwindow = 2;
+int currentwindow = 0;
 struct design
 {
     Texture texture;
@@ -470,11 +470,15 @@ void point_collision(character& player1, character& player2, design& point) {
     hitbox2.width = 40;
     hitbox2.left += 55;
     if (hitbox.intersects(point.sprite.getGlobalBounds())) {
-        point.sprite.setColor(Color(255, 255, 255, 0));
-        points_counter++;
+        if (point.sprite.getColor().a != 0) {
+            points_counter++;
+            point.sprite.setColor(Color(255, 255, 255, 0));
+        }
     }
     else if (hitbox2.intersects(point.sprite.getGlobalBounds())) {
-        point.sprite.setColor(Color(255, 255, 255, 0));
+        if (point.sprite.getColor().a != 0) {
+            point.sprite.setColor(Color(255, 255, 255, 0));
+        }
     }
 }
 
@@ -1843,6 +1847,10 @@ int main()
                                 door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                                 fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                                door[0].sprite.setPosition(50, 856 + 10 + 2);
+                                door[1].sprite.setPosition(296, 1000 - 691.2 + 100 - 80 + 10 - 144 + 2);
+                                for(int i=0; i<3; i++) { fire_point[i].sprite.setColor(Color::White); water_point[i].sprite.setColor(Color::White); }
+                                points_counter = 0;
                             }
                             else if (levelCards[1].getGlobalBounds().contains(mousePos)) {
                                 currentwindow = 3; // Level 2
@@ -1854,6 +1862,10 @@ int main()
                                 door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                                 fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                                door[0].sprite.setPosition(1600, 100);
+                                door[1].sprite.setPosition(1750, 100);
+                                for(int i=0; i<8; i++) { fire_point2[i].sprite.setColor(Color::White); water_point2[i].sprite.setColor(Color::White); }
+                                points_counter = 0;
                             }
                             else if (levelCards[2].getGlobalBounds().contains(mousePos)) {
                                 currentwindow = 4; // Level 3
@@ -1865,6 +1877,10 @@ int main()
                                 door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                                 fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(150, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                                door[0].sprite.setPosition(400, 690);
+                                door[1].sprite.setPosition(250, 690);
+                                for(int i=0; i<5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
+                                points_counter = 0;
                             }
                             break;
                         case 8: // Game Over Menu
