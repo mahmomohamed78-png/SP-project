@@ -10,7 +10,7 @@
 using namespace std;
 using namespace sf;
 
-
+// hello !! , I hope it works :_);
 
 int currentwindow = 0;
 struct design
