@@ -383,10 +383,10 @@ void snow_slope_collision(character& boy, character& girl, double x1, double y1,
                 boy.onground = true;
                 boy.sprite.move(-450 * 1.1 * dt , boy.speed_y * dt);
             }
-        }
-        else {
-            boy.jump_strength = -900;
-        }
+        }  
+    }
+    else {
+        boy.jump_strength = -900;
     }
     double girl_x = girl.sprite.getPosition().x;
     if (girl_x >= x1 && girl_x <= x2) {
@@ -2473,13 +2473,6 @@ int main()
             window.draw(step_corner2.sprite);
             window.draw(slope_right2.sprite);
 
-            window.draw(acid2[0].sprite);
-            window.draw(acid2[1].sprite);
-            window.draw(fire2[0].sprite);
-            window.draw(fire2[1].sprite);
-            window.draw(water2[0].sprite);
-            window.draw(water2[1].sprite);
-
 
             for (int i = 1; i < 8; i++)
                 window.draw(fire_point2[i].sprite);
@@ -2504,6 +2497,12 @@ int main()
                 window.draw(smoke.sprite);
             }
 
+            window.draw(acid2[0].sprite);
+            window.draw(acid2[1].sprite);
+            window.draw(fire2[0].sprite);
+            window.draw(fire2[1].sprite);
+            window.draw(water2[0].sprite);
+            window.draw(water2[1].sprite);
 
             break;
 
