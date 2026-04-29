@@ -1737,7 +1737,11 @@ int main()
     lakes3[1].setSize(vect2);
     lakes3[1].setPosition(green_lake_3.sprite.getPosition().x, green_lake_3.sprite.getPosition().y + (green_lake_3.sprite.getGlobalBounds().height * 2 / 3) - 5);
 
-    RenderWindow window = { VideoMode(1920,1080),"sfml works" };
+    RenderWindow window(VideoMode(1920, 1080), "sfml works");
+
+    View gameView(FloatRect(0, 0, 1920, 1080));
+    window.setView(gameView);
+
     Event event;
     Clock clock;
     clock.restart();
@@ -1888,7 +1892,9 @@ int main()
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 
-                    Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+                    Vector2i pixelPos(event.mouseButton.x, event.mouseButton.y);
+                    Vector2f mousePos = window.mapPixelToCoords(pixelPos, gameView);
+
                     switch (currentwindow)
                     {
                     case 1: //level menu mouse orders
@@ -2373,6 +2379,8 @@ int main()
 
 
         window.clear();
+
+        window.setView(gameView);
 
 
         switch (currentwindow)
