@@ -504,9 +504,13 @@ void water_door_collision(character& player, design& door, float dt) {
     }
 }
 
-
+//initialize score counter
 int points_counter = 0;
-void point_collision(character& player1, character& player2, design& point) {
+int fireboy_score = 0;
+int watergirl_score = 0;
+
+
+void point_collision(character& player1, character& player2, design& point,int& score) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -515,6 +519,7 @@ void point_collision(character& player1, character& player2, design& point) {
     hitbox2.left += 55;
     if (hitbox.intersects(point.sprite.getGlobalBounds())) {
         if (point.sprite.getColor().a != 0) {
+            score++;
             points_counter++;
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
@@ -1943,6 +1948,8 @@ int main()
                             boy_is_dead = false; girl_is_dead = false;
                             fireboy.is_dead = false; watergirl.is_dead = false;
                             fire_framecounter = 0; water_framecounter = 0;
+                            fireboy_score = 0;
+                            watergirl_score = 0;
                             door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
@@ -1960,6 +1967,8 @@ int main()
                             boy_is_dead = false; girl_is_dead = false;
                             fireboy.is_dead = false; watergirl.is_dead = false;
                             fire_framecounter = 0; water_framecounter = 0;
+                            fireboy_score = 0;
+                            watergirl_score = 0;
                             door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
@@ -1977,6 +1986,8 @@ int main()
                             boy_is_dead = false; girl_is_dead = false;
                             fireboy.is_dead = false; watergirl.is_dead = false;
                             fire_framecounter = 0; water_framecounter = 0;
+                            fireboy_score = 0;
+                            watergirl_score = 0;
                             door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
@@ -2132,9 +2143,9 @@ int main()
 
 
                 for (int i = 0; i < 3; i++)
-                    point_collision(fireboy, watergirl, fire_point[i]);
+                    point_collision(fireboy, watergirl, fire_point[i], fireboy_score);
                 for (int i = 0; i < 3; i++)
-                    point_collision(watergirl, fireboy, water_point[i]);
+                    point_collision(watergirl, fireboy, water_point[i], watergirl_score);
 
                 for (int i = 0; i < 135; i++) {
                     platform_collision(fireboy, rec[i]);
@@ -2195,9 +2206,9 @@ int main()
 
 
                 for (int i = 1; i < 8; i++)
-                    point_collision(fireboy, watergirl, fire_point2[i]);
+                    point_collision(fireboy, watergirl, fire_point2[i], fireboy_score);
                 for (int i = 1; i < 8; i++)
-                    point_collision(watergirl, fireboy, water_point2[i]);
+                    point_collision(watergirl, fireboy, water_point2[i], watergirl_score);
 
                 for (int i = 0; i < 2; i++) {
                     water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime, deathSound, gameMusic);
@@ -2395,8 +2406,8 @@ int main()
                     }
                 }
                 for (int i = 0; i < 5; i++) {
-                    point_collision(fireboy, watergirl, fire_point3[i]);
-                    point_collision(watergirl, fireboy, water_point3[i]);
+                    point_collision(fireboy, watergirl, fire_point3[i], fireboy_score);
+                    point_collision(watergirl, fireboy, water_point3[i], fireboy_score);
                 }
 
                 lake_animation(fire3, deltaTime);
