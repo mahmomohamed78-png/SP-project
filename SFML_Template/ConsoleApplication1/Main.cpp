@@ -13,6 +13,7 @@ using namespace sf;
 
 
 int currentwindow = 0;
+int pausedlevel = 0;
 struct design
 {
     Texture texture;
@@ -370,7 +371,7 @@ void slope_collision(character& player, double x1, double y1, double x2, double 
     }
 }
 
-void snow_slope_collision(character& boy, character& girl, double x1, double y1, double x2, double y2 ,float& dt) {
+void snow_slope_collision(character& boy, character& girl, double x1, double y1, double x2, double y2, float& dt) {
     double boy_x = boy.sprite.getPosition().x;
     if (boy_x >= x1 && boy_x <= x2) {
         double boy_slopeY = y1 + (boy_x - x1) * ((y2 - y1) / (x2 - x1));
@@ -379,11 +380,11 @@ void snow_slope_collision(character& boy, character& girl, double x1, double y1,
             if (boy.speed_y >= 0) {
                 boy.sprite.setPosition(boy_x, boy_slopeY - (boy.frameHeight / 2.0f));
                 boy.speed_y = 0;
-				boy.jump_strength = -500;
+                boy.jump_strength = -500;
                 boy.onground = true;
-                boy.sprite.move(-450 * 1.1 * dt , boy.speed_y * dt);
+                boy.sprite.move(-450 * 1.1 * dt, boy.speed_y * dt);
             }
-        }  
+        }
     }
     else {
         boy.jump_strength = -900;
@@ -396,7 +397,7 @@ void snow_slope_collision(character& boy, character& girl, double x1, double y1,
             if (girl.speed_y >= 0) {
                 girl.sprite.setPosition(girl_x, girl_slopeY - (girl.frameHeight / 2.0f));
                 girl.speed_y = 0;
-				girl.speed_x = girl.speed_x * 0.2;
+                girl.speed_x = girl.speed_x * 0.2;
                 girl.onground = true;
             }
         }
@@ -651,8 +652,8 @@ int main()
 
     design green_lake_3;
 
-	animation_lakes fire3;
-	animation_lakes acid3;
+    animation_lakes fire3;
+    animation_lakes acid3;
 
     design fire_point3[5];
     design water_point3[5];
@@ -768,8 +769,8 @@ int main()
     for (int i = 0; i < 5; i++)
         stairs[i].texture.loadFromFile("game_textures/Tile_03.png");
 
-	fire3.texture.loadFromFile("game_textures\\lava_Animation.png");
-	acid3.texture.loadFromFile("game_textures\\Acid_Animation.png");
+    fire3.texture.loadFromFile("game_textures\\lava_Animation.png");
+    acid3.texture.loadFromFile("game_textures\\Acid_Animation.png");
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -883,8 +884,8 @@ int main()
     for (int i = 0; i < 5; i++)
         stairs[i].sprite.setTexture(stairs[i].texture);
 
-	fire3.sprite.setTexture(fire3.texture);
-	acid3.sprite.setTexture(acid3.texture);
+    fire3.sprite.setTexture(fire3.texture);
+    acid3.sprite.setTexture(acid3.texture);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1441,16 +1442,16 @@ int main()
 
       // top right ground
     ground_3[0].sprite.setScale(0.95f, 0.80f);
-    ground_3[0].sprite.setPosition(1800, 700-70);
+    ground_3[0].sprite.setPosition(1800, 700 - 70);
 
     ground_3[1].sprite.setScale(0.8f, 0.70f);
-    ground_3[1].sprite.setPosition(1480, 550-100);
+    ground_3[1].sprite.setPosition(1480, 550 - 100);
 
     ground_3[2].sprite.setScale(2.25f, 0.60f);
     ground_3[2].sprite.setPosition(1500, 235);
 
     ground_3[3].sprite.setScale(1.10f, 0.70f);
-    ground_3[3].sprite.setPosition(1350, 800-50);
+    ground_3[3].sprite.setPosition(1350, 800 - 50);
 
     // bottom ground 
 
@@ -1517,22 +1518,22 @@ int main()
     // coloumn under gates
     // --------------------------
     coloumn_3[3].sprite.setScale(2, 1);
-    coloumn_3[3].sprite.setPosition(350+200, 1080 - 64 - 200);
+    coloumn_3[3].sprite.setPosition(350 + 200, 1080 - 64 - 200);
 
     //lakes
     // --------------------------
    // fire lake
     fire_lake3.sprite.setScale(1, 2);
     fire_lake3.sprite.setPosition(360, 306);
-	fire3.sprite.setScale(2.25, 2);
-	fire3.sprite.setPosition(360, 306);
+    fire3.sprite.setScale(2.25, 2);
+    fire3.sprite.setPosition(360, 306);
     ////////////////////////////////////////////
     // acid lake 
     //-------------------
     green_lake_3.sprite.setScale(4.4f, 2.05f);
     green_lake_3.sprite.setPosition(410 + 200, 1030);
-	acid3.sprite.setScale(9.0f, 2.5f);
-	acid3.sprite.setPosition(410 + 200, 1030);
+    acid3.sprite.setScale(9.0f, 2.5f);
+    acid3.sprite.setPosition(410 + 200, 1030);
     //corner
     corner_3.sprite.setScale(-1.5, 2);
     corner_3.sprite.setPosition(1045, 177);
@@ -1555,9 +1556,9 @@ int main()
 
     // right 2 pairs 
     // -------------
-    water_point3[0].sprite.setPosition(1600, 480-100);
+    water_point3[0].sprite.setPosition(1600, 480 - 100);
 
-    water_point3[1].sprite.setPosition(1850, 630-100);
+    water_point3[1].sprite.setPosition(1850, 630 - 100);
 
     fire_point3[0].sprite.setPosition(1400, 300);
 
@@ -1565,12 +1566,12 @@ int main()
 
     // left upper water
     // -------------
-    water_point3[2].sprite.setPosition(100+75, 90);
+    water_point3[2].sprite.setPosition(100 + 75, 90);
 
     // bottom right pair
     // -----------------
-    fire_point3[2].sprite.setPosition(1340+75, 890);
-    water_point3[3].sprite.setPosition(1270+75, 880);
+    fire_point3[2].sprite.setPosition(1340 + 75, 890);
+    water_point3[3].sprite.setPosition(1270 + 75, 880);
 
     // bottom left fire
     // -----------------
@@ -1799,10 +1800,13 @@ int main()
     watergirl.left = Keyboard::A;
     watergirl.up = Keyboard::W;
 
-   
+    bool ispaused = false;
 
     while (window.isOpen())
     {
+
+
+
         float deltaTime = clock.restart().asSeconds();
         if (deltaTime > 0.1f) {
             deltaTime = 0.1f;
@@ -1818,7 +1822,8 @@ int main()
 
                 if (Keyboard::isKeyPressed(Keyboard::Down)) MoveSelection(1, Color::Yellow, Color::Cyan);
 
-                if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+                if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter)
+                {
 
                     if (selectedmmIndex == 0) {//chosing level menu
                         currentwindow = 1;
@@ -1848,6 +1853,33 @@ int main()
 
                 break;
 
+            case 2://level 1
+
+                if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+                    pausedlevel = currentwindow;
+                    ispaused = true;
+                }
+
+                break;
+
+            case 3://level 2
+
+                if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+                    pausedlevel = currentwindow;
+                    ispaused = true;
+                }
+
+                break;
+
+            case 4://level 3
+
+                if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+                    pausedlevel = currentwindow;
+                    ispaused = true;
+                }
+
+                break;
+
             case 5://credit menu orders
 
                 if (Keyboard::isKeyPressed(Keyboard::X)) currentwindow = 0;
@@ -1868,16 +1900,20 @@ int main()
 
 
 
-                if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+                if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter)
+                {
 
                     if (selectedpmIndex == 0) {//chosing resume
-
+                        currentwindow = pausedlevel;
+                        ispaused = false;
                     }
                     if (selectedpmIndex == 1) {//chosing main menu
                         currentwindow = 0;
+                        ispaused = false;
                     }
                     if (selectedpmIndex == 2) {//chosing level menu
                         currentwindow = 1;
+                        ispaused = false;
                     }
 
                 }
@@ -1902,6 +1938,7 @@ int main()
                             currentwindow = 2; // Level 1
                             menuMusic.stop();
                             gameMusic.play();
+
                             fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
                             boy_is_dead = false; girl_is_dead = false;
                             fireboy.is_dead = false; watergirl.is_dead = false;
@@ -1978,404 +2015,412 @@ int main()
                 window.close();
         }
 
-        fireboy.onground = false;
-        watergirl.onground = false;
-        fireboy.stop = false;
-        watergirl.stop = false;
+        if (!ispaused) {
+            fireboy.onground = false;
+            watergirl.onground = false;
+            fireboy.stop = false;
+            watergirl.stop = false;
 
-        switch (currentwindow)
-        {
-		case 2:   //level 1 collisions
-            for (int i = 3; i < 12; i++) {
-                platform_collision(fireboy, collision_boxs[i]);
-                platform_collision(watergirl, collision_boxs[i]);
-            }
-            platform_collision(fireboy, walls[3]);
-            platform_collision(watergirl, walls[3]);
-            //platform_collision(fireboy, walls[2]);
-            //platform_collision(watergirl, walls[2]);
-            platform_collision(fireboy, platform);
-            platform_collision(watergirl, platform);
+            switch (currentwindow)
+            {
+            case 2:   //level 1 collisions
+                for (int i = 3; i < 12; i++) {
+                    platform_collision(fireboy, collision_boxs[i]);
+                    platform_collision(watergirl, collision_boxs[i]);
+                }
+                platform_collision(fireboy, walls[3]);
+                platform_collision(watergirl, walls[3]);
+                //platform_collision(fireboy, walls[2]);
+                //platform_collision(watergirl, walls[2]);
+                platform_collision(fireboy, platform);
+                platform_collision(watergirl, platform);
 
-            for (int i = 1; i <= 2; i++) {
-                ground_collision(fireboy, collision_boxs[i]);
-                ground_collision(watergirl, collision_boxs[i]);
-            }
-            for (int i = 0; i < 2; i++) {
-                water_collision(fireboy, watergirl, lakes[i], smoke, deltaTime, deathSound, gameMusic);
-                fire_collision(fireboy, watergirl, lakes[i + 2], smoke, deltaTime, deathSound, gameMusic);
-            }
-            fire_collision(fireboy, watergirl, lakes[4], smoke, deltaTime, deathSound, gameMusic);
-            for (int i = 0; i < 2; i++) {
-                wall_collision(fireboy, watergirl, walls[i]);
-                wall_collision(fireboy, watergirl, walls[i]);
-            }
-            wall_collision(fireboy, watergirl, collision_boxs[0]);
-            wall_collision(fireboy, watergirl, collision_boxs[0]);
+                for (int i = 1; i <= 2; i++) {
+                    ground_collision(fireboy, collision_boxs[i]);
+                    ground_collision(watergirl, collision_boxs[i]);
+                }
+                for (int i = 0; i < 2; i++) {
+                    water_collision(fireboy, watergirl, lakes[i], smoke, deltaTime, deathSound, gameMusic);
+                    fire_collision(fireboy, watergirl, lakes[i + 2], smoke, deltaTime, deathSound, gameMusic);
+                }
+                fire_collision(fireboy, watergirl, lakes[4], smoke, deltaTime, deathSound, gameMusic);
+                for (int i = 0; i < 2; i++) {
+                    wall_collision(fireboy, watergirl, walls[i]);
+                    wall_collision(fireboy, watergirl, walls[i]);
+                }
+                wall_collision(fireboy, watergirl, collision_boxs[0]);
+                wall_collision(fireboy, watergirl, collision_boxs[0]);
 
-            ground_collision(fireboy, collision_boxs[2]);
-            ground_collision(watergirl, collision_boxs[2]);
-            ground_collision(fireboy, collision_boxs[1]);
-            ground_collision(watergirl, collision_boxs[1]);
+                ground_collision(fireboy, collision_boxs[2]);
+                ground_collision(watergirl, collision_boxs[2]);
+                ground_collision(fireboy, collision_boxs[1]);
+                ground_collision(watergirl, collision_boxs[1]);
 
-            slope_collision(fireboy, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
-            slope_collision(fireboy, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
-            slope_collision(fireboy, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
-            slope_collision(fireboy, 627, 655, 692, 559);
-            slope_collision(fireboy, 1505, 470, 1645, 580); //triangle
-            slope_collision(fireboy, 1365, 580, 1505, 470); //tringle
-            slope_collision(fireboy, 700, 987, 764, 1045); // fire lake 2
-            slope_collision(fireboy, 1165, 1045, 1218, 987); //fire lake 2
-            slope_collision(fireboy, 1258, 655, 1274, 617); //fire lake 3
-            slope_collision(fireboy, 1038, 559, 1104, 657); //fire lake 3
-            slope_collision(fireboy, 456, 618, 475, 656); //water lake 0
-            slope_collision(fireboy, 1502, 227, 1575, 289); //ground 11
-            slope_collision(fireboy, 1275, 270, 1295, 230); //fire lake 4
-            slope_collision(fireboy, 1090, 230, 1111, 270); //fire lake 4
-            slope_collision(fireboy, 730, 230, 750, 270); //water lake 1
-            slope_collision(fireboy, 913, 270, 933, 230); //water lake 1
+                slope_collision(fireboy, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
+                slope_collision(fireboy, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
+                slope_collision(fireboy, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
+                slope_collision(fireboy, 627, 655, 692, 559);
+                slope_collision(fireboy, 1505, 470, 1645, 580); //triangle
+                slope_collision(fireboy, 1365, 580, 1505, 470); //tringle
+                slope_collision(fireboy, 700, 987, 764, 1045); // fire lake 2
+                slope_collision(fireboy, 1165, 1045, 1218, 987); //fire lake 2
+                slope_collision(fireboy, 1258, 655, 1274, 617); //fire lake 3
+                slope_collision(fireboy, 1038, 559, 1104, 657); //fire lake 3
+                slope_collision(fireboy, 456, 618, 475, 656); //water lake 0
+                slope_collision(fireboy, 1502, 227, 1575, 289); //ground 11
+                slope_collision(fireboy, 1275, 270, 1295, 230); //fire lake 4
+                slope_collision(fireboy, 1090, 230, 1111, 270); //fire lake 4
+                slope_collision(fireboy, 730, 230, 750, 270); //water lake 1
+                slope_collision(fireboy, 913, 270, 933, 230); //water lake 1
 
-            slope_collision(watergirl, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x + 10, collision_boxs[3].getPosition().y - 10);
-            slope_collision(watergirl, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
-            slope_collision(watergirl, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
-            slope_collision(watergirl, 627, 655, 692, 559);
-            slope_collision(watergirl, 1505, 480, 1645, 570); //triangle
-            slope_collision(watergirl, 1365, 570, 1505, 480); //tringle
-            slope_collision(watergirl, 700, 987, 764, 1045); // fire lake 2
-            slope_collision(watergirl, 1165, 1045, 1218, 987); //fire lake 2
-            slope_collision(watergirl, 1258, 655, 1274, 617); //fire lake 3
-            slope_collision(watergirl, 1038, 559, 1104, 657); //fire lake 3
-            slope_collision(watergirl, 456, 618, 475, 656); //water lake 0
-            slope_collision(watergirl, 1502, 227, 1575, 289); //ground 11
-            slope_collision(watergirl, 1275, 270, 1295, 230); //fire lake 4
-            slope_collision(watergirl, 1090, 230, 1110, 270); //fire lake 4
-            slope_collision(watergirl, 730, 230, 750, 270); //water lake 1
-            slope_collision(watergirl, 913, 270, 933, 230); //water lake 1
+                slope_collision(watergirl, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x + 10, collision_boxs[3].getPosition().y - 10);
+                slope_collision(watergirl, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
+                slope_collision(watergirl, collision_boxs[9].getPosition().x - 64, collision_boxs[9].getPosition().y + 64, collision_boxs[9].getPosition().x, collision_boxs[9].getPosition().y);
+                slope_collision(watergirl, 627, 655, 692, 559);
+                slope_collision(watergirl, 1505, 480, 1645, 570); //triangle
+                slope_collision(watergirl, 1365, 570, 1505, 480); //tringle
+                slope_collision(watergirl, 700, 987, 764, 1045); // fire lake 2
+                slope_collision(watergirl, 1165, 1045, 1218, 987); //fire lake 2
+                slope_collision(watergirl, 1258, 655, 1274, 617); //fire lake 3
+                slope_collision(watergirl, 1038, 559, 1104, 657); //fire lake 3
+                slope_collision(watergirl, 456, 618, 475, 656); //water lake 0
+                slope_collision(watergirl, 1502, 227, 1575, 289); //ground 11
+                slope_collision(watergirl, 1275, 270, 1295, 230); //fire lake 4
+                slope_collision(watergirl, 1090, 230, 1110, 270); //fire lake 4
+                slope_collision(watergirl, 730, 230, 750, 270); //water lake 1
+                slope_collision(watergirl, 913, 270, 933, 230); //water lake 1
 
-            fire_door_collision(fireboy, door[0], deltaTime);
-            water_door_collision(watergirl, door[1], deltaTime);
+                fire_door_collision(fireboy, door[0], deltaTime);
+                water_door_collision(watergirl, door[1], deltaTime);
 
-            if (door[0].opened && door[1].opened) {  
-                bool is_win = 0;
-                static float timer = 0;
-                timer += deltaTime;
-                if (timer >= 0.16f) {
-                    timer = 0.0f;
-                    if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
-                        door[0].framecounter++;
-                        door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
-                        door[1].framecounter++;
-                        door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
-                        watergirl.sprite.setColor(Color::Transparent);
-                        watergirl.speed_x = 0;
-                        watergirl.speed_y = 0;
-                        fireboy.sprite.setColor(Color::Transparent);
-                        fireboy.speed_x = 0;
-                        fireboy.speed_y = 0;
-                        if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
-                            door[0].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
-                            door[1].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
-                            is_win = true;
+                if (door[0].opened && door[1].opened) {
+                    bool is_win = 0;
+                    static float timer = 0;
+                    timer += deltaTime;
+                    if (timer >= 0.16f) {
+                        timer = 0.0f;
+                        if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
+                            door[0].framecounter++;
+                            door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                            door[1].framecounter++;
+                            door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                            watergirl.sprite.setColor(Color::Transparent);
+                            watergirl.speed_x = 0;
+                            watergirl.speed_y = 0;
+                            fireboy.sprite.setColor(Color::Transparent);
+                            fireboy.speed_x = 0;
+                            fireboy.speed_y = 0;
+                            if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
+                                door[0].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
+                                door[1].sprite.setTextureRect(IntRect(17 * 121, 0, 121, 144));
+                                is_win = true;
+                            }
                         }
+                        if (is_win)currentwindow = 9;
                     }
-                    if (is_win)currentwindow = 9;
                 }
-            }
-            else {
-                if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
-                    door[0].framecounter = 6;
-                    door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                else {
+                    if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
+                        door[0].framecounter = 6;
+                        door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                    }
+                    if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
+                        door[1].framecounter = 6;
+                        door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                    }
                 }
-                if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
-                    door[1].framecounter = 6;
-                    door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+
+
+                for (int i = 0; i < 3; i++)
+                    point_collision(fireboy, watergirl, fire_point[i]);
+                for (int i = 0; i < 3; i++)
+                    point_collision(watergirl, fireboy, water_point[i]);
+
+                for (int i = 0; i < 135; i++) {
+                    platform_collision(fireboy, rec[i]);
+                    platform_collision(watergirl, rec[i]);
                 }
-            }
+                for (int i = 0; i < 3; i++)
+                    lake_animation(fire[i], deltaTime);
+                for (int i = 0; i < 2; i++)
+                    lake_animation(water[i], deltaTime);
 
+                moveCharacter(fireboy, deltaTime);
+                moveCharacter(watergirl, deltaTime);
+                jumpCharacter(fireboy, deltaTime);
+                jumpCharacter(watergirl, deltaTime);
+                animation(fireboy, deltaTime);
+                animation(watergirl, deltaTime);
 
-            for (int i = 0; i < 3; i++)
-                point_collision(fireboy, watergirl, fire_point[i]);
-            for (int i = 0; i < 3; i++)
-                point_collision(watergirl, fireboy, water_point[i]);
+                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5 && currentwindow != 8)) {
+                    currentwindow = 8;
+                    gameMusic.stop();
+                    cout << "lol";
+                }
 
-            for (int i = 0; i < 135; i++) {
-                platform_collision(fireboy, rec[i]);
-                platform_collision(watergirl, rec[i]);
-            }
-            for (int i = 0; i < 3; i++)
-                lake_animation(fire[i], deltaTime);
-            for (int i = 0; i < 2; i++)
-                lake_animation(water[i], deltaTime);
-
-            moveCharacter(fireboy, deltaTime);
-            moveCharacter(watergirl, deltaTime);
-            jumpCharacter(fireboy, deltaTime);
-            jumpCharacter(watergirl, deltaTime);
-            animation(fireboy, deltaTime);
-            animation(watergirl, deltaTime);
-
-            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5 && currentwindow != 8)) {
-                currentwindow = 8;
-                gameMusic.stop();
-                cout << "lol";
-            }
-
-            break;
-        case 3: //level 2 collisions
-            /*for (int i = 5; i < 8; i++) {
-                ground_collision(fireboy, collision_boxs2[i]);
-                ground_collision(watergirl, collision_boxs2[i]);
-            }
-            for (int i = 0; i < 5; i++) {
-                platform_collision(fireboy, collision_boxs2[i]);
-                platform_collision(watergirl, collision_boxs2[i]);
-            }
-            for (int i = 8; i < 16; i++) {
-                platform_collision(fireboy, collision_boxs2[i]);
-                platform_collision(watergirl, collision_boxs2[i]);
-            }*/
-
-            for (int i = 0; i < 16; i++) {  //16
-                if (i >= 5 && i <= 7) {
+                break;
+            case 3: //level 2 collisions
+                /*for (int i = 5; i < 8; i++) {
                     ground_collision(fireboy, collision_boxs2[i]);
                     ground_collision(watergirl, collision_boxs2[i]);
                 }
-                else {
+                for (int i = 0; i < 5; i++) {
                     platform_collision(fireboy, collision_boxs2[i]);
                     platform_collision(watergirl, collision_boxs2[i]);
                 }
-            }
-            wall_collision(fireboy, watergirl, collision_boxs2[16]);
-            wall_collision(fireboy, watergirl, collision_boxs2[17]);
-            wall_collision(fireboy, watergirl, collision_boxs2[2]);
-            wall_collision(fireboy, watergirl, collision_boxs2[15]);
-            //wall_collision(fireboy, watergirl, collision_boxs2[12]);
-            //platform_collision(fireboy, collision_boxs2[18]);
-            //platform_collision(watergirl, collision_boxs2[18]);
-            //platform_collision(fireboy, collision_boxs2[19]);
-            //platform_collision(watergirl, collision_boxs2[19]);
+                for (int i = 8; i < 16; i++) {
+                    platform_collision(fireboy, collision_boxs2[i]);
+                    platform_collision(watergirl, collision_boxs2[i]);
+                }*/
+
+                for (int i = 0; i < 16; i++) {  //16
+                    if (i >= 5 && i <= 7) {
+                        ground_collision(fireboy, collision_boxs2[i]);
+                        ground_collision(watergirl, collision_boxs2[i]);
+                    }
+                    else {
+                        platform_collision(fireboy, collision_boxs2[i]);
+                        platform_collision(watergirl, collision_boxs2[i]);
+                    }
+                }
+                wall_collision(fireboy, watergirl, collision_boxs2[16]);
+                wall_collision(fireboy, watergirl, collision_boxs2[17]);
+                wall_collision(fireboy, watergirl, collision_boxs2[2]);
+                wall_collision(fireboy, watergirl, collision_boxs2[15]);
+                //wall_collision(fireboy, watergirl, collision_boxs2[12]);
+                //platform_collision(fireboy, collision_boxs2[18]);
+                //platform_collision(watergirl, collision_boxs2[18]);
+                //platform_collision(fireboy, collision_boxs2[19]);
+                //platform_collision(watergirl, collision_boxs2[19]);
 
 
-            for (int i = 1; i < 8; i++)
-                point_collision(fireboy, watergirl, fire_point2[i]);
-            for (int i = 1; i < 8; i++)
-                point_collision(watergirl, fireboy, water_point2[i]);
+                for (int i = 1; i < 8; i++)
+                    point_collision(fireboy, watergirl, fire_point2[i]);
+                for (int i = 1; i < 8; i++)
+                    point_collision(watergirl, fireboy, water_point2[i]);
 
-            for (int i = 0; i < 2; i++) {
-                water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime, deathSound, gameMusic);
-                acid_collision(fireboy, watergirl, lakes2[i + 2], smoke, deltaTime, deathSound, gameMusic);
-                fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime, deathSound, gameMusic);
-            }
+                for (int i = 0; i < 2; i++) {
+                    water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime, deathSound, gameMusic);
+                    acid_collision(fireboy, watergirl, lakes2[i + 2], smoke, deltaTime, deathSound, gameMusic);
+                    fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime, deathSound, gameMusic);
+                }
 
-            /* for (int i = 0; i < 2; i++) {
-                 platform_collision( watergirl, lakes2[i]);
-                 platform_collision( watergirl, lakes2[i + 2]);
-                 platform_collision( watergirl, lakes2[i + 4]);
-                 platform_collision( fireboy, lakes2[i]);
-                 platform_collision( fireboy, lakes2[i + 2]);
-                 platform_collision( fireboy, lakes2[i + 4]);
-             }*/
+                /* for (int i = 0; i < 2; i++) {
+                     platform_collision( watergirl, lakes2[i]);
+                     platform_collision( watergirl, lakes2[i + 2]);
+                     platform_collision( watergirl, lakes2[i + 4]);
+                     platform_collision( fireboy, lakes2[i]);
+                     platform_collision( fireboy, lakes2[i + 2]);
+                     platform_collision( fireboy, lakes2[i + 4]);
+                 }*/
 
-            platform_collision(watergirl, platform4);
-            platform_collision(fireboy, platform4);
+                platform_collision(watergirl, platform4);
+                platform_collision(fireboy, platform4);
 
-            //wall_collision(fireboy, watergirl, platform4);
+                //wall_collision(fireboy, watergirl, platform4);
 
-            collision_boxs2[19].setFillColor(Color::Red);
+                collision_boxs2[19].setFillColor(Color::Red);
 
-            //wall_collision(fireboy, watergirl, collision_boxs2[19]);
-            // ground2[2] explicit left wall
-            //wall_collision(fireboy, watergirl, collision_boxs2[2]); 
-
-
-            // right_corner2
-            wall_collision(fireboy, watergirl, collision_boxs2[13]); //13
-            wall_collision(fireboy, watergirl, collision_boxs2[13]); //13
-
-            // step_corner2 
-            wall_collision(fireboy, watergirl, collision_boxs2[14]);
-            wall_collision(fireboy, watergirl, collision_boxs2[14]);
-
-            // ground2[9] (the block on the right near middle)
-            //wall_collision(fireboy, watergirl, collision_boxs2[9]);
+                //wall_collision(fireboy, watergirl, collision_boxs2[19]);
+                // ground2[2] explicit left wall
+                //wall_collision(fireboy, watergirl, collision_boxs2[2]); 
 
 
-            /*for (int i = 0; i < 2; i++) {
-                wall_collision(fireboy, walls[i]);
-                wall_collision(watergirl, walls[i]);
-            }*/
+                // right_corner2
+                wall_collision(fireboy, watergirl, collision_boxs2[13]); //13
+                wall_collision(fireboy, watergirl, collision_boxs2[13]); //13
 
-            slope_collision(fireboy, 380, 1016, 410, 1056); //left fire
-            slope_collision(fireboy, 625, 1056, 655, 1016); //left fire
-            slope_collision(fireboy, 1186, 1016, 1216, 1056); //right water
-            slope_collision(fireboy, 1431, 1056, 1461, 1016); //right water
-            slope_collision(fireboy, 315, 830, 355, 860); //left water
-            slope_collision(fireboy, 670, 860, 730, 830); //left water
-            slope_collision(fireboy, 1136, 830, 1186, 860); //right fire
-            slope_collision(fireboy, 1471, 860, 1511, 830); //right fire
-            slope_collision(fireboy, 265, 600, 305, 640); //left acid
-            slope_collision(fireboy, 625, 640, 665, 600); //left acid
-            slope_collision(fireboy, 942, 600, 992, 640); //right acid
-            slope_collision(fireboy, 1302, 640, 1352, 600); //right acid
-            slope_collision(fireboy, 280, 300, 400, 235); //slope near right corner
+                // step_corner2 
+                wall_collision(fireboy, watergirl, collision_boxs2[14]);
+                wall_collision(fireboy, watergirl, collision_boxs2[14]);
 
-            slope_collision(watergirl, 380, 1016, 410, 1056); //left fire
-            slope_collision(watergirl, 625, 1056, 655, 1016); //left fire
-            slope_collision(watergirl, 1186, 1016, 1216, 1056); //right water
-            slope_collision(watergirl, 1431, 1056, 1461, 1016); //right water
-            slope_collision(watergirl, 335, 830, 375, 860); //left water
-            slope_collision(watergirl, 650, 860, 710, 830); //left water
-            slope_collision(watergirl, 1136, 830, 1186, 860); //right fire
-            slope_collision(watergirl, 1471, 860, 1511, 830); //right fire
-            slope_collision(watergirl, 265, 600, 305, 640); //left acid
-            slope_collision(watergirl, 625, 640, 665, 600); //left acid
-            slope_collision(watergirl, 942, 600, 992, 640); //right acid
-            slope_collision(watergirl, 1302, 640, 1352, 600); //right acid
-            slope_collision(watergirl, 275, 300, 395, 235); //slope near right corner
+                // ground2[9] (the block on the right near middle)
+                //wall_collision(fireboy, watergirl, collision_boxs2[9]);
 
-            fire_door_collision(fireboy, door[0], deltaTime);
-            water_door_collision(watergirl, door[1], deltaTime);
 
-            if (door[0].opened && door[1].opened) {  
-                bool is_win = false;
-                static float timer = 0;
-                timer += deltaTime;
-                if (timer >= 0.16f) {
-                    timer = 0.0f;
-                    if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
-                        door[0].framecounter++;
+                /*for (int i = 0; i < 2; i++) {
+                    wall_collision(fireboy, walls[i]);
+                    wall_collision(watergirl, walls[i]);
+                }*/
+
+                slope_collision(fireboy, 380, 1016, 410, 1056); //left fire
+                slope_collision(fireboy, 625, 1056, 655, 1016); //left fire
+                slope_collision(fireboy, 1186, 1016, 1216, 1056); //right water
+                slope_collision(fireboy, 1431, 1056, 1461, 1016); //right water
+                slope_collision(fireboy, 315, 830, 355, 860); //left water
+                slope_collision(fireboy, 670, 860, 730, 830); //left water
+                slope_collision(fireboy, 1136, 830, 1186, 860); //right fire
+                slope_collision(fireboy, 1471, 860, 1511, 830); //right fire
+                slope_collision(fireboy, 265, 600, 305, 640); //left acid
+                slope_collision(fireboy, 625, 640, 665, 600); //left acid
+                slope_collision(fireboy, 942, 600, 992, 640); //right acid
+                slope_collision(fireboy, 1302, 640, 1352, 600); //right acid
+                slope_collision(fireboy, 280, 300, 400, 235); //slope near right corner
+
+                slope_collision(watergirl, 380, 1016, 410, 1056); //left fire
+                slope_collision(watergirl, 625, 1056, 655, 1016); //left fire
+                slope_collision(watergirl, 1186, 1016, 1216, 1056); //right water
+                slope_collision(watergirl, 1431, 1056, 1461, 1016); //right water
+                slope_collision(watergirl, 335, 830, 375, 860); //left water
+                slope_collision(watergirl, 650, 860, 710, 830); //left water
+                slope_collision(watergirl, 1136, 830, 1186, 860); //right fire
+                slope_collision(watergirl, 1471, 860, 1511, 830); //right fire
+                slope_collision(watergirl, 265, 600, 305, 640); //left acid
+                slope_collision(watergirl, 625, 640, 665, 600); //left acid
+                slope_collision(watergirl, 942, 600, 992, 640); //right acid
+                slope_collision(watergirl, 1302, 640, 1352, 600); //right acid
+                slope_collision(watergirl, 275, 300, 395, 235); //slope near right corner
+
+                fire_door_collision(fireboy, door[0], deltaTime);
+                water_door_collision(watergirl, door[1], deltaTime);
+
+                if (door[0].opened && door[1].opened) {
+                    bool is_win = false;
+                    static float timer = 0;
+                    timer += deltaTime;
+                    if (timer >= 0.16f) {
+                        timer = 0.0f;
+                        if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
+                            door[0].framecounter++;
+                            door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                            door[1].framecounter++;
+                            door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                            watergirl.sprite.setColor(Color::Transparent);
+                            watergirl.speed_x = 0;
+                            watergirl.speed_y = 0;
+                            fireboy.sprite.setColor(Color::Transparent);
+                            fireboy.speed_x = 0;
+                            fireboy.speed_y = 0;
+                            if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
+                                door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                                door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                                is_win = true;
+
+                            }
+
+                        }
+                        if (is_win)currentwindow = 9;
+                    }
+                }
+                else {
+                    if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
+                        door[0].framecounter = 6;
                         door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
-                        door[1].framecounter++;
+                    }
+                    if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
+                        door[1].framecounter = 6;
                         door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
-                        watergirl.sprite.setColor(Color::Transparent);
-                        watergirl.speed_x = 0;
-                        watergirl.speed_y = 0;
-                        fireboy.sprite.setColor(Color::Transparent);
-                        fireboy.speed_x = 0;
-                        fireboy.speed_y = 0;
-                        if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
-                            door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
-                            door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
-                            is_win = true;
-
-                        }
-
                     }
-                    if (is_win)currentwindow = 9;
                 }
-            }
-            else {
-                if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
-                    door[0].framecounter = 6;
-                    door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                for (int i = 0; i < 2; i++) {
+                    lake_animation(acid2[i], deltaTime);
+                    lake_animation(fire2[i], deltaTime);
+                    lake_animation(water2[i], deltaTime);
                 }
-                if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
-                    door[1].framecounter = 6;
-                    door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                moveCharacter(fireboy, deltaTime);
+                moveCharacter(watergirl, deltaTime);
+                jumpCharacter(fireboy, deltaTime);
+                jumpCharacter(watergirl, deltaTime);
+                animation(fireboy, deltaTime);
+                animation(watergirl, deltaTime);
+
+                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                    currentwindow = 8;
                 }
-            }
-            for (int i = 0; i < 2; i++) {
-                lake_animation(acid2[i], deltaTime);
-                lake_animation(fire2[i], deltaTime);
-                lake_animation(water2[i], deltaTime);
-            }
-            moveCharacter(fireboy, deltaTime);
-            moveCharacter(watergirl, deltaTime);
-            jumpCharacter(fireboy, deltaTime);
-            jumpCharacter(watergirl, deltaTime);
-            animation(fireboy, deltaTime);
-            animation(watergirl, deltaTime);
 
-            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
-                currentwindow = 8;
-            }
+                break;
 
-            break;
+            case 4: //level 3 collisions
 
-        case 4: //level 3 collisions
+                for (int i = 0; i < 24; i++) {
+                    platform_collision(fireboy, collision_boxs3[i]);
+                    platform_collision(watergirl, collision_boxs3[i]);
+                }
+                fire_collision(fireboy, watergirl, lakes3[0], smoke, deltaTime, deathSound, gameMusic);
+                acid_collision(fireboy, watergirl, lakes3[1], smoke, deltaTime, deathSound, gameMusic);
 
-            for (int i = 0; i < 24; i++) {
-				platform_collision(fireboy, collision_boxs3[i]);
-				platform_collision(watergirl, collision_boxs3[i]);
-            }
-			fire_collision(fireboy, watergirl, lakes3[0], smoke, deltaTime, deathSound, gameMusic);
-            acid_collision(fireboy, watergirl, lakes3[1], smoke, deltaTime, deathSound, gameMusic);
-            
 
-            for(int i=14;i<18;i++) {
-				wall_collision(fireboy, watergirl, collision_boxs3[i]);
-            }
+                for (int i = 14; i < 18; i++) {
+                    wall_collision(fireboy, watergirl, collision_boxs3[i]);
+                }
 
-            for (int i = 0; i < 2; i++) {
-                wall_collision(fireboy, watergirl, walls[i]);
-                wall_collision(fireboy, watergirl, walls[i]);
-            }
+                for (int i = 0; i < 2; i++) {
+                    wall_collision(fireboy, watergirl, walls[i]);
+                    wall_collision(fireboy, watergirl, walls[i]);
+                }
 
-            slope_collision(watergirl, 845, 306, 945, 177);
-            slope_collision(fireboy, 845, 306, 945, 177);
+                slope_collision(watergirl, 845, 306, 945, 177);
+                slope_collision(fireboy, 845, 306, 945, 177);
 
-			snow_slope_collision(fireboy, watergirl, 1550 + 40, 1080, 1550 + 380, 900 ,deltaTime);  //snow slope
-            //slope_collision(watergirl, 1550 + 40, 1080, 1550 + 380, 890);  //snow slope
+                snow_slope_collision(fireboy, watergirl, 1550 + 40, 1080, 1550 + 380, 900, deltaTime);  //snow slope
+                //slope_collision(watergirl, 1550 + 40, 1080, 1550 + 380, 890);  //snow slope
 
-			fire_door_collision(fireboy, door[0], deltaTime);
-			water_door_collision(watergirl, door[1], deltaTime);
+                fire_door_collision(fireboy, door[0], deltaTime);
+                water_door_collision(watergirl, door[1], deltaTime);
 
-            if (door[0].opened && door[1].opened) {
-                bool is_win = false;
-				static float timer = 0;
-				timer += deltaTime;
-                if (timer >= 0.16f) {
-                    timer = 0.0f;
-                    if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
-						door[0].framecounter++;
-						door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
-						door[1].framecounter++;
-						door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
-                        watergirl.sprite.setColor(Color::Transparent);
-						watergirl.speed_x = 0;
-                        watergirl.speed_y = 0;
-						fireboy.sprite.setColor(Color::Transparent);
-                        fireboy.speed_x = 0;
-                        fireboy.speed_y = 0;
-						if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
-							door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
-							door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
-                            is_win = true;
+                if (door[0].opened && door[1].opened) {
+                    bool is_win = false;
+                    static float timer = 0;
+                    timer += deltaTime;
+                    if (timer >= 0.16f) {
+                        timer = 0.0f;
+                        if ((door[0].framecounter >= 6 && door[0].framecounter < 17) && (door[1].framecounter >= 6 && door[1].framecounter < 17)) {
+                            door[0].framecounter++;
+                            door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                            door[1].framecounter++;
+                            door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                            watergirl.sprite.setColor(Color::Transparent);
+                            watergirl.speed_x = 0;
+                            watergirl.speed_y = 0;
+                            fireboy.sprite.setColor(Color::Transparent);
+                            fireboy.speed_x = 0;
+                            fireboy.speed_y = 0;
+                            if (door[0].framecounter >= 17 || door[1].framecounter >= 17) {
+                                door[0].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                                door[1].sprite.setTextureRect(IntRect(16 * 121, 0, 121, 144));
+                                is_win = true;
+                            }
                         }
+                        if (is_win)currentwindow = 9;
                     }
-                    if (is_win)currentwindow = 9;
                 }
-            }
-            else {
-                if(door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
-                    door[0].framecounter = 6;
-                    door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
-				}
-                if(door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
-                    door[1].framecounter = 6;
-					door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                else {
+                    if (door[0].opened && door[0].framecounter >= 6 && !door[1].opened) {
+                        door[0].framecounter = 6;
+                        door[0].sprite.setTextureRect(IntRect(door[0].framecounter * 121, 0, 121, 144));
+                    }
+                    if (door[1].opened && door[1].framecounter >= 6 && !door[0].opened) {
+                        door[1].framecounter = 6;
+                        door[1].sprite.setTextureRect(IntRect(door[1].framecounter * 121, 0, 121, 144));
+                    }
                 }
-            }
-            for (int i = 0; i < 5; i++) {
-                point_collision(fireboy, watergirl, fire_point3[i]);
-                point_collision(watergirl, fireboy, water_point3[i]);
+                for (int i = 0; i < 5; i++) {
+                    point_collision(fireboy, watergirl, fire_point3[i]);
+                    point_collision(watergirl, fireboy, water_point3[i]);
+                }
+
+                lake_animation(fire3, deltaTime);
+                lake_animation(acid3, deltaTime);
+
+                moveCharacter(fireboy, deltaTime);
+                moveCharacter(watergirl, deltaTime);
+                jumpCharacter(fireboy, deltaTime);
+                jumpCharacter(watergirl, deltaTime);
+                animation(fireboy, deltaTime);
+                animation(watergirl, deltaTime);
+
+                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                    currentwindow = 8;
+                }
+                break;
             }
 
-			lake_animation(fire3, deltaTime);
-			lake_animation(acid3, deltaTime);
-
-			moveCharacter(fireboy, deltaTime);
-			moveCharacter(watergirl, deltaTime);
-			jumpCharacter(fireboy, deltaTime);
-			jumpCharacter(watergirl, deltaTime);
-			animation(fireboy, deltaTime);
-			animation(watergirl, deltaTime);
-
-            if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
-                currentwindow = 8;
-            }
-            break;
         }
+        else {
+            currentwindow = 7;
+        }
+
+
 
 
         window.clear();
@@ -2475,7 +2520,7 @@ int main()
                 }
             }
             for (int i = 0; i < 3; i++)
-                window.draw(platform2[i].sprite);        
+                window.draw(platform2[i].sprite);
 
             window.draw(right_corner2.sprite);
             window.draw(step_corner2.sprite);
@@ -2527,7 +2572,7 @@ int main()
                 window.draw(coloumn_3[i].sprite);
             }
 
-            window.draw(corner_3.sprite);    
+            window.draw(corner_3.sprite);
 
             for (int i = 0; i < 5; i++)
                 window.draw(fire_point3[i].sprite);
@@ -2558,7 +2603,7 @@ int main()
             window.draw(fire3.sprite);
             window.draw(acid3.sprite);
             window.draw(SNOW_3.sprite);
-            
+
             break;
 
         case 5://drawin credit menu
