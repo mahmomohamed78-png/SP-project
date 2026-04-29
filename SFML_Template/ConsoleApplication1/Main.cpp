@@ -510,7 +510,7 @@ int fireboy_score = 0;
 int watergirl_score = 0;
 
 
-void point_collision(character& player1, character& player2, design& point,int& score) {
+void point_collision(character& player1, character& player2, design& point,int& score, Sound& collectSound) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -521,11 +521,13 @@ void point_collision(character& player1, character& player2, design& point,int& 
         if (point.sprite.getColor().a != 0) {
             score++;
             points_counter++;
+            collectSound.play(); 
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
     }
     else if (hitbox2.intersects(point.sprite.getGlobalBounds())) {
         if (point.sprite.getColor().a != 0) {
+            collectSound.play();  
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
     }
@@ -593,6 +595,40 @@ int main()
     Sound deathSound;
     deathSound.setBuffer(deathBuffer);
     deathSound.setVolume(60);
+    //sound game over
+    SoundBuffer gameOverBuffer;
+    if (!gameOverBuffer.loadFromFile("gamesounds/gameover2.wav"))
+    {
+        cout << "error loading game over sound\n";
+    }
+
+    Sound gameOverSound;
+    gameOverSound.setBuffer(gameOverBuffer);
+    gameOverSound.setVolume(70);
+
+    bool gameOverSoundPlayed = false;
+    // sound collect
+    SoundBuffer collectBuffer; 
+    if (!collectBuffer.loadFromFile("gamesounds/collect2.wav")) 
+    {
+        cout << "error loading collect sound\n"; 
+    } 
+
+    Sound collectSound; 
+    collectSound.setBuffer(collectBuffer); 
+    collectSound.setVolume(50); 
+    // sound win
+    SoundBuffer winBuffer; 
+    if (!winBuffer.loadFromFile("gamesounds/win2.wav")) 
+    {
+        cout << "error loading win sound\n"; 
+    }
+
+    Sound winSound; 
+    winSound.setBuffer(winBuffer); 
+    winSound.setVolume(70); 
+
+    bool winSoundPlayed = false; 
 
 
 
@@ -2000,18 +2036,43 @@ int main()
                         break;
                     case 8: // Game Over Menu
                         if (back_from_GameOver[0].getGlobalBounds().contains(mousePos)) {
-                            currentwindow = 0; // Back to Main Menu
+                            gameOverSoundPlayed = false; 
+
+                            if (menuMusic.getStatus() != Music::Playing) 
+                            {
+                                menuMusic.play(); 
+                            }
+                            currentwindow = 0; 
+                         // Back to Main Menu
                         }
                         else if (back_from_GameOver[1].getGlobalBounds().contains(mousePos)) {
-                            currentwindow = 1; // Back to Level Menu
+                            gameOverSoundPlayed = false; 
+
+                            if (menuMusic.getStatus() != Music::Playing) 
+                            {
+                                menuMusic.play(); 
+                            }
+                            currentwindow = 1; // Back to Level Menu 
                         }
                         break;
                     case 9: // Win Menu
                         if (btnBoxes[0].getGlobalBounds().contains(mousePos)) {
+                            winSoundPlayed = false; 
+
+                            if (menuMusic.getStatus() != Music::Playing) 
+                            {
+                                menuMusic.play(); 
+                            }
                             currentwindow = 1; // 夭乇丕乇 賳賰爻鬲 賱賷賮賱 (丨丕賱賷丕賸 賴賷乇噩毓賰 賱卮丕卮丞 丕禺鬲賷丕乇 丕賱賱賷賮賱丕鬲 毓卮丕賳 鬲禺鬲丕乇 亘乇丕丨鬲賰)
                         }
                         else if (btnBoxes[1].getGlobalBounds().contains(mousePos)) {
-                            currentwindow = 1; // Back to Level Menu
+                            winSoundPlayed = false; 
+
+                            if (menuMusic.getStatus() != Music::Playing) 
+                            {
+                                menuMusic.play(); 
+                            }
+                            currentwindow = 1; // Back to Level Menu 
                         }
                         break;
 
@@ -2127,7 +2188,19 @@ int main()
                                 is_win = true;
                             }
                         }
-                        if (is_win)currentwindow = 9;
+                        if (is_win) 
+                        {
+                            currentwindow = 9; 
+                            menuMusic.stop(); 
+                            gameMusic.stop(); 
+                        
+                            if (!winSoundPlayed) 
+                            {
+                                gameMusic.stop(); 
+                                winSound.play(); 
+                                winSoundPlayed = true; 
+                            }
+                        }
                     }
                 }
                 else {
@@ -2143,9 +2216,9 @@ int main()
 
 
                 for (int i = 0; i < 3; i++)
-                    point_collision(fireboy, watergirl, fire_point[i], fireboy_score);
+                    point_collision(fireboy, watergirl, fire_point[i], fireboy_score, collectSound);
                 for (int i = 0; i < 3; i++)
-                    point_collision(watergirl, fireboy, water_point[i], watergirl_score);
+                    point_collision(watergirl, fireboy, water_point[i], watergirl_score, collectSound);
 
                 for (int i = 0; i < 135; i++) {
                     platform_collision(fireboy, rec[i]);
@@ -2165,7 +2238,11 @@ int main()
 
                 if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5 && currentwindow != 8)) {
                     currentwindow = 8;
-                    gameMusic.stop();
+                    if (!gameOverSoundPlayed)
+                    {
+                        gameOverSound.play();
+                        gameOverSoundPlayed = true;
+                    }
                     cout << "lol";
                 }
 
@@ -2206,9 +2283,9 @@ int main()
 
 
                 for (int i = 1; i < 8; i++)
-                    point_collision(fireboy, watergirl, fire_point2[i], fireboy_score);
+                    point_collision(fireboy, watergirl, fire_point2[i], fireboy_score, collectSound);
                 for (int i = 1; i < 8; i++)
-                    point_collision(watergirl, fireboy, water_point2[i], watergirl_score);
+                    point_collision(watergirl, fireboy, water_point2[i], watergirl_score, collectSound);
 
                 for (int i = 0; i < 2; i++) {
                     water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime, deathSound, gameMusic);
@@ -2310,7 +2387,19 @@ int main()
                             }
 
                         }
-                        if (is_win)currentwindow = 9;
+                        if (is_win)
+                        {
+                            currentwindow = 9; 
+
+                            menuMusic.stop(); 
+                            gameMusic.stop(); 
+
+                            if (!winSoundPlayed) 
+                            {
+                                winSound.play(); 
+                                winSoundPlayed = true; 
+                            }
+                        }
                     }
                 }
                 else {
@@ -2337,6 +2426,11 @@ int main()
 
                 if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
+                    if (!gameOverSoundPlayed) 
+                    {
+                        gameOverSound.play(); 
+                        gameOverSoundPlayed = true; 
+                    }
                 }
 
                 break;
@@ -2392,7 +2486,19 @@ int main()
                                 is_win = true;
                             }
                         }
-                        if (is_win)currentwindow = 9;
+                        if (is_win) 
+                        {
+                            currentwindow = 9;
+
+                            menuMusic.stop(); 
+                            gameMusic.stop(); 
+                             
+                            if (!winSoundPlayed) 
+                            {
+                                winSound.play(); 
+                                winSoundPlayed = true; 
+                            }
+                        }
                     }
                 }
                 else {
@@ -2406,8 +2512,8 @@ int main()
                     }
                 }
                 for (int i = 0; i < 5; i++) {
-                    point_collision(fireboy, watergirl, fire_point3[i], fireboy_score);
-                    point_collision(watergirl, fireboy, water_point3[i], fireboy_score);
+                    point_collision(fireboy, watergirl, fire_point3[i], fireboy_score, collectSound);
+                    point_collision(watergirl, fireboy, water_point3[i], fireboy_score, collectSound);
                 }
 
                 lake_animation(fire3, deltaTime);
@@ -2422,6 +2528,12 @@ int main()
 
                 if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
+                   
+                    if (!gameOverSoundPlayed) 
+                    {
+                        gameOverSound.play(); 
+                        gameOverSoundPlayed = true; 
+                    }
                 }
                 break;
             }
