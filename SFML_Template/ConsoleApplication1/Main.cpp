@@ -63,9 +63,9 @@ int selectedmmIndex = 0;
 int selectedpmIndex = 0;
 
 Text pause_txt[3];
-String pausetxt[] = { "Resume","Back to main menu","Back to levels menu" };
+String pausetxt[] = { "R e s u m e","B a c k   t o   m a i n   m e n u","B a c k   t o   l e v e l s   m e n u" };
 Text main_txt[5];
-String maintxt[] = { "to level menu","credit","controls","sounds","exit" };
+String maintxt[] = { "t o   l e v e l   m e n u","c r e d i t","c o n t r o l s","s o u n d s","e x i t" };
 
 
 
@@ -952,14 +952,15 @@ int main()
         return -1;
     }
     Text namesarr[8];
-    string names_arr[] = { "Nourhan Ashraf","Malak Ahmed","Nour Gad","Aya Mohamed","Mohamed Mahmoud","Ziad Ekramy","Ziad Tarek" ,"To return Press ( X )" };
+    string names_arr[] = { "N o u r h a n   A s h r a f","M a l a k   A h m e d","N o u r   G a d","A y a   M o h a m e d","M o h a m e d   M a h m o u d","Z i a d   E k r a m y","Z i a d   T a r e k" ,"T o   r e t u r n   P r e s s   (  X  )" };
     for (int i = 0; i < 8; i++) {
         namesarr[i].setString(names_arr[i]);
-        namesarr[i].setCharacterSize(27);
+        namesarr[i].setCharacterSize(37);
         namesarr[i].setFillColor(Color::White);
-        namesarr[i].setOutlineThickness(4);
-        namesarr[i].setOutlineColor(Color::Green);
-        namesarr[i].setPosition(800, 150 + i * 100);
+        namesarr[i].setOutlineThickness(3);
+        namesarr[i].setOutlineColor(Color::Black);
+        if(i==7)namesarr[i].setPosition(650, 150 + i * 100);
+        else namesarr[i].setPosition(700, 150 + i * 100);
         namesarr[i].setScale(2.0f, 2.0f);
         namesarr[i].setFont(font);
     }
@@ -973,12 +974,12 @@ int main()
 
     for (int i = 0; i < 3; i++) {
         pause_txt[i].setString(pausetxt[i]);
-        pause_txt[i].setCharacterSize(27);
+        pause_txt[i].setCharacterSize(30);
         pause_txt[i].setFillColor(Color::White);
-        pause_txt[i].setOutlineThickness(4);
+        pause_txt[i].setOutlineThickness(3);
         pause_txt[i].setOutlineColor(Color::Red);
-        if (i > 0) pause_txt[i].setPosition(740, 300 + i * 200);
-        else  pause_txt[i].setPosition(890, 300 + i * 200);
+        if (i > 0) pause_txt[i].setPosition(620, 300 + i * 200);
+        else  pause_txt[i].setPosition(800, 300 + i * 200);
         pause_txt[i].setScale(2.5f, 2.5f);
         pause_txt[i].setFont(font);
     }
@@ -1024,16 +1025,16 @@ int main()
 
     for (int i = 0; i < 5; i++) {
         main_txt[i].setString(maintxt[i]);
-        main_txt[i].setCharacterSize(25.0f);
+        main_txt[i].setCharacterSize(30.0f);
         main_txt[i].setFillColor(Color::Cyan);
-        main_txt[i].setOutlineThickness(3.0f);
+        main_txt[i].setOutlineThickness(2.0f);
         main_txt[i].setOutlineColor(Color::Red);
-        if (i == 0) main_txt[i].setPosition(770, 530 + i * 100);
-        else main_txt[i].setPosition(840, 530 + i * 100);
+        if (i == 0) main_txt[i].setPosition(670, 530 + i * 100);
+        else main_txt[i].setPosition(830, 530 + i * 100);
         main_txt[i].setScale(3.0f, 2.5f);
         main_txt[i].setFont(font);
     }
-    main_txt[0].setFillColor(Color::Yellow);
+    main_txt[0].setFillColor(Color:: Yellow);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //GAME OVER :(
