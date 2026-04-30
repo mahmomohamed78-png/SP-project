@@ -2605,6 +2605,7 @@ int main()
 
         window.setView(gameView);
 
+        int timeLeft;
 
         switch (currentwindow)
         {
@@ -2693,6 +2694,14 @@ int main()
             window.draw(scoreTxt[0]);
             window.draw(scoreTxt[1]);
 
+            // draw timer
+
+             timeLeft = 120 - (int)levelTimeElapsed;
+            if (timeLeft < 0) timeLeft = 0;
+            timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
+            timerTxt.setString("Time: " + to_string(timeLeft));
+            window.draw(timerTxt);
+
            
 
             break;
@@ -2750,6 +2759,14 @@ int main()
             window.draw(scoreTxt[0]);
             window.draw(scoreTxt[1]);
 
+            // draw timer
+
+             timeLeft = 120 - (int)levelTimeElapsed;
+            if (timeLeft < 0) timeLeft = 0;
+            timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
+            timerTxt.setString("Time: " + to_string(timeLeft));
+            window.draw(timerTxt);
+
             break;
 
         case 4://drawin lvel 3
@@ -2803,6 +2820,14 @@ int main()
             scoreTxt[1].setString("Water: " + to_string(watergirl_score));
             window.draw(scoreTxt[0]);
             window.draw(scoreTxt[1]);
+
+            // draw timer
+
+             timeLeft = 120 - (int)levelTimeElapsed;
+            if (timeLeft < 0) timeLeft = 0;
+            timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
+            timerTxt.setString("Time: " + to_string(timeLeft));
+            window.draw(timerTxt);
 
             break;
 
