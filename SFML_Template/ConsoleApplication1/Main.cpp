@@ -14,6 +14,10 @@ using namespace sf;
 
 int currentwindow = 0;
 int pausedlevel = 0;
+
+bool levelTimerActive = false;
+float levelTimeElapsed = 0.f;
+
 struct design
 {
     Texture texture;
@@ -1107,6 +1111,31 @@ int main()
     levelsBackText.setOutlineThickness(3);
     levelsBackText.setOutlineColor(Color::Black);
     levelsBackText.setPosition(50, 950);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //  score  text
+    Text scoreTxt[2];
+    for (int i = 0; i < 2; i++) {
+        scoreTxt[i].setFont(font);
+        scoreTxt[i].setCharacterSize(40);
+        scoreTxt[i].setOutlineThickness(3);
+        scoreTxt[i].setOutlineColor(Color::Black);
+    }
+    scoreTxt[0].setFillColor(Color(255, 80, 80));
+    scoreTxt[0].setPosition(50, 20);
+    scoreTxt[1].setFillColor(Color(80, 180, 255));
+    scoreTxt[1].setPosition(300, 20);
+
+    // time text
+    Text timerTxt;
+    timerTxt.setFont(font);
+    timerTxt.setCharacterSize(40);
+    timerTxt.setFillColor(Color::White);
+    timerTxt.setOutlineThickness(3);
+    timerTxt.setOutlineColor(Color::Black);
+    timerTxt.setPosition(870, 20);
+    
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // YOU WIN MENU DESIGN 
     Texture winBgTexture;
@@ -1124,7 +1153,7 @@ int main()
     winTitleShadow.setCharacterSize(270);
     winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal 
     winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
-    winTitleShadow.setPosition((1920 / 2.0f) + 8, 310 + 8);
+    winTitleShadow.setPosition((1920 / 2.0f) + 8, 200 + 8);
 
     Text winTitle;
     winTitle.setFont(winfont);
@@ -1134,7 +1163,7 @@ int main()
     winTitle.setOutlineThickness(5);
     winTitle.setOutlineColor(Color::White);
     winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
-    winTitle.setPosition(1920 / 2.0f, 310);
+    winTitle.setPosition(1920 / 2.0f, 200);
 
     RectangleShape btnBoxes[2];
     Text winOptions[2];
@@ -1852,6 +1881,22 @@ int main()
         if (deltaTime > 0.1f) {
             deltaTime = 0.1f;
         }
+
+        // time play
+        if (levelTimerActive && !ispaused && (currentwindow == 2 || currentwindow == 3 || currentwindow == 4)) {
+            levelTimeElapsed += deltaTime;
+            // lose after 2 minutes
+            if (levelTimeElapsed >= 120.f) {
+                levelTimerActive = false;
+                currentwindow = 8;
+                gameMusic.stop();
+                if (!gameOverSoundPlayed) {
+                    gameOverSound.play();
+                    gameOverSoundPlayed = true;
+                }
+            }
+        }
+
         while (window.pollEvent(event))
         {
 
@@ -1919,6 +1964,7 @@ int main()
                     ispaused = true;
                 }
 
+               
                 break;
 
             case 5://credit menu orders
@@ -1993,7 +2039,11 @@ int main()
                             door[0].sprite.setPosition(50, 856 + 10 + 2);
                             door[1].sprite.setPosition(296, 1000 - 691.2 + 100 - 80 + 10 - 144 + 2);
                             for (int i = 0; i < 3; i++) { fire_point[i].sprite.setColor(Color::White); water_point[i].sprite.setColor(Color::White); }
+
                             points_counter = 0;
+                            levelTimeElapsed = 0.f;
+                            levelTimerActive = true;
+
                         }
                         else if (levelCards[1].getGlobalBounds().contains(mousePos)) {
                             currentwindow = 3; // Level 2
@@ -2037,6 +2087,8 @@ int main()
                     case 8: // Game Over Menu
                         if (back_from_GameOver[0].getGlobalBounds().contains(mousePos)) {
                             gameOverSoundPlayed = false; 
+                            levelTimerActive = false;
+                            levelTimeElapsed = 0.f;
 
                             if (menuMusic.getStatus() != Music::Playing) 
                             {
@@ -2047,6 +2099,9 @@ int main()
                         }
                         else if (back_from_GameOver[1].getGlobalBounds().contains(mousePos)) {
                             gameOverSoundPlayed = false; 
+                            levelTimerActive = false;
+                            levelTimeElapsed = 0.f;
+
 
                             if (menuMusic.getStatus() != Music::Playing) 
                             {
@@ -2513,7 +2568,7 @@ int main()
                 }
                 for (int i = 0; i < 5; i++) {
                     point_collision(fireboy, watergirl, fire_point3[i], fireboy_score, collectSound);
-                    point_collision(watergirl, fireboy, water_point3[i], fireboy_score, collectSound);
+                    point_collision(watergirl, fireboy, water_point3[i], watergirl_score, collectSound);
                 }
 
                 lake_animation(fire3, deltaTime);
@@ -2631,9 +2686,17 @@ int main()
             for (int i = 0; i < 3; i++)
                 window.draw(water_point[i].sprite);
 
+            // draw score
+
+            scoreTxt[0].setString("Fire: " + to_string(fireboy_score));
+            scoreTxt[1].setString("Water: " + to_string(watergirl_score));
+            window.draw(scoreTxt[0]);
+            window.draw(scoreTxt[1]);
+
+           
 
             break;
-
+        
         case 3://drawin level 2
 
             window.draw(background2.sprite);
@@ -2679,6 +2742,13 @@ int main()
             window.draw(fire2[1].sprite);
             window.draw(water2[0].sprite);
             window.draw(water2[1].sprite);
+
+            // draw score
+
+            scoreTxt[0].setString("Fire: " + to_string(fireboy_score));
+            scoreTxt[1].setString("Water: " + to_string(watergirl_score));
+            window.draw(scoreTxt[0]);
+            window.draw(scoreTxt[1]);
 
             break;
 
@@ -2726,6 +2796,13 @@ int main()
             window.draw(fire3.sprite);
             window.draw(acid3.sprite);
             window.draw(SNOW_3.sprite);
+
+            // draw score
+
+            scoreTxt[0].setString("Fire: " + to_string(fireboy_score));
+            scoreTxt[1].setString("Water: " + to_string(watergirl_score));
+            window.draw(scoreTxt[0]);
+            window.draw(scoreTxt[1]);
 
             break;
 
@@ -2781,6 +2858,15 @@ int main()
                 window.draw(btnBoxes[i]);
                 window.draw(winOptions[i]);
             }
+
+            // draw score
+
+            scoreTxt[0].setString("Fire Score: " + to_string(fireboy_score));
+            scoreTxt[1].setString("Water Score: " + to_string(watergirl_score));
+            scoreTxt[0].setPosition(750, 400);
+            scoreTxt[1].setPosition(750, 500);
+            window.draw(scoreTxt[0]);
+            window.draw(scoreTxt[1]);
 
             break;
 
