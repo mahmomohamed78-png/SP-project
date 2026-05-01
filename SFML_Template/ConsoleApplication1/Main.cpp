@@ -1887,7 +1887,7 @@ int main()
         if (levelTimerActive && !ispaused && (currentwindow == 2 || currentwindow == 3 || currentwindow == 4)) {
             levelTimeElapsed += deltaTime;
             // lose after 2 minutes
-            if (levelTimeElapsed >= 120.f) {
+            if (levelTimeElapsed >= 60.f) {
                 levelTimerActive = false;
                 currentwindow = 8;
                 gameMusic.stop();
@@ -2042,6 +2042,7 @@ int main()
                             for (int i = 0; i < 3; i++) { fire_point[i].sprite.setColor(Color::White); water_point[i].sprite.setColor(Color::White); }
 
                             points_counter = 0;
+                            // start timer
                             levelTimeElapsed = 0.f;
                             levelTimerActive = true;
 
@@ -2064,6 +2065,9 @@ int main()
                             door[1].sprite.setPosition(1750, 100);
                             for (int i = 0; i < 8; i++) { fire_point2[i].sprite.setColor(Color::White); water_point2[i].sprite.setColor(Color::White); }
                             points_counter = 0;
+                            // start timer
+                            levelTimeElapsed = 0.f;
+                            levelTimerActive = true;
                         }
                         else if (levelCards[2].getGlobalBounds().contains(mousePos)) {
                             currentwindow = 4; // Level 3
@@ -2083,6 +2087,9 @@ int main()
                             door[1].sprite.setPosition(250, 690 - 5);
                             for (int i = 0; i < 5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
                             points_counter = 0;
+                            // start timer
+                            levelTimeElapsed = 0.f;
+                            levelTimerActive = true;
                         }
                         break;
                     case 8: // Game Over Menu
@@ -2697,7 +2704,7 @@ int main()
 
             // draw timer
 
-             timeLeft = 120 - (int)levelTimeElapsed;
+             timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
@@ -2762,7 +2769,7 @@ int main()
 
             // draw timer
 
-             timeLeft = 120 - (int)levelTimeElapsed;
+             timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
@@ -2824,7 +2831,7 @@ int main()
 
             // draw timer
 
-             timeLeft = 120 - (int)levelTimeElapsed;
+             timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
@@ -2893,6 +2900,10 @@ int main()
             scoreTxt[1].setPosition(750, 500);
             window.draw(scoreTxt[0]);
             window.draw(scoreTxt[1]);
+
+            // position score
+            scoreTxt[0].setPosition(50, 20);
+            scoreTxt[1].setPosition(300, 20);
 
             break;
 
