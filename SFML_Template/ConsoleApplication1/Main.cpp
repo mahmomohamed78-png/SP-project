@@ -1888,7 +1888,7 @@ int main()
     watergirl.delay = 0.1f;
     watergirl.speed_x = 450.0f;
     watergirl.speed_y = 0.0f;
-    watergirl.jump_strength = -900.0f;
+    watergirl.jump_strength = -1000.0f;
     watergirl.gravity = 2500.0f;
     watergirl.timer = watergirl.delay;
     watergirl.onground = false;
@@ -2206,7 +2206,7 @@ int main()
                                 {
                                     menuMusic.play();
                                 }
-                                currentwindow = 1;
+                                currentwindow = 5;
                             }
                         }
                         else if (btnBoxes[1].getGlobalBounds().contains(mousePos)) {
