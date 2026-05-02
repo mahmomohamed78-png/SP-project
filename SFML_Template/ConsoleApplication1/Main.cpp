@@ -515,7 +515,7 @@ int fireboy_score = 0;
 int watergirl_score = 0;
 
 
-void point_collision(character& player1, character& player2, design& point, int& score, Sound& collectSound) {
+void point_collision(character& player1, character& player2, design& point, int& score, Sound& collectSound, Sound& wrongCollectSound) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -532,7 +532,7 @@ void point_collision(character& player1, character& player2, design& point, int&
     }
     else if (hitbox2.intersects(point.sprite.getGlobalBounds())) {
         if (point.sprite.getColor().a != 0) {
-            collectSound.play();
+            wrongCollectSound.play();
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
     }
@@ -634,6 +634,16 @@ int main()
     winSound.setVolume(70);
 
     bool winSoundPlayed = false;
+    // wrong collect sound
+    SoundBuffer wrongCollectBuffer; 
+    if (!wrongCollectBuffer.loadFromFile("gamesounds/missCollect.wav")) 
+    {
+        cout << "error loading wrong collect sound\n"; 
+    }
+
+    Sound wrongCollectSound; 
+    wrongCollectSound.setBuffer(wrongCollectBuffer); 
+    wrongCollectSound.setVolume(50); 
 
 
 
@@ -2021,14 +2031,29 @@ int main()
                     if (selectedpmIndex == 0) {//chosing resume
                         currentwindow = pausedlevel;
                         ispaused = false;
+                        if (gameMusic.getStatus() != Music::Playing) 
+                        {
+                            gameMusic.play(); 
+                        }
+
                     }
                     if (selectedpmIndex == 1) {//chosing main menu
                         currentwindow = 0;
                         ispaused = false;
+                        gameMusic.stop();
+                        if (menuMusic.getStatus() != Music::Playing) 
+                        {
+                            menuMusic.play(); 
+                        }
                     }
                     if (selectedpmIndex == 2) {//chosing level menu
                         currentwindow = 1;
                         ispaused = false;
+                        gameMusic.stop();
+                        if (menuMusic.getStatus() != Music::Playing) 
+                        {
+                            menuMusic.play(); 
+                        }
                     }
 
                 }
@@ -2362,9 +2387,9 @@ int main()
 
 
                 for (int i = 0; i < 3; i++)
-                    point_collision(fireboy, watergirl, fire_point[i], fireboy_score, collectSound);
+                    point_collision(fireboy, watergirl, fire_point[i], fireboy_score, collectSound, wrongCollectSound);
                 for (int i = 0; i < 3; i++)
-                    point_collision(watergirl, fireboy, water_point[i], watergirl_score, collectSound);
+                    point_collision(watergirl, fireboy, water_point[i], watergirl_score, collectSound, wrongCollectSound);
 
                 for (int i = 0; i < 135; i++) {
                     platform_collision(fireboy, rec[i]);
@@ -2429,9 +2454,9 @@ int main()
 
 
                 for (int i = 1; i < 8; i++)
-                    point_collision(fireboy, watergirl, fire_point2[i], fireboy_score, collectSound);
+                    point_collision(fireboy, watergirl, fire_point2[i], fireboy_score, collectSound, wrongCollectSound);
                 for (int i = 1; i < 8; i++)
-                    point_collision(watergirl, fireboy, water_point2[i], watergirl_score, collectSound);
+                    point_collision(watergirl, fireboy, water_point2[i], watergirl_score, collectSound, wrongCollectSound);
 
                 for (int i = 0; i < 2; i++) {
                     water_collision(fireboy, watergirl, lakes2[i], smoke, deltaTime, deathSound, gameMusic);
@@ -2709,8 +2734,8 @@ int main()
                     }
                 }
                 for (int i = 0; i < 5; i++) {
-                    point_collision(fireboy, watergirl, fire_point3[i], fireboy_score, collectSound);
-                    point_collision(watergirl, fireboy, water_point3[i], watergirl_score, collectSound);
+                    point_collision(fireboy, watergirl, fire_point3[i], fireboy_score, collectSound, wrongCollectSound);
+                    point_collision(watergirl, fireboy, water_point3[i], watergirl_score, collectSound, wrongCollectSound);
                 }
 
                 lake_animation(fire3, deltaTime);
@@ -2738,6 +2763,7 @@ int main()
         }
         else {
             currentwindow = 7;
+            gameMusic.pause(); 
         }
 
 
