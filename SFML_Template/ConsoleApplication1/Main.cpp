@@ -14,6 +14,7 @@ using namespace sf;
 
 int currentwindow = 0;
 int pausedlevel = 0;
+int wonlevel = 0;
 
 bool levelTimerActive = false;
 float levelTimeElapsed = 0.f;
@@ -514,7 +515,7 @@ int fireboy_score = 0;
 int watergirl_score = 0;
 
 
-void point_collision(character& player1, character& player2, design& point,int& score, Sound& collectSound) {
+void point_collision(character& player1, character& player2, design& point, int& score, Sound& collectSound) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -525,13 +526,13 @@ void point_collision(character& player1, character& player2, design& point,int& 
         if (point.sprite.getColor().a != 0) {
             score++;
             points_counter++;
-            collectSound.play(); 
+            collectSound.play();
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
     }
     else if (hitbox2.intersects(point.sprite.getGlobalBounds())) {
         if (point.sprite.getColor().a != 0) {
-            collectSound.play();  
+            collectSound.play();
             point.sprite.setColor(Color(255, 255, 255, 0));
         }
     }
@@ -612,27 +613,27 @@ int main()
 
     bool gameOverSoundPlayed = false;
     // sound collect
-    SoundBuffer collectBuffer; 
-    if (!collectBuffer.loadFromFile("gamesounds/collect2.wav")) 
+    SoundBuffer collectBuffer;
+    if (!collectBuffer.loadFromFile("gamesounds/collect2.wav"))
     {
-        cout << "error loading collect sound\n"; 
-    } 
-
-    Sound collectSound; 
-    collectSound.setBuffer(collectBuffer); 
-    collectSound.setVolume(50); 
-    // sound win
-    SoundBuffer winBuffer; 
-    if (!winBuffer.loadFromFile("gamesounds/win2.wav")) 
-    {
-        cout << "error loading win sound\n"; 
+        cout << "error loading collect sound\n";
     }
 
-    Sound winSound; 
-    winSound.setBuffer(winBuffer); 
-    winSound.setVolume(70); 
+    Sound collectSound;
+    collectSound.setBuffer(collectBuffer);
+    collectSound.setVolume(50);
+    // sound win
+    SoundBuffer winBuffer;
+    if (!winBuffer.loadFromFile("gamesounds/win2.wav"))
+    {
+        cout << "error loading win sound\n";
+    }
 
-    bool winSoundPlayed = false; 
+    Sound winSound;
+    winSound.setBuffer(winBuffer);
+    winSound.setVolume(70);
+
+    bool winSoundPlayed = false;
 
 
 
@@ -704,6 +705,12 @@ int main()
     design water_point3[5];
 
     design stairs[5];
+    //////////////////////////////modification/////////////////////////////////////////////////
+    design button;
+    RectangleShape button_collision;
+    design lift;
+    RectangleShape lift_collision;
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     RectangleShape collision_boxs3[26];
     RectangleShape lakes3[2];
@@ -816,6 +823,9 @@ int main()
 
     fire3.texture.loadFromFile("game_textures\\lava_Animation.png");
     acid3.texture.loadFromFile("game_textures\\Acid_Animation.png");
+    //////////////////////////////modification/////////////////////////////////////////////////
+    button.texture.loadFromFile("game_textures\\button.png");
+    lift.texture.loadFromFile("game_textures\\lift.png");
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -931,6 +941,9 @@ int main()
 
     fire3.sprite.setTexture(fire3.texture);
     acid3.sprite.setTexture(acid3.texture);
+    //////////////////////////////modification/////////////////////////////////////////////////
+    button.sprite.setTexture(button.texture);
+    lift.sprite.setTexture(lift.texture);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -959,7 +972,7 @@ int main()
         namesarr[i].setFillColor(Color::White);
         namesarr[i].setOutlineThickness(3);
         namesarr[i].setOutlineColor(Color::Black);
-        if(i==7)namesarr[i].setPosition(650, 150 + i * 100);
+        if (i == 7)namesarr[i].setPosition(650, 150 + i * 100);
         else namesarr[i].setPosition(700, 150 + i * 100);
         namesarr[i].setScale(2.0f, 2.0f);
         namesarr[i].setFont(font);
@@ -1034,7 +1047,7 @@ int main()
         main_txt[i].setScale(3.0f, 2.5f);
         main_txt[i].setFont(font);
     }
-    main_txt[0].setFillColor(Color:: Yellow);
+    main_txt[0].setFillColor(Color::Yellow);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //GAME OVER :(
@@ -1114,7 +1127,7 @@ int main()
     levelsBackText.setPosition(50, 950);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     //  score  text
     Text scoreTxt[2];
     for (int i = 0; i < 2; i++) {
@@ -1136,7 +1149,7 @@ int main()
     timerTxt.setOutlineThickness(3);
     timerTxt.setOutlineColor(Color::Black);
     timerTxt.setPosition(870, 20);
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // YOU WIN MENU DESIGN 
     Texture winBgTexture;
@@ -1665,6 +1678,14 @@ int main()
     stairs[2].sprite.setPosition(15, 1080 - 800);
     stairs[3].sprite.setPosition(200, 1080 - 350);
     stairs[4].sprite.setPosition(200, 1080 - 650);
+
+
+    ////////////////////////////////////////////////////////////////
+    //////////////////////////////modification/////////////////////////////////////////////////
+    button.sprite.setPosition(1490, 682);
+    lift.sprite.setPosition(-20, 953);
+    lift.sprite.setScale(2.0f, 1.3f);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // 
     // Collision boxes and walls for level 1
@@ -1808,6 +1829,12 @@ int main()
     Vector2f vect2(green_lake_3.sprite.getGlobalBounds().width, green_lake_3.sprite.getGlobalBounds().height / 3);
     lakes3[1].setSize(vect2);
     lakes3[1].setPosition(green_lake_3.sprite.getPosition().x, green_lake_3.sprite.getPosition().y + (green_lake_3.sprite.getGlobalBounds().height * 2 / 3) - 5);
+    //////////////////////////////modification/////////////////////////////////////////////////
+    lift_collision.setSize(Vector2f(150, 30));
+    lift_collision.setPosition(23, 990 + 23);
+    button_collision.setSize(Vector2f(45, 30));
+    button_collision.setPosition(button.sprite.getPosition().x + 35, button.sprite.getPosition().y + 45);
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     RenderWindow window(VideoMode(1920, 1080), "sfml works");
 
@@ -1965,7 +1992,7 @@ int main()
                     ispaused = true;
                 }
 
-               
+
                 break;
 
             case 5://credit menu orders
@@ -2082,7 +2109,7 @@ int main()
                             door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                             fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
-                            watergirl.sprite.setPosition(150, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                            watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(400, 690 - 5);
                             door[1].sprite.setPosition(250, 690 - 5);
                             for (int i = 0; i < 5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
@@ -2094,49 +2121,102 @@ int main()
                         break;
                     case 8: // Game Over Menu
                         if (back_from_GameOver[0].getGlobalBounds().contains(mousePos)) {
-                            gameOverSoundPlayed = false; 
+                            gameOverSoundPlayed = false;
                             levelTimerActive = false;
                             levelTimeElapsed = 0.f;
 
-                            if (menuMusic.getStatus() != Music::Playing) 
+                            if (menuMusic.getStatus() != Music::Playing)
                             {
-                                menuMusic.play(); 
+                                menuMusic.play();
                             }
-                            currentwindow = 0; 
-                         // Back to Main Menu
+                            currentwindow = 0;
+                            // Back to Main Menu
                         }
                         else if (back_from_GameOver[1].getGlobalBounds().contains(mousePos)) {
-                            gameOverSoundPlayed = false; 
+                            gameOverSoundPlayed = false;
                             levelTimerActive = false;
                             levelTimeElapsed = 0.f;
 
 
-                            if (menuMusic.getStatus() != Music::Playing) 
+                            if (menuMusic.getStatus() != Music::Playing)
                             {
-                                menuMusic.play(); 
+                                menuMusic.play();
                             }
                             currentwindow = 1; // Back to Level Menu 
                         }
                         break;
                     case 9: // Win Menu
+                        //////////////////////////////modification/////////////////////////////////////////////////
                         if (btnBoxes[0].getGlobalBounds().contains(mousePos)) {
-                            winSoundPlayed = false; 
+                            winSoundPlayed = false;
 
-                            if (menuMusic.getStatus() != Music::Playing) 
-                            {
-                                menuMusic.play(); 
+                            if (wonlevel == 2) {
+
+                                currentwindow = 3;
+                                menuMusic.stop();
+                                gameMusic.play();
+                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
+                                boy_is_dead = false; girl_is_dead = false;
+                                fireboy.is_dead = false; watergirl.is_dead = false;
+                                fire_framecounter = 0; water_framecounter = 0;
+                                fireboy_score = 0; watergirl_score = 0;
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+                                watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                                door[0].sprite.setPosition(1600, 100);
+                                door[1].sprite.setPosition(1750, 100);
+                                for (int i = 0; i < 8; i++) { fire_point2[i].sprite.setColor(Color::White); water_point2[i].sprite.setColor(Color::White); }
+                                points_counter = 0;
+                                levelTimeElapsed = 0.f;
+                                levelTimerActive = true;
                             }
-                            currentwindow = 1; // 夭乇丕乇 賳賰爻鬲 賱賷賮賱 (丨丕賱賷丕賸 賴賷乇噩毓賰 賱卮丕卮丞 丕禺鬲賷丕乇 丕賱賱賷賮賱丕鬲 毓卮丕賳 鬲禺鬲丕乇 亘乇丕丨鬲賰)
+                            else if (wonlevel == 3) {
+
+                                currentwindow = 4;
+                                menuMusic.stop();
+                                gameMusic.play();
+                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
+                                boy_is_dead = false; girl_is_dead = false;
+                                fireboy.is_dead = false; watergirl.is_dead = false;
+                                fire_framecounter = 0; water_framecounter = 0;
+                                fireboy_score = 0; watergirl_score = 0;
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
+                                watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
+                                door[0].sprite.setPosition(400, 690 - 5);
+                                door[1].sprite.setPosition(250, 690 - 5);
+                                for (int i = 0; i < 5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
+
+
+                                button.sprite.setPosition(1490, 682);
+                                button_collision.setPosition(button.sprite.getPosition().x + 35, button.sprite.getPosition().y + 45);
+                                lift.sprite.setPosition(-20, 953);
+                                lift_collision.setPosition(23, 990 + 23);
+
+                                points_counter = 0;
+                                levelTimeElapsed = 0.f;
+                                levelTimerActive = true;
+                            }
+                            else {
+                                if (menuMusic.getStatus() != Music::Playing)
+                                {
+                                    menuMusic.play();
+                                }
+                                currentwindow = 1;
+                            }
                         }
                         else if (btnBoxes[1].getGlobalBounds().contains(mousePos)) {
-                            winSoundPlayed = false; 
+                            winSoundPlayed = false;
 
-                            if (menuMusic.getStatus() != Music::Playing) 
+                            if (menuMusic.getStatus() != Music::Playing)
                             {
-                                menuMusic.play(); 
+                                menuMusic.play();
                             }
                             currentwindow = 1; // Back to Level Menu 
                         }
+                        /////////////////////////////////////////////////////////////////////////////////////////////////
                         break;
 
                     default:
@@ -2251,17 +2331,18 @@ int main()
                                 is_win = true;
                             }
                         }
-                        if (is_win) 
+                        if (is_win)
                         {
-                            currentwindow = 9; 
-                            menuMusic.stop(); 
-                            gameMusic.stop(); 
-                        
-                            if (!winSoundPlayed) 
+                            wonlevel = 2;
+                            currentwindow = 9;
+                            menuMusic.stop();
+                            gameMusic.stop();
+
+                            if (!winSoundPlayed)
                             {
-                                gameMusic.stop(); 
-                                winSound.play(); 
-                                winSoundPlayed = true; 
+                                gameMusic.stop();
+                                winSound.play();
+                                winSoundPlayed = true;
                             }
                         }
                     }
@@ -2452,15 +2533,16 @@ int main()
                         }
                         if (is_win)
                         {
-                            currentwindow = 9; 
+                            wonlevel = 3;
+                            currentwindow = 9;
 
-                            menuMusic.stop(); 
-                            gameMusic.stop(); 
+                            menuMusic.stop();
+                            gameMusic.stop();
 
-                            if (!winSoundPlayed) 
+                            if (!winSoundPlayed)
                             {
-                                winSound.play(); 
-                                winSoundPlayed = true; 
+                                winSound.play();
+                                winSoundPlayed = true;
                             }
                         }
                     }
@@ -2489,21 +2571,27 @@ int main()
 
                 if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
-                    if (!gameOverSoundPlayed) 
+                    if (!gameOverSoundPlayed)
                     {
-                        gameOverSound.play(); 
-                        gameOverSoundPlayed = true; 
+                        gameOverSound.play();
+                        gameOverSoundPlayed = true;
                     }
                 }
 
                 break;
 
             case 4: //level 3 collisions
-
+				//////////////////////////////modification/////////////////////////////////////////////////
                 for (int i = 0; i < 24; i++) {
-                    platform_collision(fireboy, collision_boxs3[i]);
-                    platform_collision(watergirl, collision_boxs3[i]);
+                    if (i == 18 || i == 19 || i == 20 || i == 21 || i == 22) {
+
+                    }
+                    else {
+                        platform_collision(fireboy, collision_boxs3[i]);
+                        platform_collision(watergirl, collision_boxs3[i]);
+                    }
                 }
+                //////////////////////////////////////////////////////////////////////////////////////////////
                 fire_collision(fireboy, watergirl, lakes3[0], smoke, deltaTime, deathSound, gameMusic);
                 acid_collision(fireboy, watergirl, lakes3[1], smoke, deltaTime, deathSound, gameMusic);
 
@@ -2521,11 +2609,46 @@ int main()
                 slope_collision(fireboy, 845, 306, 945, 177);
 
                 snow_slope_collision(fireboy, watergirl, 1550 + 40, 1080, 1550 + 380, 900, deltaTime);  //snow slope
-                //slope_collision(watergirl, 1550 + 40, 1080, 1550 + 380, 890);  //snow slope
 
                 fire_door_collision(fireboy, door[0], deltaTime);
                 water_door_collision(watergirl, door[1], deltaTime);
+				///////////////////modification/////////////////////////////////////////////////
+                platform_collision(watergirl, lift_collision);
+               
+                FloatRect hitbox1 = watergirl.sprite.getGlobalBounds();
+                hitbox1.width = 40;
+                hitbox1.left += 65;
+                hitbox1.height += 5.0f;
+                FloatRect hitbox2 = fireboy.sprite.getGlobalBounds();
+                hitbox2.width = 40;
+                hitbox2.left += 65;
+                hitbox2.height += 5.0f;
 
+                if (button_collision.getGlobalBounds().intersects(hitbox2) || button_collision.getGlobalBounds().intersects(hitbox1)) {
+                    if (lift_collision.getPosition().y > 300) {
+                        if (lift_collision.getGlobalBounds().intersects(hitbox1)) {
+                            watergirl.sprite.move(0, -300 * deltaTime);
+                        }
+                        if (lift_collision.getGlobalBounds().intersects(hitbox2)) {
+                            fireboy.sprite.move(0, -300 * deltaTime);
+                        }
+                        lift_collision.move(0, -300 * deltaTime);
+                        lift.sprite.move(0, -300 * deltaTime);
+                        if (button.sprite.getPosition().y < 695) {
+                            button.sprite.move(0, 20 * deltaTime);
+                        }
+                    }
+                }
+                else {
+                    if (lift_collision.getPosition().y < 1013) {
+                        lift_collision.move(0, 300 * deltaTime);
+                        lift.sprite.move(0, 300 * deltaTime);
+                    }
+                    if (button.sprite.getPosition().y > 682) {
+                        button.sprite.move(0, -20 * deltaTime);
+                    }
+                }
+/////////////////////////////////////////////////////////////////////////////////////////
                 if (door[0].opened && door[1].opened) {
                     bool is_win = false;
                     static float timer = 0;
@@ -2549,17 +2672,18 @@ int main()
                                 is_win = true;
                             }
                         }
-                        if (is_win) 
+                        if (is_win)
                         {
+                            wonlevel = 4;
                             currentwindow = 9;
 
-                            menuMusic.stop(); 
-                            gameMusic.stop(); 
-                             
-                            if (!winSoundPlayed) 
+                            menuMusic.stop();
+                            gameMusic.stop();
+
+                            if (!winSoundPlayed)
                             {
-                                winSound.play(); 
-                                winSoundPlayed = true; 
+                                winSound.play();
+                                winSoundPlayed = true;
                             }
                         }
                     }
@@ -2591,11 +2715,11 @@ int main()
 
                 if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
-                   
-                    if (!gameOverSoundPlayed) 
+
+                    if (!gameOverSoundPlayed)
                     {
-                        gameOverSound.play(); 
-                        gameOverSoundPlayed = true; 
+                        gameOverSound.play();
+                        gameOverSoundPlayed = true;
                     }
                 }
                 break;
@@ -2704,16 +2828,16 @@ int main()
 
             // draw timer
 
-             timeLeft = 60 - (int)levelTimeElapsed;
+            timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
             window.draw(timerTxt);
 
-           
+
 
             break;
-        
+
         case 3://drawin level 2
 
             window.draw(background2.sprite);
@@ -2769,7 +2893,7 @@ int main()
 
             // draw timer
 
-             timeLeft = 60 - (int)levelTimeElapsed;
+            timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
@@ -2798,14 +2922,18 @@ int main()
             for (int i = 0; i < 5; i++)
                 window.draw(water_point3[i].sprite);
 
-            for (int i = 0; i < 5; i++)
-                window.draw(stairs[i].sprite);
+            //    for (int i = 0; i < 5; i++)
+              //      window.draw(stairs[i].sprite);
 
             window.draw(Frame.sprite);
 
             window.draw(door[0].sprite);
             window.draw(door[1].sprite);
-
+            //////////////////////////////modification/////////////////////////////////////////////////
+            window.draw(button.sprite);
+            window.draw(ground_3[3].sprite);
+            window.draw(lift.sprite);
+            ////////////////////////////////////////////////////////////////////////////////////////////
             if (!boy_is_dead)
                 window.draw(fireboy.sprite);
             else {
@@ -2831,7 +2959,7 @@ int main()
 
             // draw timer
 
-             timeLeft = 60 - (int)levelTimeElapsed;
+            timeLeft = 60 - (int)levelTimeElapsed;
             if (timeLeft < 0) timeLeft = 0;
             timerTxt.setFillColor(timeLeft <= 20 ? Color::Red : Color::White);
             timerTxt.setString("Time: " + to_string(timeLeft));
