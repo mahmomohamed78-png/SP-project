@@ -2117,6 +2117,8 @@ int main()
                             // start timer
                             levelTimeElapsed = 0.f;
                             levelTimerActive = true;
+                            lift.sprite.setPosition(-20, 953);
+                            lift_collision.setPosition(23, 990 + 23);
                         }
                         break;
                     case 8: // Game Over Menu
@@ -2623,6 +2625,9 @@ int main()
                 hitbox2.width = 40;
                 hitbox2.left += 65;
                 hitbox2.height += 5.0f;
+				FloatRect lift_bounds = lift_collision.getGlobalBounds();
+                lift_bounds.top = lift_bounds.top + lift_bounds.height;
+                lift_bounds.height=5;
 
                 if (button_collision.getGlobalBounds().intersects(hitbox2) || button_collision.getGlobalBounds().intersects(hitbox1)) {
                     if (lift_collision.getPosition().y > 300) {
@@ -2640,7 +2645,12 @@ int main()
                     }
                 }
                 else {
-                    if (lift_collision.getPosition().y < 1013) {
+                    bool isBlocked = false;
+                    if (lift_bounds.intersects(hitbox1))
+                        isBlocked = true;
+                    else
+                        isBlocked = false;
+                    if (lift_collision.getPosition().y < 1013 && !isBlocked) {
                         lift_collision.move(0, 300 * deltaTime);
                         lift.sprite.move(0, 300 * deltaTime);
                     }
