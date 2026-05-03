@@ -2497,6 +2497,7 @@ int main()
                         }
                         lift_collision.move(0, -300 * deltaTime);
                         lift.sprite.move(0, -300 * deltaTime);
+						lift.texture.loadFromFile("game_textures\\lift_Lighted.png");
                         if (button.sprite.getPosition().y < 695) {
                             button.sprite.move(0, 20 * deltaTime);
                         }
@@ -2511,6 +2512,7 @@ int main()
                     if (lift_collision.getPosition().y < 1013 && !isBlocked) {
                         lift_collision.move(0, 300 * deltaTime);
                         lift.sprite.move(0, 300 * deltaTime);
+						lift.texture.loadFromFile("game_textures\\lift.png");
                     }
                     if (button.sprite.getPosition().y > 682) {
                         button.sprite.move(0, -20 * deltaTime);
