@@ -5,12 +5,9 @@
 #include <string>
 #include <fstream>
 #include <SFML/Audio.hpp>
-#include <sstream>
 #include <iomanip>
 using namespace std;
 using namespace sf;
-
-
 
 int currentwindow = 0;
 int pausedlevel = 0;
@@ -28,7 +25,6 @@ struct design
     float timer = 0;
     bool opened = false;
 };
-
 
 struct character {
     const int frameWidth = 160;
@@ -110,7 +106,6 @@ void MoveSelection(int direction, Color newColor, Color oldColor)
     
 }
 
-
 void moveCharacter(character& player, float deltaTime)
 {
     player.ismoving = false;
@@ -129,6 +124,7 @@ void moveCharacter(character& player, float deltaTime)
         player.sprite.setScale(1, 1);
     }
 }
+
 void jumpCharacter(character& c, float deltaTime)
 {
     if (!c.is_dead && Keyboard::isKeyPressed(c.up) && c.onground) {
@@ -140,6 +136,7 @@ void jumpCharacter(character& c, float deltaTime)
         c.sprite.move(0, c.speed_y * deltaTime);
     }
 }
+
 void animation(character& c, float deltaTime)
 {
     if (!c.ismoving) {
@@ -161,17 +158,6 @@ void animation(character& c, float deltaTime)
 
 }
 
-void ground_collision(character& player, RectangleShape& ground) {
-    FloatRect hitbox = player.sprite.getGlobalBounds();
-    hitbox.width = 40;
-    hitbox.left += 55;
-    if (hitbox.intersects(ground.getGlobalBounds())) {
-        player.sprite.setPosition(player.sprite.getPosition().x, ground.getPosition().y - (player.frameHeight / 2.0));
-        player.speed_y = 0;
-        player.onground = true;
-    }
-}
-
 void platform_collision(character& player, RectangleShape& ground) {
     FloatRect hitbox = player.sprite.getGlobalBounds();
     hitbox.width = 40;
@@ -191,20 +177,19 @@ void platform_collision(character& player, RectangleShape& ground) {
     }
 }
 
-bool girl_is_dead = 0;
 int water_framecounter = 0;
 void water_died(character& player, design& smoke, float& dt, Sound& deathSound, Music& gameMusic) {
-    if (!girl_is_dead)
+    if (!player.is_dead)
     {
         gameMusic.stop();
         deathSound.play();
     }
     player.stop = 1;
     player.is_dead = true;
-    girl_is_dead = 1;
+    player.is_dead = 1;
     player.timer += dt;
     smoke.sprite.setPosition(player.sprite.getPosition().x - 84, player.sprite.getPosition().y - 150);
-    if (girl_is_dead && player.timer >= 0.1f) {
+    if (player.is_dead && player.timer >= 0.1f) {
         smoke.sprite.setTextureRect(IntRect(water_framecounter * 168, 0, 168, 186));
         player.timer = 0;
         water_framecounter++;
@@ -220,20 +205,19 @@ void water_died(character& player, design& smoke, float& dt, Sound& deathSound, 
     }
 }
 
-bool boy_is_dead = 0;
 int fire_framecounter = 0;
 void fire_died(character& player, design& smoke, float& dt, Sound& deathSound, Music& gameMusic) {
-    if (!boy_is_dead)
+    if (!player.is_dead)
     {
         gameMusic.stop();
         deathSound.play();
     }
     player.stop = 1;
     player.is_dead = true;
-    boy_is_dead = 1;
+    player.is_dead = 1;
     player.timer += dt;
     smoke.sprite.setPosition(player.sprite.getPosition().x - 84, player.sprite.getPosition().y - 150);
-    if (boy_is_dead && player.timer >= 0.1f) {
+    if (player.is_dead && player.timer >= 0.1f) {
         smoke.sprite.setTextureRect(IntRect(fire_framecounter * 168, 0, 168, 186));
         player.timer = 0;
         fire_framecounter++;
@@ -360,8 +344,6 @@ void acid_collision(character& fireBoy, character& waterGirl, RectangleShape& ac
     }
 }
 
-
-
 void slope_collision(character& player, double x1, double y1, double x2, double y2) {
     double player_x = player.sprite.getPosition().x;
     if (player_x >= x1 && player_x <= x2) {
@@ -460,8 +442,6 @@ void wall_collision(character& boy, character& girl, RectangleShape& wall) {
     }
 }
 
-
-
 void door_collision(character& player, design& door, float dt) {
     FloatRect hitbox = player.sprite.getGlobalBounds();
     hitbox.width = 40;
@@ -485,37 +465,10 @@ void door_collision(character& player, design& door, float dt) {
     }
 }
 
-
-
-/*void water_door_collision(character& player, design& door, float dt) {
-    FloatRect hitbox = player.sprite.getGlobalBounds();
-    hitbox.width = 40;
-    hitbox.left += 55;
-    door.opened = hitbox.intersects(door.sprite.getGlobalBounds());
-    door.timer += dt;
-    if (door.timer >= 0.16f) {
-        door.timer = 0;
-        if (door.opened) {
-            if (door.framecounter < 6) {
-                door.framecounter++;
-                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
-            }
-        }
-        else {
-            if (door.framecounter > 0) {
-                door.framecounter--;
-                door.sprite.setTextureRect(IntRect(door.framecounter * 121, 0, 121, 144));
-            }
-        }
-    }
-}
-*/
-
 //initialize score counter
 int points_counter = 0;
 int fireboy_score = 0;
 int watergirl_score = 0;
-
 
 void point_collision(character& player1, character& player2, design& point, int& score, Sound& collectSound, Sound& wrongCollectSound) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
@@ -647,8 +600,6 @@ int main()
     wrongCollectSound.setBuffer(wrongCollectBuffer); 
     wrongCollectSound.setVolume(50); 
 
-
-
     //definitions level1
     design ground[12];
     design Platform[2];
@@ -666,8 +617,6 @@ int main()
     design door[2];
     RectangleShape rec[135];
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Level 2 definitions
@@ -680,10 +629,6 @@ int main()
     design water_lake2[2];
     design green_lake2[2];
 
-    animation_lakes water2[2];
-    animation_lakes fire2[2];
-    animation_lakes acid2[2];
-
     design fire_point2[8];
     design water_point2[8];
 
@@ -692,6 +637,10 @@ int main()
     design right_corner2;
     design step_corner2;
 
+    animation_lakes water2[2];
+    animation_lakes fire2[2];
+    animation_lakes acid2[2];
+
     RectangleShape collision_boxs2[20];
     RectangleShape lakes2[6];
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -699,24 +648,17 @@ int main()
     // Level 3 definitions
 
     design ground_3[14];
-
     design coloumn_3[4];
-
     design fire_lake3;
-
     design corner_3;
-
     design SNOW_3;
-
     design green_lake_3;
-
-    animation_lakes fire3;
-    animation_lakes acid3;
 
     design fire_point3[5];
     design water_point3[5];
 
-    design stairs[5];
+    animation_lakes fire3;
+    animation_lakes acid3;
     //////////////////////////////modification/////////////////////////////////////////////////
     design button;
     RectangleShape button_collision;
@@ -829,9 +771,6 @@ int main()
 
     for (int i = 0; i < 5; i++)
         water_point3[i].texture.loadFromFile("game_textures/Water_Spell_Frame_03/Water_Spell_Frame_03.png");
-
-    for (int i = 0; i < 5; i++)
-        stairs[i].texture.loadFromFile("game_textures/Tile_03.png");
 
     fire3.texture.loadFromFile("game_textures\\lava_Animation.png");
     acid3.texture.loadFromFile("game_textures\\Acid_Animation.png");
@@ -948,9 +887,6 @@ int main()
     for (int i = 0; i < 5; i++)
         water_point3[i].sprite.setTexture(water_point3[i].texture);
 
-    for (int i = 0; i < 5; i++)
-        stairs[i].sprite.setTexture(stairs[i].texture);
-
     fire3.sprite.setTexture(fire3.texture);
     acid3.sprite.setTexture(acid3.texture);
     //////////////////////////////modification/////////////////////////////////////////////////
@@ -995,7 +931,6 @@ int main()
     mn_menu.loadFromFile("game_textures\\main_menu_resized_1920x1080.png");
     Sprite menu_BG;
     menu_BG.setTexture(mn_menu);
-
 
     for (int i = 0; i < 4; i++) {
         pause_txt[i].setString(pausetxt[i]);
@@ -1089,7 +1024,6 @@ int main()
         else sound_txt[i].setFillColor(Color::White); //white RETURNE
         sound_txt[i].setOutlineThickness(3);
         sound_txt[i].setOutlineColor(Color::Black);
-
         
         sound_txt[i].setOrigin(sound_txt[i].getLocalBounds().width / 2.0f, sound_txt[i].getLocalBounds().height / 2.0f);
         sound_txt[i].setPosition(1920 / 2.0f, 400 + i * 180 - 15);
@@ -1153,7 +1087,6 @@ int main()
         levelCards[i].setOutlineThickness(5);
         levelCards[i].setOutlineColor(Color::Cyan);
 
-
         levelTexts[i].setFont(font);
         levelTexts[i].setString(lvlNames[i]);
         levelTexts[i].setCharacterSize(60);
@@ -1207,14 +1140,13 @@ int main()
     Font winfont;
     winfont.loadFromFile("game_textures\\AversaVectors.otf");
 
-    
     Text winTitleShadow;
     winTitleShadow.setFont(winfont);
     winTitleShadow.setString("YOU WON  ( ; ");
     winTitleShadow.setCharacterSize(270);
     winTitleShadow.setFillColor(Color(0, 140, 130)); // Teal 
     winTitleShadow.setOrigin(winTitleShadow.getLocalBounds().width / 2.0f, winTitleShadow.getLocalBounds().height / 2.0f);
-    winTitleShadow.setPosition((1920 / 2.0f) + 8, 200 + 8);
+    winTitleShadow.setPosition(968, 208);
 
     Text winTitle;
     winTitle.setFont(winfont);
@@ -1224,7 +1156,7 @@ int main()
     winTitle.setOutlineThickness(5);
     winTitle.setOutlineColor(Color::White);
     winTitle.setOrigin(winTitle.getLocalBounds().width / 2.0f, winTitle.getLocalBounds().height / 2.0f);
-    winTitle.setPosition(1920 / 2.0f, 200);
+    winTitle.setPosition(960, 200);
 
     RectangleShape btnBoxes[2];
     Text winOptions[2];
@@ -1237,7 +1169,7 @@ int main()
         btnBoxes[i].setOutlineThickness(4);
         btnBoxes[i].setOutlineColor(Color::White);
         btnBoxes[i].setOrigin(btnBoxes[i].getSize().x / 2.0f, btnBoxes[i].getSize().y / 2.0f);
-        btnBoxes[i].setPosition(1920 / 2.0f, 610 + i * 150);
+        btnBoxes[i].setPosition(960, 610 + i * 150);
 
         winOptions[i].setFont(font);
         winOptions[i].setString(winOptionsText[i]);
@@ -1247,93 +1179,74 @@ int main()
         winOptions[i].setOutlineThickness(2);
         winOptions[i].setOutlineColor(Color(40, 40, 50));
         winOptions[i].setOrigin(winOptions[i].getLocalBounds().width / 2.0f, winOptions[i].getLocalBounds().height / 2.0f);
-        winOptions[i].setPosition(1920 / 2.0f, (610 + i * 150) - 10);
+        winOptions[i].setPosition(960, 600 + i * 150);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     //Level 1 Design
 
     //Frame
     Frame.sprite.setScale(1.1, 1.5);
-    Frame.sprite.setPosition(-96, -96 - 32);
-
+    Frame.sprite.setPosition(-96, -128);
 
     //background
     background.sprite.setScale(1.875, 1.5);
 
-
-
-
     //ground0
     ground[0].sprite.setScale(3, 1.2);
-    ground[0].sprite.setPosition(200, 1000 - 691.2 + 100 - 80);
-
+    ground[0].sprite.setPosition(200, 328.8);
 
     //// ground1
     ground[1].sprite.setScale(0.875, 1.5);
     ground[1].sprite.setPosition(1220, 1000);
 
-
     // ground2
     ground[2].sprite.setPosition(0, 1000);
     ground[2].sprite.setScale(0.875, 1.5);
 
-
     // ground3
-    ground[3].sprite.setPosition(1920 - 105.6 - 182, 700 + 10);
-
+    ground[3].sprite.setPosition(1632.4, 710);
 
     // ground4
     ground[4].sprite.setScale(0.5, 1);
-    ground[4].sprite.setPosition(296, 650 + 50 - 80);
-
+    ground[4].sprite.setPosition(296, 620);
 
     // ground5
-    ground[5].sprite.setPosition(744 - 128.4, 650 - 64 + 50 - 80);
+    ground[5].sprite.setPosition(615.6, 556);
     ground[5].sprite.setScale(1.2, 2);
-
 
     //ground6
     ground[6].sprite.setScale(2, 2);
-    ground[6].sprite.setPosition(1448 - 172.8, 650 + 50 - 80);
-
+    ground[6].sprite.setPosition(1275.2, 620);
 
     //ground7
     ground[7].sprite.setScale(0.5, 1);
-    ground[7].sprite.setPosition(296, 1000 - 691.2 + 100 - 80);
-
+    ground[7].sprite.setPosition(296, 328.8);
 
     //ground8
-    ground[8].sprite.setPosition(1920 - 105.6 - 182, 450 - 90);
-
+    ground[8].sprite.setPosition(1632.4, 360);
 
     //ground9
-    ground[9].sprite.setPosition(506 - 50, 300 - 80);
-
+    ground[9].sprite.setPosition(506 - 50, 220);
 
     //ground10
     ground[10].sprite.setScale(0.5, 1);
-    ground[10].sprite.setPosition(932.6, 300 - 80);
-
+    ground[10].sprite.setPosition(932.6, 220);
 
     //ground11
     ground[11].sprite.setScale(-1, 1);
-    ground[11].sprite.setPosition(1545 + 20.6, 300 - 80);
-
+    ground[11].sprite.setPosition(1565.6, 220);
 
     //Platform0
-    Platform[0].sprite.setPosition(848, 1080 - 128 - 64 - 10);
+    Platform[0].sprite.setPosition(848, 878);
 
     //platform1
     Platform[1].sprite.setPosition(1450, 850);
     Platform[1].sprite.setScale(1 / 1.5, 1);
 
-
     // Triengle
     triangle.sprite.setScale(2, 2);
-    triangle.sprite.setPosition(1448 - 70, 500 + 50 - 80);
-
+    triangle.sprite.setPosition(1378, 470);
 
     // Fire lake 1 
     fire_lake[0].sprite.setPosition(700, 1000);
@@ -1341,13 +1254,11 @@ int main()
     fire[0].sprite.setPosition(700, 1000);
     fire[0].sprite.setScale(4.095f, 3.0f);
 
-
     // Fire lake 2 
     fire_lake[1].sprite.setScale(0.7, 2);
     fire_lake[1].sprite.setPosition(1073.6, 620);
     fire[1].sprite.setScale(1.575, 2);
     fire[1].sprite.setPosition(1073.6, 620);
-
 
     // Fire lake 3
     fire_lake[2].sprite.setScale(0.7, 2);
@@ -1355,13 +1266,11 @@ int main()
     fire[2].sprite.setScale(1.575, 2);
     fire[2].sprite.setPosition(1092.6, 220);
 
-
     // Water lake 1
     water_lake[0].sprite.setScale(0.7, 2);
     water_lake[0].sprite.setPosition(456, 620);
     water[0].sprite.setScale(1.575, 2);
     water[0].sprite.setPosition(456, 620);
-
 
     // Water lake 2
     water_lake[1].sprite.setScale(0.7, 2);
@@ -1369,34 +1278,29 @@ int main()
     water[1].sprite.setScale(1.575, 2);
     water[1].sprite.setPosition(731, 220);
 
-
     //fire_point1
     fire_point[0].sprite.setScale(0.1, 0.1);
     fire_point[0].sprite.setPosition(940, 950);
 
-
     //fire_point2
     fire_point[1].sprite.setScale(0.1, 0.1);
-    fire_point[1].sprite.setPosition(350, 700 - 55 - 90);
-
+    fire_point[1].sprite.setPosition(350, 555);
 
     //fire_point3
     fire_point[2].sprite.setScale(0.1, 0.1);
-    fire_point[2].sprite.setPosition(456 + 137, 300 - 55 - 90);
+    fire_point[2].sprite.setPosition(593, 155);
 
     //water_point1
     water_point[0].sprite.setScale(0.1, 0.1);
-    water_point[0].sprite.setPosition(950 - 10, 856 - 23 - 20);
-
+    water_point[0].sprite.setPosition(940, 813);
 
     //water_point2
     water_point[1].sprite.setScale(0.1, 0.1);
-    water_point[1].sprite.setPosition(865.6, 600 - 22 - 90);
-
-
+    water_point[1].sprite.setPosition(865.6, 488);
     //water_point3
     water_point[2].sprite.setScale(0.1, 0.1);
-    water_point[2].sprite.setPosition(932.6 + 80, 300 - 55 - 90);
+    water_point[2].sprite.setPosition(1012.6, 155);
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Level 2 Design
 // ==========================
@@ -1412,25 +1316,24 @@ int main()
 
     // top left ground
     ground2[0].sprite.setScale(2.05f, 1.0f); //3.15
-    ground2[0].sprite.setPosition(147 + 270, 235);
+    ground2[0].sprite.setPosition(417, 235);
 
     // top right ground
     ground2[1].sprite.setScale(2.05f, 1.0f); //1.65
-    ground2[1].sprite.setPosition(1116 + 133, 235);
-
+    ground2[1].sprite.setPosition(1249, 235);
     // left vertical block
     ground2[2].sprite.setScale(0.75f, 2.55f);
-    ground2[2].sprite.setPosition(10 - 97, 501);
+    ground2[2].sprite.setPosition(-87, 501);
 
     // middle ground carrying green lakes
     ground2[3].sprite.setScale(0.85f, 1.0f); //0.59375
-    ground2[3].sprite.setPosition(153 - 160, 600);
+    ground2[3].sprite.setPosition(-7, 600);
 
     ground2[8].sprite.setScale(0.85f, 1.0f);
-    ground2[8].sprite.setPosition(850 - 87 + 35 - 125, 600);
+    ground2[8].sprite.setPosition(673, 600);
 
     ground2[9].sprite.setScale(0.85f, 1.0f);
-    ground2[9].sprite.setPosition(1670 - 87 - 236, 600);
+    ground2[9].sprite.setPosition(1347, 600);
 
 
     // long lower-middle ground
@@ -1444,17 +1347,16 @@ int main()
     ground2[6].sprite.setScale(1.6f, 1.0f);
     ground2[6].sprite.setPosition(666.64, 1016);
 
-
     ground2[7].sprite.setScale(1.05f, 1.0f);
-    ground2[7].sprite.setPosition(1465 + 7, 1016);
+    ground2[7].sprite.setPosition(1472, 1016);
 
     // --------------------------
     // platforms
     // --------------------------
-    platform2[0].sprite.setPosition(550 - 200, 465);
+    platform2[0].sprite.setPosition(350, 465);
     platform2[0].sprite.setScale(1.08f, 1.0f);
 
-    platform2[1].sprite.setPosition(1325 - 295, 465);
+    platform2[1].sprite.setPosition(1030, 465);
     platform2[1].sprite.setScale(1.08f, 1.0f);
 
     platform2[2].sprite.setPosition(1620, 740);
@@ -1472,13 +1374,9 @@ int main()
     step_corner2.sprite.setPosition(538, 235);// 1630,183
     step_corner2.sprite.setScale(-2.05f, 1.0f); // 1.08,1.50
 
-    //ground2[1].sprite.setScale(1.65f, 1.0f);
-    //ground2[1].sprite.setPosition(1116, 185);
-
     // middle-right vertical corner
-    right_corner2.sprite.setPosition(1770, 850 + 60);
+    right_corner2.sprite.setPosition(1770, 910);
     right_corner2.sprite.setScale(1.9f, 1.8f);//5.9,10.9
-
 
     // --------------------------
     // Lakes
@@ -1489,24 +1387,24 @@ int main()
     green_lake2[0].sprite.setPosition(265, 600);
 
     green_lake2[1].sprite.setScale(1.42f, 2.0f);
-    green_lake2[1].sprite.setPosition(1260 - 87 - 231, 600);
+    green_lake2[1].sprite.setPosition(942, 600);
 
     acid2[0].sprite.setScale(3.195f, 2.0f);
     acid2[0].sprite.setPosition(265, 600);
     acid2[1].sprite.setScale(3.195f, 2.0f);
-    acid2[1].sprite.setPosition(1260 - 87 - 231, 600);
+    acid2[1].sprite.setPosition(942, 600);
 
     // left lower water lake
     water_lake2[0].sprite.setScale(1.26f, 1.0f);
-    water_lake2[0].sprite.setPosition(320 + 18, 840);
+    water_lake2[0].sprite.setPosition(338, 840);
     water2[0].sprite.setScale(2.835f, 1.2f);
-    water2[0].sprite.setPosition(320 + 18, 840);
+    water2[0].sprite.setPosition(338, 840);
 
     // right lower fire lake
     fire_lake2[0].sprite.setScale(1.26f, 1.0f);
-    fire_lake2[0].sprite.setPosition(1110 + 36, 840);
+    fire_lake2[0].sprite.setPosition(1146, 840);
     fire2[0].sprite.setScale(2.835f, 1.2f);
-    fire2[0].sprite.setPosition(1110 + 36, 840);
+    fire2[0].sprite.setPosition(1146, 840);
 
     // bottom left fire lake
     fire_lake2[1].sprite.setScale(1.03f, 2.0f);
@@ -1537,11 +1435,11 @@ int main()
     // --------------------------
     // Lower-middle row
     // --------------------------
-    water_point2[2].sprite.setPosition(450 - 87 + 30 - 128 - 50, 530);
-    fire_point2[2].sprite.setPosition(450 - 87 + 30 - 128 + 408, 530);
+    water_point2[2].sprite.setPosition(215, 530);
+    fire_point2[2].sprite.setPosition(613, 530);
 
-    water_point2[3].sprite.setPosition(1260 - 87 - 231 + 408, 530);
-    fire_point2[3].sprite.setPosition(1260 - 87 - 231 - 50, 530);
+    water_point2[3].sprite.setPosition(1350, 530);
+    fire_point2[3].sprite.setPosition(1102, 530);
 
     // --------------------------
     // Above lower lakes
@@ -1600,12 +1498,14 @@ int main()
     ground_3[6].sprite.setPosition(560, 900);
 
     ////////////////////////////////////////////////
+
     ground_3[7].sprite.setScale(0.50f, 0.70f);
     ground_3[7].sprite.setPosition(1100, 500);
+
     ////////////////////////////////////////////////
+
     ground_3[8].sprite.setScale(0.50f, 0.70f);
     ground_3[8].sprite.setPosition(820, 720);
-
 
     // Bottom left ground
     // --------------------------
@@ -1637,7 +1537,6 @@ int main()
 
     coloumn_3[0].sprite.setScale(1.10f, 0.38f);
     coloumn_3[0].sprite.setPosition(1480, 235);
-
 
     coloumn_3[1].sprite.setScale(1.10f, 1.24f);
     coloumn_3[1].sprite.setPosition(1350, 40);
@@ -1684,7 +1583,6 @@ int main()
         water_point3[i].sprite.setScale(0.1f, 0.1f);
     }
     // --------------------------
-
     // right 2 pairs 
     // -------------
     water_point3[0].sprite.setPosition(1600, 480 - 100);
@@ -1713,28 +1611,12 @@ int main()
     water_point3[4].sprite.setPosition(900, 650);
     fire_point3[4].sprite.setPosition(1100, 800);
 
-    // stairs on left
-    // -----------------
-    for (int i = 0; i < 3; i++)
-        stairs[i].sprite.setScale(2, 1);
-    for (int i = 3; i < 5; i++)
-        stairs[i].sprite.setScale(-2, 1);
-
-    stairs[0].sprite.setPosition(15, 1080 - 200);
-    stairs[1].sprite.setPosition(15, 1080 - 500);
-    stairs[2].sprite.setPosition(15, 1080 - 800);
-    stairs[3].sprite.setPosition(200, 1080 - 350);
-    stairs[4].sprite.setPosition(200, 1080 - 650);
-
-
-    ////////////////////////////////////////////////////////////////
     //////////////////////////////modification/////////////////////////////////////////////////
     button.sprite.setPosition(1490, 682);
     lift.sprite.setPosition(-20, 953);
     lift.sprite.setScale(2.0f, 1.3f);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 
     // Collision boxes and walls for level 1
 
     for (int i = 0; i < 12; i++) {
@@ -1760,14 +1642,12 @@ int main()
 
     walls[0].setSize(Vector2f(30, 1280));
     walls[0].setPosition(-14, -100);
-    //walls[0].setOrigin(walls[0].getLocalBounds().width, 0);
     walls[1].setSize(Vector2f(30, 1280));
     walls[1].setPosition(1890 + 14, -100);
     walls[2].setSize(Vector2f(1920, 40));
     walls[2].setPosition(0, 0);
     walls[3].setSize(Vector2f(Platform[0].sprite.getGlobalBounds().width, Platform[0].sprite.getGlobalBounds().height)); // changing the position
     walls[3].setPosition(Platform[0].sprite.getPosition().x, Platform[0].sprite.getPosition().y);
-    walls[3].setFillColor(Color::Blue);
 
     for (int i = 0; i < 2; i++) {
         Vector2f vect(water_lake[i].sprite.getGlobalBounds().width, water_lake[i].sprite.getGlobalBounds().height / 3);
@@ -1781,7 +1661,6 @@ int main()
     }
 
     lakes[2].setPosition(fire_lake[0].sprite.getPosition().x, fire_lake[0].sprite.getPosition().y + (fire_lake[0].sprite.getGlobalBounds().height / 3.5));
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Collision boxes and walls for level 2
@@ -1797,42 +1676,26 @@ int main()
         }
     }
     collision_boxs2[1].setSize(Vector2f(ground2[1].sprite.getGlobalBounds().width + 35, ground2[1].sprite.getGlobalBounds().height));
-    collision_boxs2[1].setFillColor(Color::Blue);
     collision_boxs2[2].setSize(Vector2f(ground2[2].sprite.getGlobalBounds().width - 20, ground2[2].sprite.getGlobalBounds().height - 20));
     collision_boxs2[2].setPosition(ground2[2].sprite.getPosition().x, ground2[2].sprite.getPosition().y + 17);
-    collision_boxs2[2].setFillColor(Color::Cyan);
     collision_boxs2[10].setSize(Vector2f(platform2[0].sprite.getGlobalBounds().width, platform2[0].sprite.getGlobalBounds().height));
     collision_boxs2[10].setPosition(platform2[0].sprite.getPosition());
     collision_boxs2[11].setSize(Vector2f(platform2[1].sprite.getGlobalBounds().width, platform2[1].sprite.getGlobalBounds().height));
     collision_boxs2[11].setPosition(platform2[1].sprite.getPosition());
     collision_boxs2[12].setSize(Vector2f(step_corner2.sprite.getGlobalBounds().width - 130, step_corner2.sprite.getGlobalBounds().height / 3));
     collision_boxs2[12].setPosition(210, step_corner2.sprite.getPosition().y + 64);
-    //collision_boxs2[13].setSize(Vector2f(right_corner2.sprite.getGlobalBounds().width, right_corner2.sprite.getGlobalBounds().height));
     collision_boxs2[13].setSize(Vector2f(150, 200));
     collision_boxs2[13].setPosition(right_corner2.sprite.getPosition());
-    //collision_boxs2[14].setSize(Vector2f(step_corner2.sprite.getGlobalBounds().width - 50, step_corner2.sprite.getGlobalBounds().height - 96));
-    //collision_boxs2[14].setPosition(step_corner2.sprite.getPosition().x + 50 , step_corner2.sprite.getPosition().y + 100 - 2);
     collision_boxs2[15].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width - 64 + 32, slope_right2.sprite.getGlobalBounds().height));
     collision_boxs2[15].setPosition(-23, slope_right2.sprite.getPosition().y);
-    //collision_boxs2[16].setSize(Vector2f(right_corner2.sprite.getGlobalBounds().width, right_corner2.sprite.getGlobalBounds().height));
-    //collision_boxs2[16].setPosition(right_corner2.sprite.getPosition().x + 15, right_corner2.sprite.getPosition().y);
     collision_boxs2[16].setPosition(1895 + 9, 0); //right wall 
     collision_boxs2[16].setSize(Vector2f(50, 1080)); //right wall
-    collision_boxs2[16].setFillColor(Color::Green);
-    //walls[1].setSize(Vector2f(20, 1080));
-    //walls[1].setPosition(1890 + 50, 0);
-    //collision_boxs2[17].setSize(Vector2f(ground2[2].sprite.getGlobalBounds().width, ground2[2].sprite.getGlobalBounds().height)); //left wall
-    //collision_boxs2[17].setPosition(ground2[2].sprite.getPosition()); //left wall
     collision_boxs2[17].setSize(Vector2f(21, 1080)); //left wall
     collision_boxs2[17].setPosition(-5, 0); //left wall
-    collision_boxs2[17].setFillColor(Color::Red);
     collision_boxs2[18].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width, slope_right2.sprite.getGlobalBounds().height - 64));
     collision_boxs2[18].setPosition(slope_right2.sprite.getPosition().x, slope_right2.sprite.getPosition().y + 64);
     collision_boxs2[19].setSize(Vector2f(slope_right2.sprite.getGlobalBounds().width, slope_right2.sprite.getGlobalBounds().height));
     collision_boxs2[19].setPosition(slope_right2.sprite.getPosition().x, slope_right2.sprite.getPosition().y);
-    collision_boxs2[4].setFillColor(Color::Black);
-
-
 
     for (int i = 0; i < 2; i++) {
         Vector2f vect(water_lake2[i].sprite.getGlobalBounds().width, water_lake2[i].sprite.getGlobalBounds().height / 3);
@@ -1858,11 +1721,7 @@ int main()
         collision_boxs3[i].setSize(vect);
         collision_boxs3[i].setPosition(coloumn_3[i - 14].sprite.getPosition());
     }
-    for (int i = 18; i < 23; i++) {
-        Vector2f vect(stairs[i - 18].sprite.getGlobalBounds().width, stairs[i - 18].sprite.getGlobalBounds().height);
-        collision_boxs3[i].setSize(vect);
-        collision_boxs3[i].setPosition(stairs[i - 18].sprite.getPosition());
-    }
+
     collision_boxs3[3 + 18].setScale(-1, 1);
     collision_boxs3[4 + 18].setScale(-1, 1);
     collision_boxs3[9].setSize(Vector2f(ground_3[9].sprite.getGlobalBounds().width + 190, ground_3[9].sprite.getGlobalBounds().height));
@@ -1949,9 +1808,6 @@ int main()
 
     while (window.isOpen())
     {
-
-
-
         float deltaTime = clock.restart().asSeconds();
         if (deltaTime > 0.1f) {
             deltaTime = 0.1f;
@@ -2005,9 +1861,6 @@ int main()
                     }
                 }
 
-
-
-
                 break;
 
             case 1://level menu orders
@@ -2041,7 +1894,6 @@ int main()
                     ispaused = true;
                 }
 
-
                 break;
 
             case 5://credit menu orders
@@ -2061,8 +1913,6 @@ int main()
                 if (Keyboard::isKeyPressed(Keyboard::Up)) MoveSelection(-1, Color::Yellow, Color::White);
 
                 if (Keyboard::isKeyPressed(Keyboard::Down)) MoveSelection(1, Color::Yellow, Color::White);
-
-
 
                 if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter)
                 {
@@ -2108,11 +1958,11 @@ int main()
                 }
 
                 break;
+
             default:
                 break;
 
             }
-
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -2120,27 +1970,37 @@ int main()
                     Vector2i pixelPos(event.mouseButton.x, event.mouseButton.y);
                     Vector2f mousePos = window.mapPixelToCoords(pixelPos, gameView);
 
-                    switch (currentwindow)
-                    {
+                    switch (currentwindow){
                     case 1: //level menu mouse orders
                         if (levelCards[0].getGlobalBounds().contains(mousePos)) {
                             currentwindow = 2; // Level 1
                             menuMusic.stop();
                             gameMusic.play();
 
-                            fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
-                            boy_is_dead = false; girl_is_dead = false;
-                            fireboy.is_dead = false; watergirl.is_dead = false;
-                            fire_framecounter = 0; water_framecounter = 0;
+                            fireboy.sprite.setColor(Color(255, 255, 255, 255));
+                            watergirl.sprite.setColor(Color::White);
+                            fireboy.is_dead = false;
+                            watergirl.is_dead = false;
+                            fire_framecounter = 0;
+                            water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0; 
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[1].timer = 0;
+                            door[0].opened = false;
+                            door[0].framecounter = 0;
+                            door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].timer = 0; 
+                            door[1].opened = false;
+                            door[1].framecounter = 0;
+                            door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144)); 
+                            door[1].timer = 0;
                             fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(50, 856 + 10 + 2);
                             door[1].sprite.setPosition(296, 1000 - 691.2 + 100 - 80 + 10 - 144 + 2);
-                            for (int i = 0; i < 3; i++) { fire_point[i].sprite.setColor(Color::White); water_point[i].sprite.setColor(Color::White); }
+                            for (int i = 0; i < 3; i++) {
+                                fire_point[i].sprite.setColor(Color::White); 
+                                water_point[i].sprite.setColor(Color::White);
+                            }
 
                             points_counter = 0;
                             // start timer
@@ -2152,19 +2012,30 @@ int main()
                             currentwindow = 3; // Level 2
                             menuMusic.stop();
                             gameMusic.play();
-                            fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
-                            boy_is_dead = false; girl_is_dead = false;
-                            fireboy.is_dead = false; watergirl.is_dead = false;
-                            fire_framecounter = 0; water_framecounter = 0;
+                            fireboy.sprite.setColor(Color::White);
+                            watergirl.sprite.setColor(Color::White);
+                            fireboy.is_dead = false;
+                            watergirl.is_dead = false;
+                            fire_framecounter = 0;
+                            water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
+                            door[0].opened = false;
+                            door[0].framecounter = 0;
+                            door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].timer = 0;
+                            door[1].opened = false;
+                            door[1].framecounter = 0; 
+                            door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[1].timer = 0;
                             fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(1600, 100);
                             door[1].sprite.setPosition(1750, 100);
-                            for (int i = 0; i < 8; i++) { fire_point2[i].sprite.setColor(Color::White); water_point2[i].sprite.setColor(Color::White); }
+                            for (int i = 0; i < 8; i++) {
+                                fire_point2[i].sprite.setColor(Color::White);
+                                water_point2[i].sprite.setColor(Color::White); 
+                            }
                             points_counter = 0;
                             // start timer
                             levelTimeElapsed = 0.f;
@@ -2174,19 +2045,30 @@ int main()
                             currentwindow = 4; // Level 3
                             menuMusic.stop();
                             gameMusic.play();
-                            fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
-                            boy_is_dead = false; girl_is_dead = false;
-                            fireboy.is_dead = false; watergirl.is_dead = false;
-                            fire_framecounter = 0; water_framecounter = 0;
+                            fireboy.sprite.setColor(Color::White);
+                            watergirl.sprite.setColor(Color::White);
+                            fireboy.is_dead = false;
+                            watergirl.is_dead = false;
+                            fire_framecounter = 0;
+                            water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
+                            door[0].opened = false;
+                            door[0].framecounter = 0;
+                            door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].timer = 0;
+                            door[1].opened = false; 
+                            door[1].framecounter = 0;
+                            door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[1].timer = 0;
                             fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(400, 690 - 5);
                             door[1].sprite.setPosition(250, 690 - 5);
-                            for (int i = 0; i < 5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
+                            for (int i = 0; i < 5; i++) { 
+                                fire_point3[i].sprite.setColor(Color::White);
+                                water_point3[i].sprite.setColor(Color::White);
+                            }
                             points_counter = 0;
                             // start timer
                             levelTimeElapsed = 0.f;
@@ -2231,18 +2113,30 @@ int main()
                                 currentwindow = 3;
                                 menuMusic.stop();
                                 gameMusic.play();
-                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
-                                boy_is_dead = false; girl_is_dead = false;
-                                fireboy.is_dead = false; watergirl.is_dead = false;
-                                fire_framecounter = 0; water_framecounter = 0;
-                                fireboy_score = 0; watergirl_score = 0;
-                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
-                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
+                                fireboy.sprite.setColor(Color::White);
+                                watergirl.sprite.setColor(Color::White);
+                                fireboy.is_dead = false;
+                                watergirl.is_dead = false;
+                                fire_framecounter = 0;
+                                water_framecounter = 0;
+                                fireboy_score = 0;
+                                watergirl_score = 0;
+                                door[0].opened = false;
+                                door[0].framecounter = 0;
+                                door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[0].timer = 0;
+                                door[1].opened = false;
+                                door[1].framecounter = 0;
+                                door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].timer = 0;
                                 fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                                 door[0].sprite.setPosition(1600, 100);
                                 door[1].sprite.setPosition(1750, 100);
-                                for (int i = 0; i < 8; i++) { fire_point2[i].sprite.setColor(Color::White); water_point2[i].sprite.setColor(Color::White); }
+                                for (int i = 0; i < 8; i++) {
+                                    fire_point2[i].sprite.setColor(Color::White); 
+                                    water_point2[i].sprite.setColor(Color::White); 
+                                }
                                 points_counter = 0;
                                 levelTimeElapsed = 0.f;
                                 levelTimerActive = true;
@@ -2252,18 +2146,30 @@ int main()
                                 currentwindow = 4;
                                 menuMusic.stop();
                                 gameMusic.play();
-                                fireboy.sprite.setColor(Color::White); watergirl.sprite.setColor(Color::White);
-                                boy_is_dead = false; girl_is_dead = false;
-                                fireboy.is_dead = false; watergirl.is_dead = false;
-                                fire_framecounter = 0; water_framecounter = 0;
-                                fireboy_score = 0; watergirl_score = 0;
-                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
-                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
+                                fireboy.sprite.setColor(Color::White);
+                                watergirl.sprite.setColor(Color::White);
+                                fireboy.is_dead = false;
+                                watergirl.is_dead = false;
+                                fire_framecounter = 0;
+                                water_framecounter = 0;
+                                fireboy_score = 0; 
+                                watergirl_score = 0;
+                                door[0].opened = false;
+                                door[0].framecounter = 0;
+                                door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[0].timer = 0;
+                                door[1].opened = false;
+                                door[1].framecounter = 0;
+                                door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[1].timer = 0;
                                 fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                                 door[0].sprite.setPosition(400, 690 - 5);
                                 door[1].sprite.setPosition(250, 690 - 5);
-                                for (int i = 0; i < 5; i++) { fire_point3[i].sprite.setColor(Color::White); water_point3[i].sprite.setColor(Color::White); }
+                                for (int i = 0; i < 5; i++) {
+                                    fire_point3[i].sprite.setColor(Color::White);
+                                    water_point3[i].sprite.setColor(Color::White);
+                                }
 
 
                                 button.sprite.setPosition(1490, 682);
@@ -2362,14 +2268,12 @@ int main()
                 }
                 platform_collision(fireboy, walls[3]);
                 platform_collision(watergirl, walls[3]);
-                //platform_collision(fireboy, walls[2]);
-                //platform_collision(watergirl, walls[2]);
                 platform_collision(fireboy, platform);
                 platform_collision(watergirl, platform);
 
                 for (int i = 1; i <= 2; i++) {
-                    ground_collision(fireboy, collision_boxs[i]);
-                    ground_collision(watergirl, collision_boxs[i]);
+                    platform_collision(fireboy, collision_boxs[i]);
+                    platform_collision(watergirl, collision_boxs[i]);
                 }
                 for (int i = 0; i < 2; i++) {
                     water_collision(fireboy, watergirl, lakes[i], smoke, deltaTime, deathSound, gameMusic);
@@ -2383,10 +2287,10 @@ int main()
                 wall_collision(fireboy, watergirl, collision_boxs[0]);
                 wall_collision(fireboy, watergirl, collision_boxs[0]);
 
-                ground_collision(fireboy, collision_boxs[2]);
-                ground_collision(watergirl, collision_boxs[2]);
-                ground_collision(fireboy, collision_boxs[1]);
-                ground_collision(watergirl, collision_boxs[1]);
+                platform_collision(fireboy, collision_boxs[2]);
+                platform_collision(watergirl, collision_boxs[2]);
+                platform_collision(fireboy, collision_boxs[1]);
+                platform_collision(watergirl, collision_boxs[1]);
 
                 slope_collision(fireboy, collision_boxs[3].getPosition().x - 64, collision_boxs[3].getPosition().y + 64, collision_boxs[3].getPosition().x, collision_boxs[3].getPosition().y);
                 slope_collision(fireboy, collision_boxs[8].getPosition().x - 64, collision_boxs[8].getPosition().y + 64, collision_boxs[8].getPosition().x, collision_boxs[8].getPosition().y);
@@ -2422,8 +2326,8 @@ int main()
                 slope_collision(watergirl, 730, 230, 750, 270); //water lake 1
                 slope_collision(watergirl, 913, 270, 933, 230); //water lake 1
 
-                fire_door_collision(fireboy, door[0], deltaTime);
-                water_door_collision(watergirl, door[1], deltaTime);
+                door_collision(fireboy, door[0], deltaTime);
+                door_collision(watergirl, door[1], deltaTime);
 
                 if (door[0].opened && door[1].opened) {
                     bool is_win = 0;
@@ -2497,7 +2401,7 @@ int main()
                 animation(fireboy, deltaTime);
                 animation(watergirl, deltaTime);
 
-                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5 && currentwindow != 8)) {
+                if ((fireboy.is_dead && fire_framecounter >= 5) || (watergirl.is_dead && water_framecounter >= 5 && currentwindow != 8)) {
                     currentwindow = 8;
                     if (!gameOverSoundPlayed)
                     {
@@ -2509,39 +2413,22 @@ int main()
 
                 break;
             case 3: //level 2 collisions
-                /*for (int i = 5; i < 8; i++) {
-                    ground_collision(fireboy, collision_boxs2[i]);
-                    ground_collision(watergirl, collision_boxs2[i]);
-                }
-                for (int i = 0; i < 5; i++) {
-                    platform_collision(fireboy, collision_boxs2[i]);
-                    platform_collision(watergirl, collision_boxs2[i]);
-                }
-                for (int i = 8; i < 16; i++) {
-                    platform_collision(fireboy, collision_boxs2[i]);
-                    platform_collision(watergirl, collision_boxs2[i]);
-                }*/
 
                 for (int i = 0; i < 16; i++) {  //16
                     if (i >= 5 && i <= 7) {
-                        ground_collision(fireboy, collision_boxs2[i]);
-                        ground_collision(watergirl, collision_boxs2[i]);
+                        platform_collision(fireboy, collision_boxs2[i]);
+                        platform_collision(watergirl, collision_boxs2[i]);
                     }
                     else {
                         platform_collision(fireboy, collision_boxs2[i]);
                         platform_collision(watergirl, collision_boxs2[i]);
                     }
                 }
+
                 wall_collision(fireboy, watergirl, collision_boxs2[16]);
                 wall_collision(fireboy, watergirl, collision_boxs2[17]);
                 wall_collision(fireboy, watergirl, collision_boxs2[2]);
                 wall_collision(fireboy, watergirl, collision_boxs2[15]);
-                //wall_collision(fireboy, watergirl, collision_boxs2[12]);
-                //platform_collision(fireboy, collision_boxs2[18]);
-                //platform_collision(watergirl, collision_boxs2[18]);
-                //platform_collision(fireboy, collision_boxs2[19]);
-                //platform_collision(watergirl, collision_boxs2[19]);
-
 
                 for (int i = 1; i < 8; i++)
                     point_collision(fireboy, watergirl, fire_point2[i], fireboy_score, collectSound, wrongCollectSound);
@@ -2554,26 +2441,8 @@ int main()
                     fire_collision(fireboy, watergirl, lakes2[i + 4], smoke, deltaTime, deathSound, gameMusic);
                 }
 
-                /* for (int i = 0; i < 2; i++) {
-                     platform_collision( watergirl, lakes2[i]);
-                     platform_collision( watergirl, lakes2[i + 2]);
-                     platform_collision( watergirl, lakes2[i + 4]);
-                     platform_collision( fireboy, lakes2[i]);
-                     platform_collision( fireboy, lakes2[i + 2]);
-                     platform_collision( fireboy, lakes2[i + 4]);
-                 }*/
-
                 platform_collision(watergirl, platform4);
                 platform_collision(fireboy, platform4);
-
-                //wall_collision(fireboy, watergirl, platform4);
-
-                collision_boxs2[19].setFillColor(Color::Red);
-
-                //wall_collision(fireboy, watergirl, collision_boxs2[19]);
-                // ground2[2] explicit left wall
-                //wall_collision(fireboy, watergirl, collision_boxs2[2]); 
-
 
                 // right_corner2
                 wall_collision(fireboy, watergirl, collision_boxs2[13]); //13
@@ -2582,15 +2451,6 @@ int main()
                 // step_corner2 
                 wall_collision(fireboy, watergirl, collision_boxs2[14]);
                 wall_collision(fireboy, watergirl, collision_boxs2[14]);
-
-                // ground2[9] (the block on the right near middle)
-                //wall_collision(fireboy, watergirl, collision_boxs2[9]);
-
-
-                /*for (int i = 0; i < 2; i++) {
-                    wall_collision(fireboy, walls[i]);
-                    wall_collision(watergirl, walls[i]);
-                }*/
 
                 slope_collision(fireboy, 380, 1016, 410, 1056); //left fire
                 slope_collision(fireboy, 625, 1056, 655, 1016); //left fire
@@ -2620,8 +2480,8 @@ int main()
                 slope_collision(watergirl, 1302, 640, 1352, 600); //right acid
                 slope_collision(watergirl, 275, 300, 395, 235); //slope near right corner
 
-                fire_door_collision(fireboy, door[0], deltaTime);
-                water_door_collision(watergirl, door[1], deltaTime);
+                door_collision(fireboy, door[0], deltaTime);
+                door_collision(watergirl, door[1], deltaTime);
 
                 if (door[0].opened && door[1].opened) {
                     bool is_win = false;
@@ -2686,7 +2546,7 @@ int main()
                 animation(fireboy, deltaTime);
                 animation(watergirl, deltaTime);
 
-                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                if ((fireboy.is_dead && fire_framecounter >= 5) || (watergirl.is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
                     if (!gameOverSoundPlayed)
                     {
@@ -2727,8 +2587,8 @@ int main()
 
                 snow_slope_collision(fireboy, watergirl, 1550 + 40, 1080, 1550 + 380, 900, deltaTime);  //snow slope
 
-                fire_door_collision(fireboy, door[0], deltaTime);
-                water_door_collision(watergirl, door[1], deltaTime);
+                door_collision(fireboy, door[0], deltaTime);
+                door_collision(watergirl, door[1], deltaTime);
 				///////////////////modification/////////////////////////////////////////////////
                 platform_collision(watergirl, lift_collision);
                 platform_collision(fireboy, lift_collision);
@@ -2848,7 +2708,7 @@ int main()
                 animation(fireboy, deltaTime);
                 animation(watergirl, deltaTime);
 
-                if ((boy_is_dead && fire_framecounter >= 5) || (girl_is_dead && water_framecounter >= 5)) {
+                if ((fireboy.is_dead && fire_framecounter >= 5) || (watergirl.is_dead && water_framecounter >= 5)) {
                     currentwindow = 8;
 
                     if (!gameOverSoundPlayed)
@@ -2918,13 +2778,13 @@ int main()
             window.draw(door[1].sprite);
 
 
-            if (!boy_is_dead)
+            if (!fireboy.is_dead)
                 window.draw(fireboy.sprite);
             else {
                 window.draw(smoke.sprite);
             }
 
-            if (!girl_is_dead)
+            if (!watergirl.is_dead)
                 window.draw(watergirl.sprite);
             else {
                 window.draw(smoke.sprite);
@@ -3001,13 +2861,13 @@ int main()
             window.draw(door[0].sprite);
             window.draw(door[1].sprite);
 
-            if (!boy_is_dead)
+            if (!fireboy.is_dead)
                 window.draw(fireboy.sprite);
             else {
                 window.draw(smoke.sprite);
             }
 
-            if (!girl_is_dead)
+            if (!watergirl.is_dead)
                 window.draw(watergirl.sprite);
             else {
                 window.draw(smoke.sprite);
@@ -3058,9 +2918,6 @@ int main()
             for (int i = 0; i < 5; i++)
                 window.draw(water_point3[i].sprite);
 
-            //    for (int i = 0; i < 5; i++)
-              //      window.draw(stairs[i].sprite);
-
             window.draw(Frame.sprite);
 
             window.draw(door[0].sprite);
@@ -3070,13 +2927,13 @@ int main()
             window.draw(ground_3[3].sprite);
             window.draw(lift.sprite);
             ////////////////////////////////////////////////////////////////////////////////////////////
-            if (!boy_is_dead)
+            if (!fireboy.is_dead)
                 window.draw(fireboy.sprite);
             else {
                 window.draw(smoke.sprite);
             }
 
-            if (!girl_is_dead)
+            if (!watergirl.is_dead)
                 window.draw(watergirl.sprite);
             else {
                 window.draw(smoke.sprite);
@@ -3110,7 +2967,6 @@ int main()
 
                 window.draw(namesarr[i]);
             }
-
 
             break;
 
