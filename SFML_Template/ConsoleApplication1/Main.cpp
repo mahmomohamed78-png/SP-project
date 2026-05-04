@@ -107,14 +107,7 @@ void MoveSelection(int direction, Color newColor, Color oldColor)
     default:
         break;
     }
-    if (currentwindow == 0) {
-
-    }
-    else if (currentwindow == 8) {
-
-
-
-    }
+    
 }
 
 
@@ -469,7 +462,7 @@ void wall_collision(character& boy, character& girl, RectangleShape& wall) {
 
 
 
-void fire_door_collision(character& player, design& door, float dt) {
+void door_collision(character& player, design& door, float dt) {
     FloatRect hitbox = player.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -494,7 +487,7 @@ void fire_door_collision(character& player, design& door, float dt) {
 
 
 
-void water_door_collision(character& player, design& door, float dt) {
+/*void water_door_collision(character& player, design& door, float dt) {
     FloatRect hitbox = player.sprite.getGlobalBounds();
     hitbox.width = 40;
     hitbox.left += 55;
@@ -516,6 +509,7 @@ void water_door_collision(character& player, design& door, float dt) {
         }
     }
 }
+*/
 
 //initialize score counter
 int points_counter = 0;
@@ -1213,7 +1207,7 @@ int main()
     Font winfont;
     winfont.loadFromFile("game_textures\\AversaVectors.otf");
 
-
+    
     Text winTitleShadow;
     winTitleShadow.setFont(winfont);
     winTitleShadow.setString("YOU WON  ( ; ");
@@ -2737,6 +2731,14 @@ int main()
                 water_door_collision(watergirl, door[1], deltaTime);
 				///////////////////modification/////////////////////////////////////////////////
                 platform_collision(watergirl, lift_collision);
+                platform_collision(fireboy, lift_collision);
+                platform_collision(watergirl, button_collision);
+                platform_collision(fireboy, button_collision);
+
+                slope_collision(watergirl, 1525 - 18, 727 + 23, 1525, 727);
+                slope_collision(fireboy, 1525 - 18, 727 + 23, 1525, 727);
+                slope_collision(watergirl, 1525 + 45, 727, 1525 + 45 + 18, 727 + 23);
+                slope_collision(fireboy, 1525 + 45, 727, 1525 + 45 + 18, 727 + 23);
                
                 FloatRect hitbox1 = watergirl.sprite.getGlobalBounds();
                 hitbox1.width = 40;
@@ -2762,6 +2764,7 @@ int main()
                         lift.sprite.move(0, -300 * deltaTime);
                         if (button.sprite.getPosition().y < 695) {
                             button.sprite.move(0, 20 * deltaTime);
+                            button_collision.move(0, 20 * deltaTime);
                         }
                     }
                 }
@@ -2777,6 +2780,7 @@ int main()
                     }
                     if (button.sprite.getPosition().y > 682) {
                         button.sprite.move(0, -20 * deltaTime);
+                        button_collision.move(0, -20 * deltaTime);
                     }
                 }
 /////////////////////////////////////////////////////////////////////////////////////////
