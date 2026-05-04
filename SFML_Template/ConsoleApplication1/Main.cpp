@@ -63,13 +63,21 @@ struct character {
 int selectedmmIndex = 0;
 int selectedpmIndex = 0;
 
-Text pause_txt[3];
-String pausetxt[] = { "R e s u m e","B a c k   t o   m a i n   m e n u","B a c k   t o   l e v e l s   m e n u" };
+Text pause_txt[4];
+String pausetxt[] = { "R e s u m e","B a c k   t o   m a i n   m e n u","B a c k   t o   l e v e l s   m e n u","s o u n d s"};
 Text main_txt[5];
 String maintxt[] = { "t o   l e v e l   m e n u","c r e d i t","c o n t r o l s","s o u n d s","e x i t" };
 
+//////////////////////////////modification(2)/////////////////////////////////////////////////
+// Sound Menu Variables
+bool isMenuMusicOn = true;
+bool isGameMusicOn = true;
 
-
+Text sound_title;
+RectangleShape sound_btnBoxes[3];
+Text sound_txt[3];                
+String soundtxt[] = { "Main Menu Music : ON", "Levels Music : ON", "Back to Main Menu" };
+//////////////////////////////////////////////////////////////////////////////////////////////
 void MoveSelection(int direction, Color newColor, Color oldColor)
 
 {
@@ -90,8 +98,8 @@ void MoveSelection(int direction, Color newColor, Color oldColor)
 
         pause_txt[selectedpmIndex].setFillColor(oldColor);
         selectedpmIndex += direction;
-        if (selectedpmIndex < 0)selectedpmIndex = 2;
-        else if (selectedpmIndex > 2)selectedpmIndex = 0;
+        if (selectedpmIndex < 0)selectedpmIndex = 3;
+        else if (selectedpmIndex > 3)selectedpmIndex = 0;
         pause_txt[selectedpmIndex].setFillColor(newColor);
 
         break;
@@ -384,7 +392,7 @@ void snow_slope_collision(character& boy, character& girl, double x1, double y1,
         }
     }
     else {
-        boy.jump_strength = -900;
+        boy.jump_strength = -1000;
     }
     double girl_x = girl.sprite.getPosition().x;
     if (girl_x >= x1 && girl_x <= x2) {
@@ -949,14 +957,19 @@ int main()
     Sprite menu_BG;
     menu_BG.setTexture(mn_menu);
 
+<<<<<<< HEAD
     for (int i = 0; i < 3; i++) {
+=======
+
+    for (int i = 0; i < 4; i++) {
+>>>>>>> master
         pause_txt[i].setString(pausetxt[i]);
         pause_txt[i].setCharacterSize(30);
         pause_txt[i].setFillColor(Color::White);
         pause_txt[i].setOutlineThickness(3);
         pause_txt[i].setOutlineColor(Color::Red);
-        if (i > 0) pause_txt[i].setPosition(620, 300 + i * 200);
-        else  pause_txt[i].setPosition(800, 300 + i * 200);
+        if (i == 0 || i == 3)pause_txt[i].setPosition(800, 300 + i * 200);
+        else  pause_txt[i].setPosition(620, 300 + i * 200);
         pause_txt[i].setScale(2.5f, 2.5f);
         pause_txt[i].setFont(font);
     }
@@ -1011,7 +1024,42 @@ int main()
         main_txt[i].setFont(font);
     }
     main_txt[0].setFillColor(Color::Yellow);
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //////////////////////////////modification(2)/////////////////////////////////////////////////
+
+        // --- Sound Menu Design ---
+    sound_title.setFont(font);
+    sound_title.setString("SOUND SETTINGS");
+    sound_title.setCharacterSize(100);
+    sound_title.setFillColor(Color(255, 215, 0));//gold
+    sound_title.setOutlineThickness(6);
+    sound_title.setOutlineColor(Color(139, 0, 0));//dark red
+    sound_title.setOrigin(sound_title.getLocalBounds().width / 2.0f, sound_title.getLocalBounds().height / 2.0f);
+    sound_title.setPosition(1920 / 2.0f, 150);
+    for (int i = 0; i < 3; i++) {
+        
+        sound_btnBoxes[i].setSize(Vector2f(750, 110));
+        sound_btnBoxes[i].setFillColor(Color(0, 0, 0, 180));
+        sound_btnBoxes[i].setOutlineThickness(4);
+        sound_btnBoxes[i].setOutlineColor(Color::Cyan);
+        sound_btnBoxes[i].setOrigin(sound_btnBoxes[i].getSize().x / 2.0f, sound_btnBoxes[i].getSize().y / 2.0f);
+        sound_btnBoxes[i].setPosition(1920 / 2.0f, 400 + i * 180);
+        
+        sound_txt[i].setFont(font);
+        sound_txt[i].setString(soundtxt[i]);
+        sound_txt[i].setCharacterSize(45);
+
+        if (i < 2) sound_txt[i].setFillColor(Color(80, 255, 100));// green ON
+        else sound_txt[i].setFillColor(Color::White); //white RETURNE
+        sound_txt[i].setOutlineThickness(3);
+        sound_txt[i].setOutlineColor(Color::Black);
+
+        
+        sound_txt[i].setOrigin(sound_txt[i].getLocalBounds().width / 2.0f, sound_txt[i].getLocalBounds().height / 2.0f);
+        sound_txt[i].setPosition(1920 / 2.0f, 400 + i * 180 - 15);
+    }
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //GAME OVER :(
 
@@ -1856,9 +1904,11 @@ int main()
                     else if (selectedmmIndex == 2) {//chosing control menu
                         currentwindow = 6;
                     }
+                    //////////////////////////////modification(2)/////////////////////////////////////////////////
                     else if (selectedmmIndex == 3) {//chosing sound menu
-                        //currentwindow = ;
+                        currentwindow = 10;
                     }
+                    //////////////////////////////////////////////////////////////////////////////////////////
                     else if (selectedmmIndex == 4) {//chosing Exit
                         window.close();
                     }
@@ -1947,6 +1997,20 @@ int main()
                             menuMusic.play(); 
                         }
                     }
+<<<<<<< HEAD
+=======
+                    //////////////////////////////modification(2)/////////////////////////////////////////////////
+                    if (selectedpmIndex == 3) {
+                        ispaused = false;
+                        currentwindow = 10;
+                        if (menuMusic.getStatus() != Music::Playing)
+                        {
+                            menuMusic.play();
+                        }
+                    }
+                    /////////////////////////////////////////////////////////////////////////////////////////
+
+>>>>>>> master
                 }
 
                 break;
@@ -1972,8 +2036,8 @@ int main()
                             fire_framecounter = 0; water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0; 
+                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[1].timer = 0;
                             fireboy.sprite.setPosition(500, ground[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(400, ground[2].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(50, 856 + 10 + 2);
@@ -1996,8 +2060,8 @@ int main()
                             fire_framecounter = 0; water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
+                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
                             fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(1600, 100);
@@ -2018,8 +2082,8 @@ int main()
                             fire_framecounter = 0; water_framecounter = 0;
                             fireboy_score = 0;
                             watergirl_score = 0;
-                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
-                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                            door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
+                            door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
                             fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                             watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                             door[0].sprite.setPosition(400, 690 - 5);
@@ -2072,8 +2136,8 @@ int main()
                                 fireboy.is_dead = false; watergirl.is_dead = false;
                                 fire_framecounter = 0; water_framecounter = 0;
                                 fireboy_score = 0; watergirl_score = 0;
-                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
-                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
                                 fireboy.sprite.setPosition(200, ground2[5].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(100, ground2[5].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                                 door[0].sprite.setPosition(1600, 100);
@@ -2093,12 +2157,17 @@ int main()
                                 fireboy.is_dead = false; watergirl.is_dead = false;
                                 fire_framecounter = 0; water_framecounter = 0;
                                 fireboy_score = 0; watergirl_score = 0;
+<<<<<<< HEAD
                                 door[0].opened = false;
                                 door[0].framecounter = 0;
                                 door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144));
                                 door[1].opened = false;
                                 door[1].framecounter = 0;
                                 door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));
+=======
+                                door[0].opened = false; door[0].framecounter = 0; door[0].sprite.setTextureRect(IntRect(0, 0, 121, 144)); door[0].timer = 0;
+                                door[1].opened = false; door[1].framecounter = 0; door[1].sprite.setTextureRect(IntRect(0, 0, 121, 144));door[1].timer = 0;
+>>>>>>> master
                                 fireboy.sprite.setPosition(1750, ground_3[2].sprite.getPosition().y - (fireboy.frameHeight / 2.0f));
                                 watergirl.sprite.setPosition(150 + 120, ground_3[13].sprite.getPosition().y - (watergirl.frameHeight / 2.0f));
                                 door[0].sprite.setPosition(400, 690 - 5);
@@ -2133,6 +2202,47 @@ int main()
                         }
                         /////////////////////////////////////////////////////////////////////////////////////////////////
                         break;
+
+                        //////////////////////////////modification(2)/////////////////////////////////////////////////
+                    case 10:
+
+
+                        if (sound_btnBoxes[0].getGlobalBounds().contains(mousePos)) {
+                            isMenuMusicOn = !isMenuMusicOn;
+                            if (isMenuMusicOn) {
+                                sound_txt[0].setString("Main Menu Music : ON");
+                                sound_txt[0].setFillColor(Color(80, 255, 100));
+                                if (menuMusic.getStatus() != Music::Playing) menuMusic.play();
+                            }
+                            else {
+                                sound_txt[0].setString("Main Menu Music : OFF");
+                                sound_txt[0].setFillColor(Color(255, 80, 80));
+                                menuMusic.pause();
+                            }
+                            sound_txt[0].setOrigin(sound_txt[0].getLocalBounds().width / 2.0f, sound_txt[0].getLocalBounds().height / 2.0f);
+                            sound_txt[0].setPosition(1920 / 2.0f, 400 - 15); //the new positin
+                        }
+                        else if (sound_btnBoxes[1].getGlobalBounds().contains(mousePos)) {
+                            isGameMusicOn = !isGameMusicOn;
+                            if (isGameMusicOn) {
+                                sound_txt[1].setString("Levels Music : ON");
+                                sound_txt[1].setFillColor(Color(80, 255, 100));
+                                gameMusic.setVolume(35);
+                            }
+                            else {
+                                sound_txt[1].setString("Levels Music : OFF");
+                                sound_txt[1].setFillColor(Color(255, 80, 80));
+                                gameMusic.setVolume(0);
+                            }
+                            sound_txt[1].setOrigin(sound_txt[1].getLocalBounds().width / 2.0f, sound_txt[1].getLocalBounds().height / 2.0f);
+                            sound_txt[1].setPosition(1920 / 2.0f, 580 - 15); //the new positin
+                        }
+                        else if (sound_btnBoxes[2].getGlobalBounds().contains(mousePos)) {
+                            currentwindow = 0;
+                        }
+
+                        break;
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     default:
                         break;
@@ -2843,7 +2953,7 @@ int main()
         case 7://drawin pause menu
 
             window.draw(menu_BG);
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 window.draw(pause_txt[i]);
             }
 
@@ -2883,6 +2993,16 @@ int main()
             scoreTxt[1].setPosition(300, 20);
 
             break;
+            //////////////////////////////modification(2)/////////////////////////////////////////////////
+        case 10:
+            window.draw(levelsMenuBG);
+            window.draw(sound_title);
+            for (int i = 0; i < 3; i++) {
+                window.draw(sound_btnBoxes[i]);
+                window.draw(sound_txt[i]);
+            }
+            break;
+            /////////////////////////////////////////////////////////////////////////////////////////////
 
         default:
             break;
