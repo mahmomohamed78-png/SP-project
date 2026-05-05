@@ -71,6 +71,8 @@ String maintxt[] = { "t o   l e v e l   m e n u","c r e d i t","c o n t r o l s"
 // Sound Menu Variables
 bool isMenuMusicOn = true;
 bool isGameMusicOn = true;
+bool menuevibe = false;
+bool gamevibe = false;
 
 Text sound_title;
 RectangleShape sound_btnBoxes[3];
@@ -106,7 +108,7 @@ void MoveSelection(int direction, Color newColor, Color oldColor)
     default:
         break;
     }
-    
+
 }
 
 
@@ -1516,8 +1518,8 @@ int main()
 
     ///////////////////////////////////////////////////
 
-    ground_3[5].sprite.setScale(0.50f, 0.70f);
-    ground_3[5].sprite.setPosition(1050, 850);
+    ground_3[5].sprite.setScale(0.60f, 0.70f);
+    ground_3[5].sprite.setPosition(1030, 850);
 
     //////////////////////////////////////////////////
 
@@ -1528,7 +1530,7 @@ int main()
     ground_3[7].sprite.setScale(0.50f, 0.70f);
     ground_3[7].sprite.setPosition(1100, 500);
     ////////////////////////////////////////////////
-    ground_3[8].sprite.setScale(0.50f, 0.70f);
+    ground_3[8].sprite.setScale(0.60f, 0.70f);
     ground_3[8].sprite.setPosition(820, 720);
 
 
@@ -1793,7 +1795,7 @@ int main()
     collision_boxs3[9].setSize(Vector2f(ground_3[9].sprite.getGlobalBounds().width + 190, ground_3[9].sprite.getGlobalBounds().height));
     collision_boxs3[23].setSize(Vector2f(ground_3[8].sprite.getGlobalBounds().width - 60, ground_3[8].sprite.getGlobalBounds().height + 20));
     collision_boxs3[23].setPosition(945, 180);
-    
+
     Vector2f vect(fire_lake3.sprite.getGlobalBounds().width, fire_lake3.sprite.getGlobalBounds().height / 3);
     lakes3[0].setSize(vect);
     lakes3[0].setPosition(fire_lake3.sprite.getPosition().x, fire_lake3.sprite.getPosition().y + (fire_lake3.sprite.getGlobalBounds().height * 2 / 3));
@@ -1801,7 +1803,7 @@ int main()
     Vector2f vect2(green_lake_3.sprite.getGlobalBounds().width, green_lake_3.sprite.getGlobalBounds().height / 3);
     lakes3[1].setSize(vect2);
     lakes3[1].setPosition(green_lake_3.sprite.getPosition().x, green_lake_3.sprite.getPosition().y + (green_lake_3.sprite.getGlobalBounds().height * 2 / 3) - 20);
-	lakes3[1].setFillColor(Color::Cyan);
+    lakes3[1].setFillColor(Color::Cyan);
     //////////////////////////////modification/////////////////////////////////////////////////
     lift_collision.setSize(Vector2f(150, 30));
     lift_collision.setPosition(23, 990 + 23);
@@ -2000,37 +2002,47 @@ int main()
                     if (selectedpmIndex == 0) {//chosing resume
                         currentwindow = pausedlevel;
                         ispaused = false;
-                        if (gameMusic.getStatus() != Music::Playing)
-                        {
+                        if (isGameMusicOn && gameMusic.getStatus() != Music::Playing) {
                             gameMusic.play();
                         }
+                        else if (!isGameMusicOn) {
+                            gameMusic.stop();
+                        }
+
 
                     }
                     if (selectedpmIndex == 1) {//chosing main menu
                         currentwindow = 0;
                         ispaused = false;
                         gameMusic.stop();
-                        if (menuMusic.getStatus() != Music::Playing)
-                        {
+
+                        if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
                             menuMusic.play();
                         }
+                        else if (!isMenuMusicOn) {
+                            menuMusic.stop();
+                        }
+
                     }
                     if (selectedpmIndex == 2) {//chosing level menu
                         currentwindow = 1;
                         ispaused = false;
                         gameMusic.stop();
-                        if (menuMusic.getStatus() != Music::Playing)
-                        {
+                        if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
                             menuMusic.play();
                         }
+                        else if (!isMenuMusicOn) {
+                            menuMusic.stop();
+                        }
+
                     }
                     //////////////////////////////modification(2)/////////////////////////////////////////////////
                     if (selectedpmIndex == 3) {
                         ispaused = false;
                         currentwindow = 10;
-                        if (menuMusic.getStatus() != Music::Playing)
+                        if (!isMenuMusicOn)
                         {
-                            menuMusic.play();
+                            menuMusic.stop();
                         }
                     }
                     /////////////////////////////////////////////////////////////////////////////////////////
@@ -2053,6 +2065,8 @@ int main()
                     switch (currentwindow)
                     {
                     case 1: //level menu mouse orders
+
+
                         if (levelCards[0].getGlobalBounds().contains(mousePos)) {
                             currentwindow = 2; // Level 1
                             menuMusic.stop();
@@ -2130,11 +2144,14 @@ int main()
                             levelTimerActive = false;
                             levelTimeElapsed = 0.f;
 
-                            if (menuMusic.getStatus() != Music::Playing)
-                            {
+                            currentwindow = 0;
+                            if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
                                 menuMusic.play();
                             }
-                            currentwindow = 0;
+                            else if (!isMenuMusicOn) {
+                                menuMusic.stop();
+                            }
+
                             // Back to Main Menu
                         }
                         else if (back_from_GameOver[1].getGlobalBounds().contains(mousePos)) {
@@ -2143,11 +2160,14 @@ int main()
                             levelTimeElapsed = 0.f;
 
 
-                            if (menuMusic.getStatus() != Music::Playing)
-                            {
+                            currentwindow = 1;
+                            if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
                                 menuMusic.play();
                             }
-                            currentwindow = 1; // Back to Level Menu 
+                            else if (!isMenuMusicOn) {
+                                menuMusic.stop();
+                            }
+                            // Back to Level Menu 
                         }
                         break;
                     case 9: // Win Menu
@@ -2203,19 +2223,22 @@ int main()
                                 levelTimerActive = true;
                             }
                             else {
-                                if (menuMusic.getStatus() != Music::Playing)
-                                {
+                                currentwindow = 5;
+                                if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
                                     menuMusic.play();
                                 }
-                                currentwindow = 5;
+                                else if (!isMenuMusicOn) {
+                                    menuMusic.stop();
+                                }
+
                             }
                         }
                         else if (btnBoxes[1].getGlobalBounds().contains(mousePos)) {
                             winSoundPlayed = false;
 
-                            if (menuMusic.getStatus() != Music::Playing)
+                            if (!isMenuMusicOn)
                             {
-                                menuMusic.play();
+                                menuMusic.stop();
                             }
                             currentwindow = 1; // Back to Level Menu 
                         }
@@ -2436,7 +2459,7 @@ int main()
                         gameOverSound.play();
                         gameOverSoundPlayed = true;
                     }
-                    cout << "lol";
+                    
                 }
 
                 break;
@@ -2978,8 +3001,7 @@ int main()
             for (int i = 0; i < 5; i++)
                 window.draw(water_point3[i].sprite);
 
-            //    for (int i = 0; i < 5; i++)
-              //      window.draw(stairs[i].sprite);
+            
 
             window.draw(Frame.sprite);
 
@@ -3005,7 +3027,7 @@ int main()
             window.draw(fire3.sprite);
             window.draw(acid3.sprite);
             window.draw(SNOW_3.sprite);
-            window.draw(WALL);
+            
             // draw score
 
             scoreTxt[0].setString("Fire: " + to_string(fireboy_score));
