@@ -414,6 +414,11 @@ int fireboy_score = 0;
 int watergirl_score = 0;
 
 
+int highScore_fire[3] = { 0, 0, 0 };    // high score ??? level
+int highScore_water[3] = { 0, 0, 0 };
+float bestTime[3] = { 999.f, 999.f, 999.f }; // ??? ??? ??? level
+
+
 void point_collision(character& player1, character& player2, design& point, int& score, Sound& collectSound, Sound& wrongCollectSound) {
     FloatRect hitbox = player1.sprite.getGlobalBounds();
     hitbox.width = 40;
@@ -1069,6 +1074,29 @@ int main()
     levelsBackText.setOutlineThickness(3);
     levelsBackText.setOutlineColor(Color::Black);
     levelsBackText.setPosition(50, 950);
+
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // best score text
+    Text highScoreTxt[3];
+    Text bestTimeTxt[3];
+    for (int i = 0; i < 3; i++) {
+        // best score text
+        highScoreTxt[i].setFont(font);
+        highScoreTxt[i].setCharacterSize(28);
+        highScoreTxt[i].setFillColor(Color::Yellow);
+        highScoreTxt[i].setOutlineThickness(2);
+        highScoreTxt[i].setOutlineColor(Color::Black);
+        highScoreTxt[i].setPosition(200 + i * 620, 700);
+
+        // best time text
+        bestTimeTxt[i].setFont(font);
+        bestTimeTxt[i].setCharacterSize(28);
+        bestTimeTxt[i].setFillColor(Color::Cyan);
+        bestTimeTxt[i].setOutlineThickness(2);
+        bestTimeTxt[i].setOutlineColor(Color::Black);
+        bestTimeTxt[i].setPosition(200 + i * 620, 760);
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2351,6 +2379,11 @@ int main()
                         {
                             wonlevel = 2;
                             currentwindow = 9;
+                            // best time & score
+                            if (fireboy_score > highScore_fire[0]) highScore_fire[0] = fireboy_score;
+                            if (watergirl_score > highScore_water[0]) highScore_water[0] = watergirl_score;
+                            if (levelTimeElapsed < bestTime[0]) bestTime[0] = levelTimeElapsed;
+
                             menuMusic.stop();
                             gameMusic.stop();
 
@@ -2509,6 +2542,11 @@ int main()
                         {
                             wonlevel = 3;
                             currentwindow = 9;
+
+                            // best time & score
+                            if (fireboy_score > highScore_fire[1]) highScore_fire[1] = fireboy_score;
+                            if (watergirl_score > highScore_water[1]) highScore_water[1] = watergirl_score;
+                            if (levelTimeElapsed < bestTime[1]) bestTime[1] = levelTimeElapsed;
 
                             menuMusic.stop();
                             gameMusic.stop();
@@ -2670,6 +2708,11 @@ int main()
                             wonlevel = 4;
                             currentwindow = 9;
 
+                            // best time & score
+                            if (fireboy_score > highScore_fire[2]) highScore_fire[2] = fireboy_score;
+                            if (watergirl_score > highScore_water[2]) highScore_water[2] = watergirl_score;
+                            if (levelTimeElapsed < bestTime[2]) bestTime[2] = levelTimeElapsed;
+
                             menuMusic.stop();
                             gameMusic.stop();
 
@@ -2757,6 +2800,25 @@ int main()
                 window.draw(levelTexts[i]);
             }
             window.draw(levelsBackText);
+
+
+            for (int i = 0; i < 3; i++) {
+                // high score
+                string fireHS = "Fire Best: " + to_string(highScore_fire[i]);
+                string waterHS = "Water Best: " + to_string(highScore_water[i]);
+                highScoreTxt[i].setString(fireHS + "\n" + waterHS);
+                window.draw(highScoreTxt[i]);
+
+                // best time
+                if (bestTime[i] < 999.f) {
+                    int secs = (int)bestTime[i];
+                    bestTimeTxt[i].setString("Best Time: " + to_string(secs) + "s");
+                }
+                else {
+                    bestTimeTxt[i].setString("Best Time: --");
+                }
+                window.draw(bestTimeTxt[i]);
+            }
 
             break;
 
