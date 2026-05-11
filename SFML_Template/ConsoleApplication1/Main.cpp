@@ -2040,8 +2040,10 @@ int main()
                     if (selectedpmIndex == 3) {
                         ispaused = false;
                         currentwindow = 10;
-                        if (!isMenuMusicOn)
-                        {
+                        if (isMenuMusicOn && menuMusic.getStatus() != Music::Playing) {
+                            menuMusic.play();
+                        }
+                        else if (!isMenuMusicOn) {
                             menuMusic.stop();
                         }
                     }
